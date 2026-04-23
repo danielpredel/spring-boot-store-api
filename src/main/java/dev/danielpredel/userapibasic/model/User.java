@@ -15,10 +15,6 @@ public class User {
     @Setter
     private String address;
 
-    public User(String name, String email, String password, String address) {
-        this(null, name, email, password, address);
-    }
-
     public User(Long id, String name, String email, String password, String address) {
         this.id = id;
         this.name = name;
