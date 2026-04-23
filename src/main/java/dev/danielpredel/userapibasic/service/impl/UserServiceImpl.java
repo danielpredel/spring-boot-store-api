@@ -15,6 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class UserServiceImpl implements UserService {
+
     private final UserMapper userMapper;
     private final Map<Long, User> users = new ConcurrentHashMap<>();
     private Long userCount = 1L;
@@ -53,5 +54,14 @@ public class UserServiceImpl implements UserService {
         User user = new User(id, dto.getName(), dto.getEmail(), dto.getPassword(), dto.getAddress());
         users.put(id, user);
         return UserMapper.toUserResponseDTO(user);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        if(!users.containsKey(id)) {
+            throw new ResourceNotFoundException("User Not Found");
+        }
+
+        users.remove(id);
     }
 }
