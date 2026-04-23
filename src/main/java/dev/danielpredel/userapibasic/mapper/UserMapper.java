@@ -1,5 +1,7 @@
-package dev.danielpredel.userapibasic.dto;
+package dev.danielpredel.userapibasic.mapper;
 
+import dev.danielpredel.userapibasic.dto.UserRequest;
+import dev.danielpredel.userapibasic.dto.UserResponse;
 import dev.danielpredel.userapibasic.model.User;
 import org.springframework.stereotype.Component;
 

@@ -1,6 +1,6 @@
 package dev.danielpredel.userapibasic.service.impl;
 
-import dev.danielpredel.userapibasic.dto.UserMapper;
+import dev.danielpredel.userapibasic.mapper.UserMapper;
 import dev.danielpredel.userapibasic.dto.UserRequest;
 import dev.danielpredel.userapibasic.dto.UserResponse;
 import dev.danielpredel.userapibasic.exception.ResourceNotFoundException;
