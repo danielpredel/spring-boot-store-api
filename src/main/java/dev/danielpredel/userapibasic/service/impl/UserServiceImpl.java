@@ -6,7 +6,6 @@ import dev.danielpredel.userapibasic.dto.UserResponseDTO;
 import dev.danielpredel.userapibasic.exception.ResourceNotFoundException;
 import dev.danielpredel.userapibasic.model.User;
 import dev.danielpredel.userapibasic.service.UserService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,6 +41,17 @@ public class UserServiceImpl implements UserService {
         User user = Optional.ofNullable(users.get(id))
                 .orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
 
+        return UserMapper.toUserResponseDTO(user);
+    }
+
+    @Override
+    public UserResponseDTO update(Long id, UserRequestDTO dto) {
+        if(!users.containsKey(id)) {
+            throw new ResourceNotFoundException("User Not Found");
+        }
+
+        User user = new User(id, dto.getName(), dto.getEmail(), dto.getPassword(), dto.getAddress());
+        users.put(id, user);
         return UserMapper.toUserResponseDTO(user);
     }
 }

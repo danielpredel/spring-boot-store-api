@@ -9,4 +9,5 @@ public interface UserService {
     UserResponseDTO save(UserRequestDTO dto);
     List<UserResponseDTO> findAll();
     UserResponseDTO findById(Long id);
+    UserResponseDTO update(Long id, UserRequestDTO dto);
 }

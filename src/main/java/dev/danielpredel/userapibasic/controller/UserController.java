@@ -3,7 +3,6 @@ package dev.danielpredel.userapibasic.controller;
 import dev.danielpredel.userapibasic.dto.UserMapper;
 import dev.danielpredel.userapibasic.dto.UserRequestDTO;
 import dev.danielpredel.userapibasic.dto.UserResponseDTO;
-import dev.danielpredel.userapibasic.model.User;
 import dev.danielpredel.userapibasic.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,5 +32,10 @@ public class UserController {
     @GetMapping("{id}")
     public ResponseEntity<UserResponseDTO> finById(@PathVariable Long id) {
         return ResponseEntity.ok(userService.findById(id));
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<UserResponseDTO> updateUser(@PathVariable Long id, @RequestBody UserRequestDTO dto) {
+        return ResponseEntity.ok(userService.update(id, dto));
     }
 }
