@@ -1,12 +1,12 @@
 package dev.danielpredel.userapibasic.service;
 
-import dev.danielpredel.userapibasic.model.User;
+import dev.danielpredel.userapibasic.dto.UserRequestDTO;
+import dev.danielpredel.userapibasic.dto.UserResponseDTO;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface UserService {
-    User save(User user);
-    List<User> findAll();
-    Optional<User> findById(Long id);
+    UserResponseDTO save(UserRequestDTO dto);
+    List<UserResponseDTO> findAll();
+    UserResponseDTO findById(Long id);
 }

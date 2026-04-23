@@ -15,30 +15,23 @@ import java.util.List;
 @RequestMapping("/api/users")
 public class UserController {
     private final UserService userService;
-    private final UserMapper userMapper;
 
     public UserController(UserService userService, UserMapper userMapper) {
         this.userService = userService;
-        this.userMapper = userMapper;
     }
 
     @PostMapping
     public ResponseEntity<UserResponseDTO> createUser(@RequestBody UserRequestDTO dto) {
-        User user = userMapper.toUser(dto);
-        User savedUser = userService.save(user);
-        return ResponseEntity.ok(UserMapper.toUserResponseDTO(savedUser));
+        return ResponseEntity.ok(userService.save(dto));
     }
 
     @GetMapping
     public ResponseEntity<List<UserResponseDTO>> findAllUsers() {
-        List<User> users = userService.findAll();
-        return ResponseEntity.ok(userMapper.toUserResponseDTOList(users));
+        return ResponseEntity.ok(userService.findAll());
     }
 
     @GetMapping("{id}")
     public ResponseEntity<UserResponseDTO> finById(@PathVariable Long id) {
-        return userService.findById(id)
-                .map(user -> ResponseEntity.ok(UserMapper.toUserResponseDTO(user)))
-                .orElse(ResponseEntity.notFound().build());
+        return ResponseEntity.ok(userService.findById(id));
     }
 }
