@@ -8,21 +8,21 @@ import java.util.stream.Collectors;
 
 @Component
 public class UserMapper {
-    public static UserResponseDTO toUserResponseDTO(User user) {
-        UserResponseDTO dto = new UserResponseDTO();
+    public static UserResponse toUserResponse(User user) {
+        UserResponse dto = new UserResponse();
         dto.setId(user.getId());
         dto.setName(user.getName());
         dto.setEmail(user.getEmail());
         return dto;
     }
 
-    public User toUser(UserRequestDTO dto) {
-        return new User(dto.getName(), dto.getEmail(), dto.getPassword(), dto.getAddress());
+    public User toUser(Long id, UserRequest dto) {
+        return new User(id, dto.getName(), dto.getEmail(), dto.getPassword(), dto.getAddress());
     }
 
-    public List<UserResponseDTO> toUserResponseDTOList(List<User> users) {
+    public List<UserResponse> toUserResponseList(List<User> users) {
         return users.stream()
-                .map(UserMapper::toUserResponseDTO)
+                .map(UserMapper::toUserResponse)
                 .collect(Collectors.toList());
     }
 }

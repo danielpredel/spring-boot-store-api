@@ -1,8 +1,8 @@
 package dev.danielpredel.userapibasic.service.impl;
 
 import dev.danielpredel.userapibasic.dto.UserMapper;
-import dev.danielpredel.userapibasic.dto.UserRequestDTO;
-import dev.danielpredel.userapibasic.dto.UserResponseDTO;
+import dev.danielpredel.userapibasic.dto.UserRequest;
+import dev.danielpredel.userapibasic.dto.UserResponse;
 import dev.danielpredel.userapibasic.exception.ResourceNotFoundException;
 import dev.danielpredel.userapibasic.model.User;
 import dev.danielpredel.userapibasic.service.UserService;
@@ -25,35 +25,35 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponseDTO save(UserRequestDTO dto) {
+    public UserResponse save(UserRequest dto) {
         Long id = userCount++;
-        User newUser = new User(id, dto.getName(), dto.getEmail(), dto.getPassword(), dto.getEmail());
+        User newUser = userMapper.toUser(id, dto);
         users.put(id, newUser);
-        return UserMapper.toUserResponseDTO(newUser);
+        return UserMapper.toUserResponse(newUser);
     }
 
     @Override
-    public List<UserResponseDTO> findAll() {
-        return userMapper.toUserResponseDTOList(users.values().stream().toList());
+    public List<UserResponse> findAll() {
+        return userMapper.toUserResponseList(users.values().stream().toList());
     }
 
     @Override
-    public UserResponseDTO findById(Long id) {
+    public UserResponse findById(Long id) {
         User user = Optional.ofNullable(users.get(id))
                 .orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
 
-        return UserMapper.toUserResponseDTO(user);
+        return UserMapper.toUserResponse(user);
     }
 
     @Override
-    public UserResponseDTO update(Long id, UserRequestDTO dto) {
+    public UserResponse update(Long id, UserRequest dto) {
         if(!users.containsKey(id)) {
             throw new ResourceNotFoundException("User Not Found");
         }
 
-        User user = new User(id, dto.getName(), dto.getEmail(), dto.getPassword(), dto.getAddress());
+        User user = userMapper.toUser(id, dto);
         users.put(id, user);
-        return UserMapper.toUserResponseDTO(user);
+        return UserMapper.toUserResponse(user);
     }
 
     @Override

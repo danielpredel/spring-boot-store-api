@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-public class UserRequestDTO {
+public class UserRequest {
     @Setter
     private String name;
     @Setter
