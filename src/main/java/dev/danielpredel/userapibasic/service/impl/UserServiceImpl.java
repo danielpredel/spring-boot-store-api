@@ -13,13 +13,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     private final UserMapper userMapper;
     private final Map<Long, User> users = new ConcurrentHashMap<>();
-    private Long userCount = 1L;
+    private final AtomicLong userCount = new AtomicLong(1);
 
     public UserServiceImpl(UserMapper userMapper) {
         this.userMapper = userMapper;
@@ -31,7 +32,7 @@ public class UserServiceImpl implements UserService {
             throw new EmailAlreadyExistsException("Email Already Exists");
         }
 
-        Long id = userCount++;
+        Long id = userCount.getAndIncrement();
         User newUser = userMapper.toUser(id, dto);
         users.put(id, newUser);
         return userMapper.toUserResponse(newUser);
