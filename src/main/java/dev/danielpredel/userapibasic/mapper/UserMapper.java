@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class UserMapper {
-    public static UserResponse toUserResponse(User user) {
+    public UserResponse toUserResponse(User user) {
         UserResponse dto = new UserResponse();
         dto.setId(user.getId());
         dto.setName(user.getName());
@@ -24,7 +24,7 @@ public class UserMapper {
 
     public List<UserResponse> toUserResponseList(List<User> users) {
         return users.stream()
-                .map(UserMapper::toUserResponse)
+                .map(this::toUserResponse)
                 .collect(Collectors.toList());
     }
 }

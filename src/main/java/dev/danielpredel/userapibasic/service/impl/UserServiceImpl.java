@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
         Long id = userCount++;
         User newUser = userMapper.toUser(id, dto);
         users.put(id, newUser);
-        return UserMapper.toUserResponse(newUser);
+        return userMapper.toUserResponse(newUser);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
         User user = Optional.ofNullable(users.get(id))
                 .orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
 
-        return UserMapper.toUserResponse(user);
+        return userMapper.toUserResponse(user);
     }
 
     @Override
@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
 
         User user = userMapper.toUser(id, dto);
         users.put(id, user);
-        return UserMapper.toUserResponse(user);
+        return userMapper.toUserResponse(user);
     }
 
     @Override
