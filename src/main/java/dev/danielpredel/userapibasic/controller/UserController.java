@@ -4,6 +4,7 @@ import dev.danielpredel.userapibasic.mapper.UserMapper;
 import dev.danielpredel.userapibasic.dto.UserRequest;
 import dev.danielpredel.userapibasic.dto.UserResponse;
 import dev.danielpredel.userapibasic.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +21,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest dto) {
+    public ResponseEntity<UserResponse> createUser(@Valid @RequestBody UserRequest dto) {
         return ResponseEntity.ok(userService.save(dto));
     }
 
@@ -35,7 +36,7 @@ public class UserController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<UserResponse> updateUser(@PathVariable Long id, @RequestBody UserRequest dto) {
+    public ResponseEntity<UserResponse> updateUser(@PathVariable Long id, @Valid @RequestBody UserRequest dto) {
         return ResponseEntity.ok(userService.update(id, dto));
     }
 
