@@ -1,5 +1,6 @@
 package dev.danielpredel.userapibasic.service.impl;
 
+import dev.danielpredel.userapibasic.exception.EmailAlreadyExistsException;
 import dev.danielpredel.userapibasic.mapper.UserMapper;
 import dev.danielpredel.userapibasic.dto.UserRequest;
 import dev.danielpredel.userapibasic.dto.UserResponse;
@@ -26,6 +27,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse save(UserRequest dto) {
+        if(existsByEmail(dto.getEmail())) {
+            throw new EmailAlreadyExistsException("Email Already Exists");
+        }
+
         Long id = userCount++;
         User newUser = userMapper.toUser(id, dto);
         users.put(id, newUser);
@@ -51,6 +56,10 @@ public class UserServiceImpl implements UserService {
             throw new ResourceNotFoundException("User Not Found");
         }
 
+        if(existsByEmailAndIdNot(dto.getEmail(), id)) {
+            throw new EmailAlreadyExistsException("Email Already Exists");
+        }
+
         User user = userMapper.toUser(id, dto);
         users.put(id, user);
         return UserMapper.toUserResponse(user);
@@ -63,5 +72,15 @@ public class UserServiceImpl implements UserService {
         }
 
         users.remove(id);
+    }
+
+    private boolean existsByEmail(String email) {
+        return users.values().stream()
+                .anyMatch(u -> u.getEmail().equals(email));
+    }
+
+    private boolean existsByEmailAndIdNot(String email, Long id) {
+        return users.values().stream()
+                .anyMatch(u -> u.getEmail().equals(email) && !u.getId().equals(id));
     }
 }
