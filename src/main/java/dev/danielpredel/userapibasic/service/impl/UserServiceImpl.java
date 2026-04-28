@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicLong;
 public class UserServiceImpl implements UserService {
 
     private final UserMapper userMapper;
-    private final Map<Long, User> users = new ConcurrentHashMap<>();
+    private final Map<Long, User> usersById = new ConcurrentHashMap<>();
     private final AtomicLong userCount = new AtomicLong(1);
 
     public UserServiceImpl(UserMapper userMapper) {
@@ -34,18 +34,18 @@ public class UserServiceImpl implements UserService {
 
         Long id = userCount.getAndIncrement();
         User newUser = userMapper.toUser(id, dto);
-        users.put(id, newUser);
+        usersById.put(id, newUser);
         return userMapper.toUserResponse(newUser);
     }
 
     @Override
     public List<UserResponse> findAll() {
-        return userMapper.toUserResponseList(users.values().stream().toList());
+        return userMapper.toUserResponseList(usersById.values().stream().toList());
     }
 
     @Override
     public UserResponse findById(Long id) {
-        User user = Optional.ofNullable(users.get(id))
+        User user = Optional.ofNullable(usersById.get(id))
                 .orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
 
         return userMapper.toUserResponse(user);
@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse update(Long id, UserRequest dto) {
-        if(!users.containsKey(id)) {
+        if(!usersById.containsKey(id)) {
             throw new ResourceNotFoundException("User Not Found");
         }
 
@@ -62,26 +62,26 @@ public class UserServiceImpl implements UserService {
         }
 
         User user = userMapper.toUser(id, dto);
-        users.put(id, user);
+        usersById.put(id, user);
         return userMapper.toUserResponse(user);
     }
 
     @Override
     public void deleteById(Long id) {
-        if(!users.containsKey(id)) {
+        if(!usersById.containsKey(id)) {
             throw new ResourceNotFoundException("User Not Found");
         }
 
-        users.remove(id);
+        usersById.remove(id);
     }
 
     private boolean existsByEmail(String email) {
-        return users.values().stream()
+        return usersById.values().stream()
                 .anyMatch(u -> u.getEmail().equals(email));
     }
 
     private boolean existsByEmailAndIdNot(String email, Long id) {
-        return users.values().stream()
+        return usersById.values().stream()
                 .anyMatch(u -> u.getEmail().equals(email) && !u.getId().equals(id));
     }
 }
