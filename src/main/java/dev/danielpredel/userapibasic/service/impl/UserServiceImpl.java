@@ -20,6 +20,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserMapper userMapper;
     private final Map<Long, User> usersById = new ConcurrentHashMap<>();
+    private final Map<String, User> usersByEmail = new ConcurrentHashMap<>();
     private final AtomicLong userCount = new AtomicLong(1);
 
     public UserServiceImpl(UserMapper userMapper) {
@@ -34,7 +35,10 @@ public class UserServiceImpl implements UserService {
 
         Long id = userCount.getAndIncrement();
         User newUser = userMapper.toUser(id, dto);
+
         usersById.put(id, newUser);
+        usersByEmail.put(newUser.getEmail(), newUser);
+
         return userMapper.toUserResponse(newUser);
     }
 
@@ -62,7 +66,10 @@ public class UserServiceImpl implements UserService {
         }
 
         User user = userMapper.toUser(id, dto);
+
         usersById.put(id, user);
+        usersByEmail.put(user.getEmail(), user);
+
         return userMapper.toUserResponse(user);
     }
 
@@ -72,16 +79,16 @@ public class UserServiceImpl implements UserService {
             throw new ResourceNotFoundException("User Not Found");
         }
 
-        usersById.remove(id);
+        User deletedUser = usersById.remove(id);
+        usersByEmail.remove(deletedUser.getEmail());
     }
 
     private boolean existsByEmail(String email) {
-        return usersById.values().stream()
-                .anyMatch(u -> u.getEmail().equals(email));
+        return usersByEmail.containsKey(email);
     }
 
     private boolean existsByEmailAndIdNot(String email, Long id) {
-        return usersById.values().stream()
-                .anyMatch(u -> u.getEmail().equals(email) && !u.getId().equals(id));
+        User u = usersByEmail.get(email);
+        return u != null && !u.getId().equals(id);
     }
 }
