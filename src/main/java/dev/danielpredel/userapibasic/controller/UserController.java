@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 
@@ -21,7 +22,11 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<UserResponse> createUser(@Valid @RequestBody UserRequest dto) {
-        return ResponseEntity.ok(userService.save(dto));
+        UserResponse savedUser = userService.save(dto);
+
+        URI location = URI.create("/api/users/" + savedUser.getId());
+
+        return ResponseEntity.created(location).body(savedUser);
     }
 
     @GetMapping

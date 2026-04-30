@@ -62,7 +62,7 @@ src/main/java/com/example/userapi/
 ### Create User
 
 ```bash
-curl -X POST http://localhost:8080/api/users \
+curl -i -X POST http://localhost:8080/api/users \
 -H "Content-Type: application/json" \
 -d '{
   "name": "John Doe",
