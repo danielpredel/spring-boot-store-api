@@ -9,20 +9,20 @@ import lombok.Setter;
 @Getter
 public class UserRequest {
     @Setter
-    @NotBlank
+    @NotBlank(message = "Can't be blank.")
     private String name;
 
     @Setter
-    @NotBlank
-    @Email
+    @NotBlank(message = "Can't be blank.")
+    @Email(message = "Invalid format.")
     private String email;
 
     @Setter
-    @NotBlank
-    @Size(min = 8)
+    @NotBlank(message = "Can't be blank.")
+    @Size(min = 8, message = "Too short.")
     private String password;
 
     @Setter
-    @NotBlank
+    @NotBlank(message = "Can't be blank.")
     private String address;
 }
