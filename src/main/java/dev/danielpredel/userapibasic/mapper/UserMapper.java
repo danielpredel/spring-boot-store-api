@@ -2,7 +2,7 @@ package dev.danielpredel.userapibasic.mapper;
 
 import dev.danielpredel.userapibasic.dto.UserRequest;
 import dev.danielpredel.userapibasic.dto.UserResponse;
-import dev.danielpredel.userapibasic.model.User;
+import dev.danielpredel.userapibasic.entity.UserEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class UserMapper {
-    public UserResponse toUserResponse(User user) {
+    public UserResponse toUserResponse(UserEntity user) {
         UserResponse dto = new UserResponse();
         dto.setId(user.getId());
         dto.setName(user.getName());
@@ -18,11 +18,11 @@ public class UserMapper {
         return dto;
     }
 
-    public User toUser(Long id, UserRequest dto) {
-        return new User(id, dto.getName(), dto.getEmail(), dto.getPassword(), dto.getAddress());
+    public UserEntity toUser(Long id, UserRequest dto) {
+        return new UserEntity(id, dto.getName(), dto.getEmail(), dto.getPassword(), dto.getAddress());
     }
 
-    public List<UserResponse> toUserResponseList(List<User> users) {
+    public List<UserResponse> toUserResponseList(List<UserEntity> users) {
         return users.stream()
                 .map(this::toUserResponse)
                 .collect(Collectors.toList());

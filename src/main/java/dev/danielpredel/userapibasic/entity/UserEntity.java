@@ -1,10 +1,10 @@
-package dev.danielpredel.userapibasic.model;
+package dev.danielpredel.userapibasic.entity;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-public class User {
+public class UserEntity {
     private final Long id;
     @Setter
     private String name;
@@ -15,7 +15,7 @@ public class User {
     @Setter
     private String address;
 
-    public User(Long id, String name, String email, String password, String address) {
+    public UserEntity(Long id, String name, String email, String password, String address) {
         this.id = id;
         this.name = name;
         this.email = email;

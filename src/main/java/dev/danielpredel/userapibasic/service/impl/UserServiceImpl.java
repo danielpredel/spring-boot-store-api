@@ -5,7 +5,7 @@ import dev.danielpredel.userapibasic.mapper.UserMapper;
 import dev.danielpredel.userapibasic.dto.UserRequest;
 import dev.danielpredel.userapibasic.dto.UserResponse;
 import dev.danielpredel.userapibasic.exception.ResourceNotFoundException;
-import dev.danielpredel.userapibasic.model.User;
+import dev.danielpredel.userapibasic.entity.UserEntity;
 import dev.danielpredel.userapibasic.service.UserService;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +19,8 @@ import java.util.concurrent.atomic.AtomicLong;
 public class UserServiceImpl implements UserService {
 
     private final UserMapper userMapper;
-    private final Map<Long, User> usersById = new ConcurrentHashMap<>();
-    private final Map<String, User> usersByEmail = new ConcurrentHashMap<>();
+    private final Map<Long, UserEntity> usersById = new ConcurrentHashMap<>();
+    private final Map<String, UserEntity> usersByEmail = new ConcurrentHashMap<>();
     private final AtomicLong userCount = new AtomicLong(1);
 
     public UserServiceImpl(UserMapper userMapper) {
@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
         }
 
         Long id = userCount.getAndIncrement();
-        User newUser = userMapper.toUser(id, dto);
+        UserEntity newUser = userMapper.toUser(id, dto);
 
         usersById.put(id, newUser);
         usersByEmail.put(newUser.getEmail(), newUser);
@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse findById(Long id) {
-        User user = Optional.ofNullable(usersById.get(id))
+        UserEntity user = Optional.ofNullable(usersById.get(id))
                 .orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
 
         return userMapper.toUserResponse(user);
@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
             throw new EmailAlreadyExistsException("Email Already Exists");
         }
 
-        User user = userMapper.toUser(id, dto);
+        UserEntity user = userMapper.toUser(id, dto);
 
         usersById.put(id, user);
         usersByEmail.put(user.getEmail(), user);
@@ -79,7 +79,7 @@ public class UserServiceImpl implements UserService {
             throw new ResourceNotFoundException("User Not Found");
         }
 
-        User deletedUser = usersById.remove(id);
+        UserEntity deletedUser = usersById.remove(id);
         usersByEmail.remove(deletedUser.getEmail());
     }
 
@@ -88,7 +88,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private boolean existsByEmailAndIdNot(String email, Long id) {
-        User u = usersByEmail.get(email);
+        UserEntity u = usersByEmail.get(email);
         return u != null && !u.getId().equals(id);
     }
 }
