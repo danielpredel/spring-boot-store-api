@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse save(UserRequest dto) {
-        if(userRepository.existsByEmail(dto.getEmail())) {
+        if(userRepository.existsByEmail(dto.email())) {
             throw new EmailAlreadyExistsException("Email Already Exists");
         }
 
@@ -65,14 +65,14 @@ public class UserServiceImpl implements UserService {
         UserEntity user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
 
-        if(userRepository.existsByEmailAndIdNot(dto.getEmail(), id)) {
+        if(userRepository.existsByEmailAndIdNot(dto.email(), id)) {
             throw new EmailAlreadyExistsException("Email Already Exists");
         }
 
-        user.setName(dto.getName());
-        user.setEmail(dto.getEmail());
-        user.setPassword(dto.getPassword());
-        user.setAddress(dto.getAddress());
+        user.setName(dto.name());
+        user.setEmail(dto.email());
+        user.setPassword(dto.password());
+        user.setAddress(dto.address());
 
         return userMapper.toResponse(user);
     }

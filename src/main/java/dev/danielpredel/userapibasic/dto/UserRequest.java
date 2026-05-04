@@ -3,23 +3,15 @@ package dev.danielpredel.userapibasic.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
-public class UserRequest {
-    @NotBlank(message = "Can't be blank.")
-    private String name;
+public record UserRequest (
+    @NotBlank(message = "Can't be blank.") String name,
 
     @NotBlank(message = "Can't be blank.")
-    @Email(message = "Invalid format.")
-    private String email;
+    @Email(message = "Invalid format.") String email,
 
     @NotBlank(message = "Can't be blank.")
-    @Size(min = 8, message = "Too short.")
-    private String password;
+    @Size(min = 8, message = "Too short.") String password,
 
-    @NotBlank(message = "Can't be blank.")
-    private String address;
-}
+    @NotBlank(message = "Can't be blank.") String address
+) {}
