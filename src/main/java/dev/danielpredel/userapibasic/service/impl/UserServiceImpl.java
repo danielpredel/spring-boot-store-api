@@ -49,6 +49,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserResponse findByEmail(String email) {
+        UserEntity user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
+
+        return userMapper.toResponse(user);
+    }
+
+    @Override
     @Transactional
     public UserResponse update(Long id, UserRequest dto) {
         UserEntity user = userRepository.findById(id)

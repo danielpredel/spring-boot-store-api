@@ -9,6 +9,7 @@ public interface UserService {
     UserResponse save(UserRequest dto);
     List<UserResponse> findAll();
     UserResponse findById(Long id);
+    UserResponse findByEmail(String email);
     UserResponse update(Long id, UserRequest dto);
     void deleteById(Long id);
 }
