@@ -21,7 +21,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserResponse> createUser(@Valid @RequestBody UserRequest dto) {
+    public ResponseEntity<UserResponse> create(@Valid @RequestBody UserRequest dto) {
         UserResponse savedUser = userService.save(dto);
 
         URI location = URI.create("/api/users/" + savedUser.getId());
@@ -30,7 +30,7 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserResponse>> findAllUsers() {
+    public ResponseEntity<List<UserResponse>> findAll() {
         return ResponseEntity.ok(userService.findAll());
     }
 
@@ -45,7 +45,7 @@ public class UserController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<UserResponse> updateUser(@PathVariable Long id, @Valid @RequestBody UserRequest dto) {
+    public ResponseEntity<UserResponse> update(@PathVariable Long id, @Valid @RequestBody UserRequest dto) {
         return ResponseEntity.ok(userService.update(id, dto));
     }
 
