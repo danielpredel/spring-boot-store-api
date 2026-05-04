@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
@@ -72,12 +71,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteById(Long id) {
-        if(!usersById.containsKey(id)) {
+        if(!userRepository.existsById(id)) {
             throw new ResourceNotFoundException("User Not Found");
         }
 
-        UserEntity deletedUser = usersById.remove(id);
-        usersByEmail.remove(deletedUser.getEmail());
+        userRepository.deleteById(id);
     }
 
     private boolean existsByEmail(String email) {
