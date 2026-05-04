@@ -9,6 +9,8 @@ import dev.danielpredel.userapibasic.entity.UserEntity;
 import dev.danielpredel.userapibasic.repository.UserRepository;
 import dev.danielpredel.userapibasic.service.UserService;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,8 +38,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserResponse> findAll() {
-        return userMapper.toResponseList(userRepository.findAll());
+    public Page<UserResponse> findAll(Pageable pageable) {
+        return userRepository.findAll(pageable)
+                .map(userMapper::toResponse);
     }
 
     @Override
