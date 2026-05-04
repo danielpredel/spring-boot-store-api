@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse save(UserRequest dto) {
-        if(existsByEmail(dto.getEmail())) {
+        if(userRepository.existsByEmail(dto.getEmail())) {
             throw new EmailAlreadyExistsException("Email Already Exists");
         }
 
@@ -76,10 +76,6 @@ public class UserServiceImpl implements UserService {
         }
 
         userRepository.deleteById(id);
-    }
-
-    private boolean existsByEmail(String email) {
-        return userRepository.existsByEmail(email);
     }
 
     private boolean existsByEmailAndIdNot(String email, Long id) {
