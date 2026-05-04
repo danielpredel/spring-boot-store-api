@@ -4,11 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
+@Setter
 public class UserResponse {
-    @Setter
     private Long id;
-    @Setter
     private String name;
-    @Setter
     private String email;
 }
