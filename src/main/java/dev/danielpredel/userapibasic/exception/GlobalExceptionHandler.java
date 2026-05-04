@@ -19,11 +19,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFoundException(ResourceNotFoundException ex) {
-        ErrorResponse response = new ErrorResponse();
+        String message = ex.getMessage();
+        int status = HttpStatus.NOT_FOUND.value();
+        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
-        response.setMessage(ex.getMessage());
-        response.setStatus(HttpStatus.NOT_FOUND.value());
-        response.setTimestamp(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        ErrorResponse response = new ErrorResponse(message, status, timestamp, null);
 
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
@@ -32,17 +32,16 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidationException(MethodArgumentNotValidException ex) {
-        ErrorResponse response = new ErrorResponse();
+        String message = "Invalid Requested Data";
+        int status = HttpStatus.BAD_REQUEST.value();
+        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         Map<String, String> errors = new HashMap<>();
 
         ex.getBindingResult().getFieldErrors().forEach(fieldError ->
                 errors.put(fieldError.getField(), fieldError.getDefaultMessage())
         );
 
-        response.setMessage("Invalid Requested Data");
-        response.setStatus(HttpStatus.BAD_REQUEST.value());
-        response.setTimestamp(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-        response.setErrors(errors);
+        ErrorResponse response = new ErrorResponse(message, status, timestamp, errors);
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
@@ -51,11 +50,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(EmailAlreadyExistsException.class)
     public ResponseEntity<ErrorResponse> handleEmailAlreadyExistsException(EmailAlreadyExistsException ex) {
-        ErrorResponse response = new ErrorResponse();
+        String message = "Email Already Exists";
+        int status = HttpStatus.CONFLICT.value();
+        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
-        response.setMessage("Email Already Exists");
-        response.setStatus(HttpStatus.CONFLICT.value());
-        response.setTimestamp(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        ErrorResponse response = new ErrorResponse(message, status, timestamp, null);
 
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)
@@ -64,7 +63,9 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ErrorResponse> handleValidationException(ConstraintViolationException ex) {
-        ErrorResponse response = new ErrorResponse();
+        String message = "Invalid Requested Data";
+        int status = HttpStatus.BAD_REQUEST.value();
+        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         Map<String, String> errors = new HashMap<>();
 
         ex.getConstraintViolations().forEach(violation -> {
@@ -72,14 +73,11 @@ public class GlobalExceptionHandler {
                     .reduce((first, second) -> second)
                     .map(Object::toString)
                     .orElse("");
-            String message = violation.getMessage();
-            errors.put(field, message);
+            String vMessage = violation.getMessage();
+            errors.put(field, vMessage);
         });
 
-        response.setMessage("Invalid Requested Data");
-        response.setStatus(HttpStatus.BAD_REQUEST.value());
-        response.setTimestamp(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-        response.setErrors(errors);
+        ErrorResponse response = new ErrorResponse(message, status, timestamp, errors);
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
