@@ -18,8 +18,8 @@ public class UserMapper {
         return dto;
     }
 
-    public UserEntity toUserEntity(Long id, UserRequest dto) {
-        return new UserEntity(id, dto.getName(), dto.getEmail(), dto.getPassword(), dto.getAddress());
+    public UserEntity toUserEntity(UserRequest dto) {
+        return new UserEntity(dto.getName(), dto.getEmail(), dto.getPassword(), dto.getAddress());
     }
 
     public List<UserResponse> toUserResponseList(List<UserEntity> users) {
