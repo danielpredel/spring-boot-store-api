@@ -21,10 +21,4 @@ public class UserMapper {
     public UserEntity toEntity(UserRequest dto) {
         return new UserEntity(dto.getName(), dto.getEmail(), dto.getPassword(), dto.getAddress());
     }
-
-    public List<UserResponse> toResponseList(List<UserEntity> users) {
-        return users.stream()
-                .map(this::toResponse)
-                .collect(Collectors.toList());
-    }
 }
