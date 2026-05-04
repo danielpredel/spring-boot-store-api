@@ -5,17 +5,10 @@ import dev.danielpredel.userapibasic.dto.UserResponse;
 import dev.danielpredel.userapibasic.entity.UserEntity;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Component
 public class UserMapper {
     public UserResponse toResponse(UserEntity user) {
-        UserResponse dto = new UserResponse();
-        dto.setId(user.getId());
-        dto.setName(user.getName());
-        dto.setEmail(user.getEmail());
-        return dto;
+        return new UserResponse(user.getId(), user.getName(), user.getEmail());
     }
 
     public UserEntity toEntity(UserRequest dto) {
