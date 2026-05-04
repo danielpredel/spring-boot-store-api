@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse findById(Long id) {
-        UserEntity user = Optional.ofNullable(usersById.get(id))
+        UserEntity user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
 
         return userMapper.toResponse(user);
