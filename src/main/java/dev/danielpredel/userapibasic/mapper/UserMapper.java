@@ -18,7 +18,7 @@ public class UserMapper {
         return dto;
     }
 
-    public UserEntity toUser(Long id, UserRequest dto) {
+    public UserEntity toUserEntity(Long id, UserRequest dto) {
         return new UserEntity(id, dto.getName(), dto.getEmail(), dto.getPassword(), dto.getAddress());
     }
 

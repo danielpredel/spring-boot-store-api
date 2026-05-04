@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
         }
 
         Long id = userCount.getAndIncrement();
-        UserEntity newUser = userMapper.toUser(id, dto);
+        UserEntity newUser = userMapper.toUserEntity(id, dto);
 
         usersById.put(id, newUser);
         usersByEmail.put(newUser.getEmail(), newUser);
@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
             throw new EmailAlreadyExistsException("Email Already Exists");
         }
 
-        UserEntity user = userMapper.toUser(id, dto);
+        UserEntity user = userMapper.toUserEntity(id, dto);
 
         usersById.put(id, user);
         usersByEmail.put(user.getEmail(), user);
