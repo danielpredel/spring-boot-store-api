@@ -1,22 +1,32 @@
 package dev.danielpredel.userapibasic.entity;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+@Entity
 @Getter
 public class UserEntity {
-    private final Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @Setter
     private String name;
+
+    @Column(unique = true)
     @Setter
     private String email;
+
     @Setter
     private String password;
+
     @Setter
     private String address;
 
-    public UserEntity(Long id, String name, String email, String password, String address) {
-        this.id = id;
+    public UserEntity() {}
+
+    public UserEntity(String name, String email, String password, String address) {
         this.name = name;
         this.email = email;
         this.password = password;
