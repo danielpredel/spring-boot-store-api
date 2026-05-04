@@ -34,14 +34,14 @@ public class UserServiceImpl implements UserService {
             throw new EmailAlreadyExistsException("Email Already Exists");
         }
 
-        UserEntity newUser = userMapper.toUserEntity(dto);
+        UserEntity newUser = userMapper.toEntity(dto);
         UserEntity savedUser = userRepository.save(newUser);
-        return userMapper.toUserResponse(savedUser);
+        return userMapper.toResponse(savedUser);
     }
 
     @Override
     public List<UserResponse> findAll() {
-        return userMapper.toUserResponseList(usersById.values().stream().toList());
+        return userMapper.toResponseList(usersById.values().stream().toList());
     }
 
     @Override
@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
         UserEntity user = Optional.ofNullable(usersById.get(id))
                 .orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
 
-        return userMapper.toUserResponse(user);
+        return userMapper.toResponse(user);
     }
 
     @Override
@@ -62,12 +62,12 @@ public class UserServiceImpl implements UserService {
             throw new EmailAlreadyExistsException("Email Already Exists");
         }
 
-        UserEntity user = userMapper.toUserEntity(dto);
+        UserEntity user = userMapper.toEntity(dto);
 
         usersById.put(id, user);
         usersByEmail.put(user.getEmail(), user);
 
-        return userMapper.toUserResponse(user);
+        return userMapper.toResponse(user);
     }
 
     @Override
