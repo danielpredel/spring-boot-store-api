@@ -6,6 +6,7 @@ import dev.danielpredel.userapibasic.dto.UserRequest;
 import dev.danielpredel.userapibasic.dto.UserResponse;
 import dev.danielpredel.userapibasic.exception.ResourceNotFoundException;
 import dev.danielpredel.userapibasic.entity.UserEntity;
+import dev.danielpredel.userapibasic.repository.UserRepository;
 import dev.danielpredel.userapibasic.service.UserService;
 import org.springframework.stereotype.Service;
 
@@ -13,17 +14,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
 
 @Service
 public class UserServiceImpl implements UserService {
 
+    private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final Map<Long, UserEntity> usersById = new ConcurrentHashMap<>();
     private final Map<String, UserEntity> usersByEmail = new ConcurrentHashMap<>();
-    private final AtomicLong userCount = new AtomicLong(1);
 
-    public UserServiceImpl(UserMapper userMapper) {
+    public UserServiceImpl(UserRepository userRepository ,UserMapper userMapper) {
+        this.userRepository = userRepository;
         this.userMapper = userMapper;
     }
 
@@ -33,13 +34,9 @@ public class UserServiceImpl implements UserService {
             throw new EmailAlreadyExistsException("Email Already Exists");
         }
 
-        Long id = userCount.getAndIncrement();
-        UserEntity newUser = userMapper.toUserEntity(id, dto);
-
-        usersById.put(id, newUser);
-        usersByEmail.put(newUser.getEmail(), newUser);
-
-        return userMapper.toUserResponse(newUser);
+        UserEntity newUser = userMapper.toUserEntity(dto);
+        UserEntity savedUser = userRepository.save(newUser);
+        return userMapper.toUserResponse(savedUser);
     }
 
     @Override
@@ -65,7 +62,7 @@ public class UserServiceImpl implements UserService {
             throw new EmailAlreadyExistsException("Email Already Exists");
         }
 
-        UserEntity user = userMapper.toUserEntity(id, dto);
+        UserEntity user = userMapper.toUserEntity(dto);
 
         usersById.put(id, user);
         usersByEmail.put(user.getEmail(), user);
@@ -84,7 +81,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private boolean existsByEmail(String email) {
-        return usersByEmail.containsKey(email);
+        return userRepository.existsByEmail(email);
     }
 
     private boolean existsByEmailAndIdNot(String email, Long id) {
