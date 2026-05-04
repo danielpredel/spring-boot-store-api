@@ -4,6 +4,10 @@ import dev.danielpredel.userapibasic.dto.UserRequest;
 import dev.danielpredel.userapibasic.dto.UserResponse;
 import dev.danielpredel.userapibasic.service.UserService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,8 +34,26 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserResponse>> findAll() {
-        return ResponseEntity.ok(userService.findAll());
+    public ResponseEntity<Page<UserResponse>> findAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "asc") String direction
+    ) {
+        size = Math.min(size, 50);
+
+        List<String> allowed = List.of("id", "email", "name");
+        if (!allowed.contains(sortBy)) sortBy = "id";
+
+        Sort sort = Sort.by(
+                "desc".equalsIgnoreCase(direction)
+                ? Sort.Direction.DESC
+                : Sort.Direction.ASC,
+            sortBy
+        );
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return ResponseEntity.ok(userService.findAll(pageable));
     }
 
     @GetMapping("{id}")
