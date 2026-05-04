@@ -8,19 +8,16 @@ import dev.danielpredel.userapibasic.exception.ResourceNotFoundException;
 import dev.danielpredel.userapibasic.entity.UserEntity;
 import dev.danielpredel.userapibasic.repository.UserRepository;
 import dev.danielpredel.userapibasic.service.UserService;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-    private final Map<Long, UserEntity> usersById = new ConcurrentHashMap<>();
-    private final Map<String, UserEntity> usersByEmail = new ConcurrentHashMap<>();
 
     public UserServiceImpl(UserRepository userRepository ,UserMapper userMapper) {
         this.userRepository = userRepository;
@@ -52,19 +49,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public UserResponse update(Long id, UserRequest dto) {
-        if(!usersById.containsKey(id)) {
-            throw new ResourceNotFoundException("User Not Found");
-        }
+        UserEntity user = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
 
-        if(existsByEmailAndIdNot(dto.getEmail(), id)) {
+        if(userRepository.existsByEmailAndIdNot(dto.getEmail(), id)) {
             throw new EmailAlreadyExistsException("Email Already Exists");
         }
 
-        UserEntity user = userMapper.toEntity(dto);
-
-        usersById.put(id, user);
-        usersByEmail.put(user.getEmail(), user);
+        user.setName(dto.getName());
+        user.setEmail(dto.getEmail());
+        user.setPassword(dto.getPassword());
+        user.setAddress(dto.getAddress());
 
         return userMapper.toResponse(user);
     }
@@ -76,10 +73,5 @@ public class UserServiceImpl implements UserService {
         }
 
         userRepository.deleteById(id);
-    }
-
-    private boolean existsByEmailAndIdNot(String email, Long id) {
-        UserEntity u = usersByEmail.get(email);
-        return u != null && !u.getId().equals(id);
     }
 }
