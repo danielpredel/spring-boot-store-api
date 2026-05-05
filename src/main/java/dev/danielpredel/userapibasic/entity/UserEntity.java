@@ -6,17 +6,22 @@ import lombok.Setter;
 
 @Entity
 @Getter
-@Setter
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true)
+    @Setter
     private String email;
 
+    @Setter
     private String name;
+
+    @Setter
     private String password;
+
+    @Setter
     private String address;
 
     public UserEntity() {}
