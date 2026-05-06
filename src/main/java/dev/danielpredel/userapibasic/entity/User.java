@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Entity
 @Getter
-public class UserEntity {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,9 +24,9 @@ public class UserEntity {
     @Setter
     private String address;
 
-    public UserEntity() {}
+    public User() {}
 
-    public UserEntity(String name, String email, String password, String address) {
+    public User(String name, String email, String password, String address) {
         this.name = name;
         this.email = email;
         this.password = password;
