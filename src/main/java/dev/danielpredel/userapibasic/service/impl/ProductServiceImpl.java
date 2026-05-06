@@ -57,4 +57,13 @@ public class ProductServiceImpl implements ProductService {
 
         return productMapper.toResponse(product);
     }
+
+    @Override
+    public void deleteById(Long id) {
+        if(!productRepository.existsById(id)){
+            throw new ResourceNotFoundException("Product Not Found");
+        }
+
+        productRepository.deleteById(id);
+    }
 }
