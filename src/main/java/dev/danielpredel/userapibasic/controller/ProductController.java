@@ -56,4 +56,9 @@ public class ProductController {
         Pageable pageable = PageRequest.of(page, size, sort);
         return ResponseEntity.ok(productService.findAll(pageable));
     }
+
+    @GetMapping("{id}")
+    public ResponseEntity<ProductResponse> findById(@PathVariable Long id) {
+        return ResponseEntity.ok(productService.findById(id));
+    }
 }
