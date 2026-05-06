@@ -6,6 +6,8 @@ import dev.danielpredel.userapibasic.entity.Product;
 import dev.danielpredel.userapibasic.mapper.ProductMapper;
 import dev.danielpredel.userapibasic.repository.ProductRepository;
 import dev.danielpredel.userapibasic.service.ProductService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,5 +24,10 @@ public class ProductServiceImpl implements ProductService {
         Product product = productMapper.toEntity(dto);
         product = productRepository.save(product);
         return productMapper.toResponse(product);
+    }
+
+    public Page<ProductResponse> findAll(Pageable pageable) {
+        return productRepository.findAll(pageable)
+                .map(productMapper::toResponse);
     }
 }
