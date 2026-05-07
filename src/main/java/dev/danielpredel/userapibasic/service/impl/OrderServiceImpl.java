@@ -16,6 +16,8 @@ import dev.danielpredel.userapibasic.repository.ProductRepository;
 import dev.danielpredel.userapibasic.repository.UserRepository;
 import dev.danielpredel.userapibasic.service.OrderService;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -78,5 +80,11 @@ public class OrderServiceImpl implements OrderService {
         order = orderRepository.save(order);
 
         return orderMapper.toResponse(order);
+    }
+
+    @Override
+    public Page<OrderResponse> findAll(Pageable pageable) {
+        return orderRepository.findAll(pageable)
+                .map(orderMapper::toResponse);
     }
 }
