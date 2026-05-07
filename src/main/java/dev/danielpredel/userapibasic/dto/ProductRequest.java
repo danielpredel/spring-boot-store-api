@@ -15,11 +15,13 @@ public record ProductRequest(
     @Digits(integer = 10, fraction = 2)
     BigDecimal price,
 
+    @NotNull
     @Min(0)
-    int stock,
+    Integer stock,
 
     @URL
     String imageUrl,
 
-    boolean active
+    @NotNull
+    Boolean active
 ) {}
