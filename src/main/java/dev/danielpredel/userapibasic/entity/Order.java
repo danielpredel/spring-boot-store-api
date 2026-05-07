@@ -32,6 +32,7 @@ public class Order {
     private LocalDateTime purchaseDate;
 
     @Setter
+    @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
     public Order() {}
