@@ -60,4 +60,14 @@ public class OrderController {
     public ResponseEntity<OrderResponse> findById(@PathVariable Long id) {
         return ResponseEntity.ok(orderService.findById(id));
     }
+
+    @PatchMapping("{id}/cancel")
+    public ResponseEntity<OrderResponse> cancel(@PathVariable Long id) {
+        return ResponseEntity.ok(orderService.cancel(id));
+    }
+
+    @PatchMapping("{id}/deliver")
+    public ResponseEntity<OrderResponse> deliver(@PathVariable Long id) {
+        return ResponseEntity.ok(orderService.deliver(id));
+    }
 }
