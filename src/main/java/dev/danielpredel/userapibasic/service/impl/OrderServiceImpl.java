@@ -80,13 +80,13 @@ public class OrderServiceImpl implements OrderService {
 
         order = orderRepository.save(order);
 
-        return orderMapper.toResponse(order);
+        return orderMapper.toOrderResponse(order);
     }
 
     @Override
     public Page<OrderResponse> findAll(Pageable pageable) {
         return orderRepository.findAll(pageable)
-                .map(orderMapper::toResponse);
+                .map(orderMapper::toOrderResponse);
     }
 
     @Override
@@ -94,7 +94,7 @@ public class OrderServiceImpl implements OrderService {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
 
-        return orderMapper.toResponse(order);
+        return orderMapper.toOrderResponse(order);
     }
 
     @Override
@@ -109,7 +109,7 @@ public class OrderServiceImpl implements OrderService {
 
         order.setStatus(OrderStatus.CANCELLED);
 
-        return  orderMapper.toResponse(order);
+        return  orderMapper.toOrderResponse(order);
     }
 
     @Override
@@ -124,6 +124,6 @@ public class OrderServiceImpl implements OrderService {
 
         order.setStatus(OrderStatus.DELIVERED);
 
-        return  orderMapper.toResponse(order);
+        return  orderMapper.toOrderResponse(order);
     }
 }

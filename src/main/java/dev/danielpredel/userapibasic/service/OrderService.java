@@ -1,5 +1,6 @@
 package dev.danielpredel.userapibasic.service;
 
+import dev.danielpredel.userapibasic.dto.OrderPreviewResponse;
 import dev.danielpredel.userapibasic.dto.OrderRequest;
 import dev.danielpredel.userapibasic.dto.OrderResponse;
 import org.springframework.data.domain.Page;
