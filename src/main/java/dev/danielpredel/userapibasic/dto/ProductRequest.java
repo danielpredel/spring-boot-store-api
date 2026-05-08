@@ -16,7 +16,7 @@ public record ProductRequest(
     BigDecimal price,
 
     @NotNull
-    @Min(0)
+    @PositiveOrZero
     Integer stock,
 
     @URL
