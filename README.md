@@ -1,59 +1,111 @@
-# Spring Boot User API
+# Spring Boot Store API
 
 ## Overview
+RESTful e-commerce/store API built with Spring Boot.
 
-A simple RESTful User API built with Spring Boot.
-This project demonstrates clean layered architecture, DTO usage, validation, and global exception handling using in-memory data storage (no database).
+The project demonstrates:
+- layered architecture
+- DTO pattern
+- JPA/Hibernate persistence
+- transactional business logic
+- validation
+- global exception handling
+- entity relationships
+- order processing workflows
 
 ---
 
 ## Features
 
-* CRUD operations for users
-* Input validation
-* DTO pattern (no sensitive data exposure)
-* Global exception handling
-* In-memory storage (ConcurrentHashMap)
+### Users
+- CRUD operations
+- validation
+- DTO-based responses
+
+### Products
+- CRUD operations
+- stock management
+
+### Orders
+- create orders
+- order preview before purchase
+- transactional order processing
+- automatic stock updates
+- order status management
+
+### Technical Features
+- Spring Data JPA
+- PostgreSQL persistence
+- Manual mapping
+- global exception handling
+- entity auditing timestamps
+- LAZY relationship loading
+- transactional operations
+
+---
+
+## Domain Model
+
+- User -> Orders
+- Order -> OrderItems
+- Product -> OrderItems
 
 ---
 
 ## Project Structure
 
 ```
-src/main/java/com/example/userapi/
-├── controller/      # Handles HTTP requests
-├── service/         # Business logic
-├── service/impl/    # Service implementation
-├── model/           # Internal data models
-├── dto/             # Request/Response objects
-├── mapper/          # Entity <-> DTO mapping
-├── exception/       # Custom exceptions + global handler
-└── UserApiApplication.java
+src/main/java/danielpredel.dev/userapibasic/
+├── controller/
+├── service/
+│   └── impl/
+├── repository/
+├── entity/
+├── dto/
+├── mapper/
+├── exception/
+├── enums/
+└── UserApiBasicApplication.java
 ```
 
 ---
 
 ## API Endpoints
 
-### Create User
+### Users
 
-* **POST** `/api/users`
+| Method | Endpoint | Description |
+|---|---|---|
+| POST | `/api/users` | Create user |
+| GET | `/api/users` | Get all users |
+| GET | `/api/users/{id}` | Get user by ID |
+| PUT | `/api/users/{id}` | Update user |
+| DELETE | `/api/users/{id}` | Delete user |
 
-### Get All Users
+---
 
-* **GET** `/api/users`
+### Products
 
-### Get User by ID
+| Method | Endpoint | Description |
+|---|---|---|
+| POST | `/api/products` | Create product |
+| GET | `/api/products` | Get all products |
+| GET | `/api/products/{id}` | Get product by ID |
+| PUT | `/api/products/{id}` | Update product |
+| DELETE | `/api/products/{id}` | Delete product |
 
-* **GET** `/api/users/{id}`
+---
 
-### Update User
+### Orders
 
-* **PUT** `/api/users/{id}`
-
-### Delete User
-
-* **DELETE** `/api/users/{id}`
+| Method | Endpoint | Description |
+|---|---|---|
+| POST | `/api/orders` | Create order |
+| POST | `/api/orders/preview` | Preview order before purchase |
+| GET | `/api/orders` | Get all orders |
+| GET | `/api/orders/{id}` | Get order by ID |
+| PATCH | `/api/orders/{id}/cancel` | Cancel order |
+| PATCH | `/api/orders/{id}/deliver` | Mark order as delivered |
 
 ---
 
@@ -74,14 +126,14 @@ curl -i -X POST http://localhost:8080/api/users \
 
 ### Get All Users
 
-```bash
-curl http://localhost:8080/api/users
-```
+Query params:
+- `page` (default: 0)
+- `size` (1-50, default: 10)
+- `sortBy` (`id`, `name`, `email`)
+- `direction` (`asc`, `desc`)
 
-### Get User by ID
-
 ```bash
-curl http://localhost:8080/api/users/1
+curl "http://localhost:8080/api/users?page=0&size=10&sortBy=name&direction=asc"
 ```
 
 ### Update User
@@ -97,10 +149,69 @@ curl -X PUT http://localhost:8080/api/users/1 \
 }'
 ```
 
-### Delete User
+### Create Product
 
 ```bash
-curl -X DELETE http://localhost:8080/api/users/1
+curl -X POST http://localhost:8080/api/products \
+-H "Content-Type: application/json" \
+-d '{
+  "name": "Mechanical Keyboard",
+  "price": 129.99,
+  "stock": 15,
+  "imageUrl": "https://example.com/keyboard.jpg",
+  "active": true
+}'
+```
+
+### Create Order
+
+```bash
+curl -X POST http://localhost:8080/api/orders \
+-H "Content-Type: application/json" \
+-d '{
+  "userId": 1,
+  "items": [
+    {
+      "productId": 1,
+      "quantity": 2
+    },
+    {
+      "productId": 3,
+      "quantity": 1
+    }
+  ]
+}'
+```
+
+### Preview Order
+
+```bash
+curl -X POST http://localhost:8080/api/orders/preview \
+-H "Content-Type: application/json" \
+-d '{
+  "items": [
+    {
+      "productId": 1,
+      "quantity": 2
+    },
+    {
+      "productId": 3,
+      "quantity": 1
+    }
+  ]
+}'
+```
+
+### Cancel Order
+
+```bash
+curl -X PATCH http://localhost:8080/api/orders/1/cancel
+```
+
+### Deliver Order
+
+```bash
+curl -X PATCH http://localhost:8080/api/orders/1/deliver
 ```
 
 ---
@@ -117,10 +228,10 @@ curl -X DELETE http://localhost:8080/api/users/1
 ```bash
 # Clone the repository
 ## HTTPS
-git clone https://github.com/danielpredel/spring-boot-user-api.git
+git clone https://github.com/danielpredel/spring-boot-store-api.git
 
 # Navigate into the project
-cd spring-boot-user-api
+cd spring-boot-store-api
 
 # Run the application
 ./mvnw spring-boot:run
@@ -136,5 +247,5 @@ http://localhost:8080
 
 ## Notes
 
-* Data is stored in memory (resets on restart)
-* No authentication implemented (planned for future versions)
+- Authentication/authorization planned for next stage
+- Future security implementation will use JWT + role-based access control

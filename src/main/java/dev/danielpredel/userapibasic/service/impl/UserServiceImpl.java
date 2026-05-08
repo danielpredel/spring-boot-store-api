@@ -5,90 +5,82 @@ import dev.danielpredel.userapibasic.mapper.UserMapper;
 import dev.danielpredel.userapibasic.dto.UserRequest;
 import dev.danielpredel.userapibasic.dto.UserResponse;
 import dev.danielpredel.userapibasic.exception.ResourceNotFoundException;
-import dev.danielpredel.userapibasic.entity.UserEntity;
+import dev.danielpredel.userapibasic.entity.User;
+import dev.danielpredel.userapibasic.repository.UserRepository;
 import dev.danielpredel.userapibasic.service.UserService;
+import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
 
 @Service
 public class UserServiceImpl implements UserService {
 
+    private final UserRepository userRepository;
     private final UserMapper userMapper;
-    private final Map<Long, UserEntity> usersById = new ConcurrentHashMap<>();
-    private final Map<String, UserEntity> usersByEmail = new ConcurrentHashMap<>();
-    private final AtomicLong userCount = new AtomicLong(1);
 
-    public UserServiceImpl(UserMapper userMapper) {
+    public UserServiceImpl(UserRepository userRepository ,UserMapper userMapper) {
+        this.userRepository = userRepository;
         this.userMapper = userMapper;
     }
 
     @Override
     public UserResponse save(UserRequest dto) {
-        if(existsByEmail(dto.getEmail())) {
+        if(userRepository.existsByEmail(dto.email())) {
             throw new EmailAlreadyExistsException("Email Already Exists");
         }
 
-        Long id = userCount.getAndIncrement();
-        UserEntity newUser = userMapper.toUser(id, dto);
-
-        usersById.put(id, newUser);
-        usersByEmail.put(newUser.getEmail(), newUser);
-
-        return userMapper.toUserResponse(newUser);
+        User newUser = userMapper.toEntity(dto);
+        User savedUser = userRepository.save(newUser);
+        return userMapper.toResponse(savedUser);
     }
 
     @Override
-    public List<UserResponse> findAll() {
-        return userMapper.toUserResponseList(usersById.values().stream().toList());
+    public Page<UserResponse> findAll(Pageable pageable) {
+        return userRepository.findAll(pageable)
+                .map(userMapper::toResponse);
     }
 
     @Override
     public UserResponse findById(Long id) {
-        UserEntity user = Optional.ofNullable(usersById.get(id))
+        User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
 
-        return userMapper.toUserResponse(user);
+        return userMapper.toResponse(user);
     }
 
     @Override
-    public UserResponse update(Long id, UserRequest dto) {
-        if(!usersById.containsKey(id)) {
-            throw new ResourceNotFoundException("User Not Found");
-        }
+    public UserResponse findByEmail(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
 
-        if(existsByEmailAndIdNot(dto.getEmail(), id)) {
+        return userMapper.toResponse(user);
+    }
+
+    @Override
+    @Transactional
+    public UserResponse update(Long id, UserRequest dto) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
+
+        if(userRepository.existsByEmailAndIdNot(dto.email(), id)) {
             throw new EmailAlreadyExistsException("Email Already Exists");
         }
 
-        UserEntity user = userMapper.toUser(id, dto);
+        user.setName(dto.name());
+        user.setEmail(dto.email());
+        user.setPassword(dto.password());
+        user.setAddress(dto.address());
 
-        usersById.put(id, user);
-        usersByEmail.put(user.getEmail(), user);
-
-        return userMapper.toUserResponse(user);
+        return userMapper.toResponse(user);
     }
 
     @Override
     public void deleteById(Long id) {
-        if(!usersById.containsKey(id)) {
+        if(!userRepository.existsById(id)) {
             throw new ResourceNotFoundException("User Not Found");
         }
 
-        UserEntity deletedUser = usersById.remove(id);
-        usersByEmail.remove(deletedUser.getEmail());
-    }
-
-    private boolean existsByEmail(String email) {
-        return usersByEmail.containsKey(email);
-    }
-
-    private boolean existsByEmailAndIdNot(String email, Long id) {
-        UserEntity u = usersByEmail.get(email);
-        return u != null && !u.getId().equals(id);
+        userRepository.deleteById(id);
     }
 }
