@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -31,6 +32,9 @@ public class User {
     @Setter
     private List<Order> orders;
 
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
     public User() {}
 
     public User(String name, String email, String password, String address) {
@@ -43,5 +47,16 @@ public class User {
     @Override
     public String toString() {
         return "User{id=" + id + ", name='" + name + "', email='" + email + "', password='" + "*".repeat(16) + "', address='" + address + "'}";
+    }
+
+    @PrePersist
+    public void onCreate() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = this.createdAt;
+    }
+
+    @PreUpdate
+    public void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
     }
 }

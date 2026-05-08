@@ -35,10 +35,24 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
     public Order() {}
 
     public Order(LocalDateTime purchaseDate, OrderStatus status) {
         this.purchaseDate = purchaseDate;
         this.status = status;
+    }
+
+    @PrePersist
+    public void onCreate() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = this.createdAt;
+    }
+
+    @PreUpdate
+    public void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
     }
 }

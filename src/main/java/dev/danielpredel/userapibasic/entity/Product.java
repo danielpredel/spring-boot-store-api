@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "products")
@@ -29,6 +30,9 @@ public class Product {
     @Setter
     private boolean active;
 
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
     public Product() {}
 
     public Product(String name, BigDecimal price, int stock, String imageUrl, boolean active) {
@@ -48,5 +52,16 @@ public class Product {
                 ", stock=" + stock +
                 ", imageUrl='" + imageUrl + '\'' +
                 '}';
+    }
+
+    @PrePersist
+    public void onCreate() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = this.createdAt;
+    }
+
+    @PreUpdate
+    public void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
     }
 }
