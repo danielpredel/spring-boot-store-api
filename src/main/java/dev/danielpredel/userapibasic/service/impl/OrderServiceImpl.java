@@ -105,6 +105,10 @@ public class OrderServiceImpl implements OrderService {
             throw new InvalidOrderStateException("Invalid order status transition");
         }
 
+        for (OrderItem orderItem: order.getOrderItems()) {
+            orderItem.getProduct().setStock(orderItem.getProduct().getStock() + orderItem.getQuantity());
+        }
+
         order.setStatus(OrderStatus.CANCELLED);
 
         return  orderMapper.toOrderResponse(order);
