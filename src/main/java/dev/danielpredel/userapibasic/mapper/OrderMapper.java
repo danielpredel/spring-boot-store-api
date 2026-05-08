@@ -1,6 +1,5 @@
 package dev.danielpredel.userapibasic.mapper;
 
-import dev.danielpredel.userapibasic.dto.OrderItemPreviewResponse;
 import dev.danielpredel.userapibasic.dto.OrderItemResponse;
 import dev.danielpredel.userapibasic.dto.OrderResponse;
 import dev.danielpredel.userapibasic.entity.Order;
