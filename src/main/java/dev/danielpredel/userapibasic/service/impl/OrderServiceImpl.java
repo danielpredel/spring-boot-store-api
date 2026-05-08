@@ -1,8 +1,6 @@
 package dev.danielpredel.userapibasic.service.impl;
 
-import dev.danielpredel.userapibasic.dto.OrderItemRequest;
-import dev.danielpredel.userapibasic.dto.OrderRequest;
-import dev.danielpredel.userapibasic.dto.OrderResponse;
+import dev.danielpredel.userapibasic.dto.*;
 import dev.danielpredel.userapibasic.entity.Order;
 import dev.danielpredel.userapibasic.entity.OrderItem;
 import dev.danielpredel.userapibasic.entity.Product;
@@ -125,5 +123,30 @@ public class OrderServiceImpl implements OrderService {
         order.setStatus(OrderStatus.DELIVERED);
 
         return  orderMapper.toOrderResponse(order);
+    }
+
+    @Override
+    public OrderPreviewResponse preview(OrderPreviewRequest dto) {
+        List<OrderItemPreviewResponse> items = new ArrayList<>();
+        BigDecimal totalAmount = BigDecimal.ZERO;
+
+        for (OrderItemRequest item: dto.items()) {
+            Product product = productRepository.findById(item.productId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Product with id " + item.productId() + " not found"));
+
+            OrderItemPreviewResponse orderItem = new OrderItemPreviewResponse(
+                    product.getId(),
+                    product.getName(),
+                    item.quantity(),
+                    product.getStock(),
+                    product.getPrice(),
+                    product.getPrice().multiply(new BigDecimal(item.quantity())));
+
+            totalAmount = totalAmount.add(orderItem.subtotal());
+
+            items.add(orderItem);
+        }
+
+        return new OrderPreviewResponse(items, totalAmount);
     }
 }

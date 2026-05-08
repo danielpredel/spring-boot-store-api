@@ -1,5 +1,6 @@
 package dev.danielpredel.userapibasic.service;
 
+import dev.danielpredel.userapibasic.dto.OrderPreviewRequest;
 import dev.danielpredel.userapibasic.dto.OrderPreviewResponse;
 import dev.danielpredel.userapibasic.dto.OrderRequest;
 import dev.danielpredel.userapibasic.dto.OrderResponse;
@@ -12,4 +13,5 @@ public interface OrderService {
     OrderResponse findById(Long id);
     OrderResponse cancel(Long id);
     OrderResponse deliver(Long id);
+    OrderPreviewResponse preview(OrderPreviewRequest dto);
 }
