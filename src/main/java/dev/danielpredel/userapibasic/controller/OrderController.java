@@ -28,7 +28,7 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<OrderResponse> createOrder(@Valid @RequestBody OrderRequest dto) {
+    public ResponseEntity<OrderResponse> create(@Valid @RequestBody OrderRequest dto) {
         OrderResponse orderResponse = orderService.save(dto);
 
         URI location = URI.create("/api/orders" + orderResponse.id());
@@ -74,7 +74,7 @@ public class OrderController {
     }
 
     @PostMapping("preview")
-    public ResponseEntity<OrderPreviewResponse> createOrder(@Valid @RequestBody OrderPreviewRequest dto) {
+    public ResponseEntity<OrderPreviewResponse> preview(@Valid @RequestBody OrderPreviewRequest dto) {
         return ResponseEntity.ok(orderService.preview(dto));
     }
 }
