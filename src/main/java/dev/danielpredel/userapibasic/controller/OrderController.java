@@ -1,5 +1,7 @@
 package dev.danielpredel.userapibasic.controller;
 
+import dev.danielpredel.userapibasic.dto.OrderPreviewRequest;
+import dev.danielpredel.userapibasic.dto.OrderPreviewResponse;
 import dev.danielpredel.userapibasic.dto.OrderRequest;
 import dev.danielpredel.userapibasic.dto.OrderResponse;
 import dev.danielpredel.userapibasic.service.OrderService;
@@ -69,5 +71,10 @@ public class OrderController {
     @PatchMapping("{id}/deliver")
     public ResponseEntity<OrderResponse> deliver(@PathVariable Long id) {
         return ResponseEntity.ok(orderService.deliver(id));
+    }
+
+    @PostMapping("preview")
+    public ResponseEntity<OrderPreviewResponse> createOrder(@Valid @RequestBody OrderPreviewRequest dto) {
+        return ResponseEntity.ok(orderService.preview(dto));
     }
 }
