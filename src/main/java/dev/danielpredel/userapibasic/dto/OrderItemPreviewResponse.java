@@ -1,0 +1,13 @@
+package dev.danielpredel.userapibasic.dto;
+
+import java.math.BigDecimal;
+
+public record OrderItemPreviewResponse(
+        Long productId,
+        String productName,
+        int requestedQuantity,
+        int availableStock,
+        BigDecimal price,
+        BigDecimal subtotal
+) {
+}
