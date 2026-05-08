@@ -55,4 +55,9 @@ public class OrderController {
 
         return ResponseEntity.ok(orderService.findAll(pageable));
     }
+
+    @GetMapping("{id}")
+    public ResponseEntity<OrderResponse> findById(@PathVariable Long id) {
+        return ResponseEntity.ok(orderService.findById(id));
+    }
 }
