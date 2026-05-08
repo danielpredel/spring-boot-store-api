@@ -9,6 +9,7 @@ import dev.danielpredel.userapibasic.entity.Product;
 import dev.danielpredel.userapibasic.entity.User;
 import dev.danielpredel.userapibasic.enums.OrderStatus;
 import dev.danielpredel.userapibasic.exception.InsufficientStockException;
+import dev.danielpredel.userapibasic.exception.InvalidOrderStateException;
 import dev.danielpredel.userapibasic.exception.ResourceNotFoundException;
 import dev.danielpredel.userapibasic.mapper.OrderMapper;
 import dev.danielpredel.userapibasic.repository.OrderRepository;
@@ -94,5 +95,35 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
 
         return orderMapper.toResponse(order);
+    }
+
+    @Override
+    @Transactional
+    public OrderResponse cancel(Long id) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
+
+        if(!order.getStatus().equals(OrderStatus.CREATED)) {
+            throw new InvalidOrderStateException("Invalid order status transition");
+        }
+
+        order.setStatus(OrderStatus.CANCELLED);
+
+        return  orderMapper.toResponse(order);
+    }
+
+    @Override
+    @Transactional
+    public OrderResponse deliver(Long id) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
+
+        if(!order.getStatus().equals(OrderStatus.CREATED)) {
+            throw new InvalidOrderStateException("Invalid order status transition");
+        }
+
+        order.setStatus(OrderStatus.DELIVERED);
+
+        return  orderMapper.toResponse(order);
     }
 }

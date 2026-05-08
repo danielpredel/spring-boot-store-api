@@ -9,4 +9,6 @@ public interface OrderService {
     OrderResponse save(OrderRequest dto);
     Page<OrderResponse> findAll(Pageable pageable);
     OrderResponse findById(Long id);
+    OrderResponse cancel(Long id);
+    OrderResponse deliver(Long id);
 }
