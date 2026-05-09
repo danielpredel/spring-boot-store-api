@@ -222,6 +222,7 @@ curl -X PATCH http://localhost:8080/api/orders/1/deliver
 
 * Java 21+
 * Maven or Gradle
+* Docker
 
 ### Steps
 
@@ -232,6 +233,9 @@ git clone https://github.com/danielpredel/spring-boot-store-api.git
 
 # Navigate into the project
 cd spring-boot-store-api
+
+# Start the database with Docker Compose
+docker compose up --build -d
 
 # Run the application
 ./mvnw spring-boot:run
