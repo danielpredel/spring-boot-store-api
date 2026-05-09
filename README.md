@@ -224,6 +224,16 @@ curl -X PATCH http://localhost:8080/api/orders/1/deliver
 * Maven or Gradle
 * Docker
 
+### Environment Variables
+
+Create a `.env` file in the project root with the following variables:
+
+```env
+DB_NAME=your_database_name
+DB_USER=your_database_user
+DB_PASSWORD=your_database_password
+```
+
 ### Steps
 
 ```bash
