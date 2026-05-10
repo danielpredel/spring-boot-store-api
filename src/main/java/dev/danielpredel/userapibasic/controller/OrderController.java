@@ -31,7 +31,7 @@ public class OrderController {
     public ResponseEntity<OrderResponse> create(@Valid @RequestBody OrderRequest dto) {
         OrderResponse orderResponse = orderService.save(dto);
 
-        URI location = URI.create("/api/orders" + orderResponse.id());
+        URI location = URI.create("/api/orders/" + orderResponse.id());
 
         return ResponseEntity.created(location).body(orderResponse);
     }
