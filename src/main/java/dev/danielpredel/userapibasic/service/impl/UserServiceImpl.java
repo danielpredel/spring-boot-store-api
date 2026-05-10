@@ -11,17 +11,20 @@ import dev.danielpredel.userapibasic.service.UserService;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
-
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
     public UserServiceImpl(UserRepository userRepository ,UserMapper userMapper) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
     @Override
@@ -31,6 +34,7 @@ public class UserServiceImpl implements UserService {
         }
 
         User newUser = userMapper.toEntity(dto);
+        newUser.setPassword(passwordEncoder.encode(dto.password()));
         User savedUser = userRepository.save(newUser);
         return userMapper.toResponse(savedUser);
     }
