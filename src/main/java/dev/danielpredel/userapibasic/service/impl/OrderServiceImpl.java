@@ -82,12 +82,14 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @org.springframework.transaction.annotation.Transactional(readOnly = true)
     public Page<OrderResponse> findAll(Pageable pageable) {
         return orderRepository.findAll(pageable)
                 .map(orderMapper::toOrderResponse);
     }
 
     @Override
+    @org.springframework.transaction.annotation.Transactional(readOnly = true)
     public OrderResponse findById(Long id) {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
