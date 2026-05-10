@@ -1,5 +1,6 @@
 package dev.danielpredel.userapibasic.entity;
 
+import dev.danielpredel.userapibasic.enums.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,13 +36,17 @@ public class User {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
     public User() {}
 
-    public User(String name, String email, String password, String address) {
+    public User(String name, String email, String password, String address, Role  role) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.address = address;
+        this.role = role;
     }
 
     @Override
