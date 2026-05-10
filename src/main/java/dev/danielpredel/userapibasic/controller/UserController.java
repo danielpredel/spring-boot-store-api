@@ -27,15 +27,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping
-    public ResponseEntity<UserResponse> create(@Valid @RequestBody UserRequest dto) {
-        UserResponse savedUser = userService.save(dto);
-
-        URI location = URI.create("/api/users/" + savedUser.id());
-
-        return ResponseEntity.created(location).body(savedUser);
-    }
-
     @GetMapping
     public ResponseEntity<Page<UserResponse>> findAll(
             @RequestParam(defaultValue = "0") @Min(0) int page,
