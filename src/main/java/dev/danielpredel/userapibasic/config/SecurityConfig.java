@@ -50,32 +50,32 @@ public class SecurityConfig {
                         // PUBLIC ENDPOINTS
                         // =========================
                         .requestMatchers(
-                                "/api/auth/register",
-                                "/api/auth/login"
+                                "/auth/register",
+                                "/auth/login"
                         ).permitAll()
 
-                        .requestMatchers(HttpMethod.GET, "/api/products/**")
+                        .requestMatchers(HttpMethod.GET, "/products/**")
                         .permitAll()
 
-                        .requestMatchers(HttpMethod.POST, "/api/orders/preview")
+                        .requestMatchers(HttpMethod.POST, "/orders/preview")
                         .permitAll()
 
                         // =========================
                         // ADMIN ONLY
                         // =========================
-                        .requestMatchers(HttpMethod.GET, "/api/users")
+                        .requestMatchers(HttpMethod.GET, "/users")
                         .hasRole("ADMIN")
 
-                        .requestMatchers(HttpMethod.POST, "/api/products")
+                        .requestMatchers(HttpMethod.POST, "/products")
                         .hasRole("ADMIN")
 
-                        .requestMatchers(HttpMethod.PUT, "/api/products/**")
+                        .requestMatchers(HttpMethod.PUT, "/products/**")
                         .hasRole("ADMIN")
 
-                        .requestMatchers(HttpMethod.DELETE, "/api/products/**")
+                        .requestMatchers(HttpMethod.DELETE, "/products/**")
                         .hasRole("ADMIN")
 
-                        .requestMatchers(HttpMethod.PATCH, "/api/orders/*/deliver")
+                        .requestMatchers(HttpMethod.PATCH, "/orders/*/deliver")
                         .hasRole("ADMIN")
 
                         // =========================
@@ -83,8 +83,8 @@ public class SecurityConfig {
                         // (ownership checked in service layer)
                         // =========================
                         .requestMatchers(
-                                "/api/users/**",
-                                "/api/orders/**"
+                                "/users/**",
+                                "/orders/**"
                         ).authenticated()
 
                         // =========================

@@ -12,11 +12,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 public class AuthController {
     private final AuthService authService;
     private final UserService userService;
@@ -30,7 +31,11 @@ public class AuthController {
     public ResponseEntity<UserResponse> create(@Valid @RequestBody UserRequest request) {
         UserResponse savedUser = userService.save(request);
 
-        URI location = URI.create("/api/users/" + savedUser.id());
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentContextPath()
+                .path("/users/{id}")
+                .buildAndExpand(savedUser.id())
+                .toUri();
 
         return ResponseEntity.created(location).body(savedUser);
     }

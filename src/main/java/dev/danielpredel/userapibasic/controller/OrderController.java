@@ -14,12 +14,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/orders")
+@RequestMapping("/orders")
 public class OrderController {
     private final OrderService orderService;
 
@@ -31,7 +32,11 @@ public class OrderController {
     public ResponseEntity<OrderResponse> create(@Valid @RequestBody OrderRequest dto) {
         OrderResponse orderResponse = orderService.save(dto);
 
-        URI location = URI.create("/api/orders/" + orderResponse.id());
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(orderResponse.id())
+                .toUri();
 
         return ResponseEntity.created(location).body(orderResponse);
     }
