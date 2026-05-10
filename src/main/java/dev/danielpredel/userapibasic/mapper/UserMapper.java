@@ -3,6 +3,7 @@ package dev.danielpredel.userapibasic.mapper;
 import dev.danielpredel.userapibasic.dto.UserRequest;
 import dev.danielpredel.userapibasic.dto.UserResponse;
 import dev.danielpredel.userapibasic.entity.User;
+import dev.danielpredel.userapibasic.enums.Role;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -12,6 +13,6 @@ public class UserMapper {
     }
 
     public User toEntity(UserRequest dto) {
-        return new User(dto.name(), dto.email(), dto.password(), dto.address());
+        return new User(dto.name(), dto.email(), dto.password(), dto.address(), Role.USER);
     }
 }
