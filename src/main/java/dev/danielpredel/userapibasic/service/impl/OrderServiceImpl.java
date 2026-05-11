@@ -45,8 +45,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public OrderResponse save(OrderRequest dto) {
-        User user = userRepository.findById(dto.userId())
+    public OrderResponse save(Long id, OrderRequest dto) {
+        User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         Order order = new Order(LocalDateTime.now(), OrderStatus.CREATED);
