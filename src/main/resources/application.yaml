@@ -14,3 +14,8 @@ jwt:
 server:
   servlet:
     context-path: /api/v1
+
+app:
+  admin:
+    email: ${ADMIN_EMAIL}
+    password: ${ADMIN_PASSWORD}
