@@ -4,6 +4,7 @@ import dev.danielpredel.userapibasic.dto.OrderPreviewRequest;
 import dev.danielpredel.userapibasic.dto.OrderPreviewResponse;
 import dev.danielpredel.userapibasic.dto.OrderRequest;
 import dev.danielpredel.userapibasic.dto.OrderResponse;
+import dev.danielpredel.userapibasic.security.CustomUserDetails;
 import dev.danielpredel.userapibasic.service.OrderService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -29,8 +31,8 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<OrderResponse> create(@Valid @RequestBody OrderRequest dto) {
-        OrderResponse orderResponse = orderService.save(dto);
+    public ResponseEntity<OrderResponse> create(@AuthenticationPrincipal CustomUserDetails user, @Valid @RequestBody OrderRequest dto) {
+        OrderResponse orderResponse = orderService.save(user.getId(), dto);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()

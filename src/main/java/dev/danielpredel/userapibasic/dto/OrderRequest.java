@@ -8,9 +8,6 @@ import java.util.List;
 
 public record OrderRequest(
     @NotNull
-    Long userId,
-
-    @NotNull
     @NotEmpty
     @Valid
     List<OrderItemRequest> items
