@@ -23,10 +23,19 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
     private final CustomUserDetailsService customUserDetailsService;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
-    public SecurityConfig(CustomUserDetailsService customUserDetailsService, JwtAuthenticationFilter jwtAuthenticationFilter) {
+    public SecurityConfig(
+            CustomUserDetailsService customUserDetailsService,
+            JwtAuthenticationFilter jwtAuthenticationFilter,
+            CustomAuthenticationEntryPoint customAuthenticationEntryPoint,
+            CustomAccessDeniedHandler customAccessDeniedHandler
+    ) {
         this.customUserDetailsService = customUserDetailsService;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.customAuthenticationEntryPoint = customAuthenticationEntryPoint;
+        this.customAccessDeniedHandler = customAccessDeniedHandler;
     }
 
     @Bean
@@ -46,51 +55,36 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
 
-                        // =========================
-                        // PUBLIC ENDPOINTS
-                        // =========================
-                        .requestMatchers(
-                                "/auth/register",
-                                "/auth/login"
-                        ).permitAll()
+                        // Auth
+                        .requestMatchers("/auth/**").permitAll()
 
-                        .requestMatchers(HttpMethod.GET, "/products/**")
-                        .permitAll()
+                        // Users
+                        .requestMatchers(HttpMethod.GET, "/users").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/users/*").authenticated()        // self check in service
+                        .requestMatchers(HttpMethod.PUT, "/users/*").hasRole("USER")        // self check in service
+                        .requestMatchers(HttpMethod.DELETE, "/users/*").hasRole("USER")     // self check in service
 
-                        .requestMatchers(HttpMethod.POST, "/orders/preview")
-                        .permitAll()
+                        // Products
+                        .requestMatchers(HttpMethod.GET, "/products/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/products").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/products/*").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/products/*").hasRole("ADMIN")
 
-                        // =========================
-                        // ADMIN ONLY
-                        // =========================
-                        .requestMatchers(HttpMethod.GET, "/users")
-                        .hasRole("ADMIN")
+                        // Orders
+                        .requestMatchers(HttpMethod.GET, "/orders").authenticated()         // own/admin in service
+                        .requestMatchers(HttpMethod.GET, "/orders/*").authenticated()       // own/admin in service
+                        .requestMatchers(HttpMethod.POST, "/orders").hasRole("USER")
+                        .requestMatchers(HttpMethod.POST, "/orders/preview").permitAll()
+                        .requestMatchers(HttpMethod.PATCH, "/orders/*/cancel").hasRole("USER")
+                        .requestMatchers(HttpMethod.PATCH, "/orders/*/deliver").hasRole("ADMIN")
 
-                        .requestMatchers(HttpMethod.POST, "/products")
-                        .hasRole("ADMIN")
-
-                        .requestMatchers(HttpMethod.PUT, "/products/**")
-                        .hasRole("ADMIN")
-
-                        .requestMatchers(HttpMethod.DELETE, "/products/**")
-                        .hasRole("ADMIN")
-
-                        .requestMatchers(HttpMethod.PATCH, "/orders/*/deliver")
-                        .hasRole("ADMIN")
-
-                        // =========================
-                        // AUTHENTICATED USERS
-                        // (ownership checked in service layer)
-                        // =========================
-                        .requestMatchers(
-                                "/users/**",
-                                "/orders/**"
-                        ).authenticated()
-
-                        // =========================
-                        // EVERYTHING ELSE
-                        // =========================
+                        // Everything else
                         .anyRequest().denyAll()
+                )
+
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint(customAuthenticationEntryPoint)
+                        .accessDeniedHandler(customAccessDeniedHandler)
                 );
 
         return http.build();
