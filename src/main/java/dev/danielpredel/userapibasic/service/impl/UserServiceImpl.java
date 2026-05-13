@@ -7,6 +7,7 @@ import dev.danielpredel.userapibasic.dto.UserResponse;
 import dev.danielpredel.userapibasic.exception.ResourceNotFoundException;
 import dev.danielpredel.userapibasic.entity.User;
 import dev.danielpredel.userapibasic.repository.UserRepository;
+import dev.danielpredel.userapibasic.security.CustomUserDetails;
 import dev.danielpredel.userapibasic.service.UserService;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
@@ -46,11 +47,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse findById(Long id) {
-        User user = userRepository.findById(id)
+    public UserResponse findById(CustomUserDetails user, Long id) {
+        if (!user.isAdmin() && !user.getId().equals(id)) {
+            throw new ResourceNotFoundException("User Not Found");
+        }
+
+        User searchedUser = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
 
-        return userMapper.toResponse(user);
+        return userMapper.toResponse(searchedUser);
     }
 
     @Override
