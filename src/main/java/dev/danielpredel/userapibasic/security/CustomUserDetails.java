@@ -60,4 +60,8 @@ public class CustomUserDetails implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
     }
+
+    public boolean isAdmin() {
+        return authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN"));
+    }
 }
