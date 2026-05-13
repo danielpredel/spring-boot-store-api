@@ -15,7 +15,7 @@ public class OrderMapper {
                 .stream()
                 .map(this::toOrderItemResponse)
                 .toList();
-        return new OrderResponse(order.getId(), items, order.getTotalAmount(), order.getPurchaseDate(), order.getStatus());
+        return new OrderResponse(order.getId(), order.getUser().getId(), items, order.getTotalAmount(), order.getPurchaseDate(), order.getStatus());
     }
 
     public OrderItemResponse toOrderItemResponse(OrderItem orderItem) {
