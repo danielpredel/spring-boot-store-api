@@ -12,7 +12,6 @@ public interface UserService {
     UserResponse save(UserRequest dto);
     Page<UserResponse> findAll(Pageable pageable);
     UserResponse findById(CustomUserDetails user, Long id);
-    UserResponse findByEmail(String email);
     UserResponse update(Long id, Long userId, UserUpdateRequest dto);
     void deleteById(Long id);
 }
