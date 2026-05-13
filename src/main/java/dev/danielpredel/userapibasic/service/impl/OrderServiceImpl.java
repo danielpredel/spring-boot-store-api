@@ -97,9 +97,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @org.springframework.transaction.annotation.Transactional(readOnly = true)
-    public OrderResponse findById(Long id) {
-        Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
+    public OrderResponse findById(CustomUserDetails user, Long id) {
+        Order order = user.isAdmin()
+                ? orderRepository.findById(id)
+                    .orElseThrow(() -> new ResourceNotFoundException("Order not found"))
+                : orderRepository.findByIdAndUserId(id, user.getId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
 
         return orderMapper.toOrderResponse(order);
     }
