@@ -1,5 +1,6 @@
 package dev.danielpredel.userapibasic.service.impl;
 
+import dev.danielpredel.userapibasic.dto.UserUpdateRequest;
 import dev.danielpredel.userapibasic.exception.EmailAlreadyExistsException;
 import dev.danielpredel.userapibasic.mapper.UserMapper;
 import dev.danielpredel.userapibasic.dto.UserRequest;
@@ -68,17 +69,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserResponse update(Long id, UserRequest dto) {
+    public UserResponse update(Long id, Long userId, UserUpdateRequest dto) {
+        if (!userId.equals(id)) {
+            throw new ResourceNotFoundException("User Not Found");
+        }
+
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
 
-        if(userRepository.existsByEmailAndIdNot(dto.email(), id)) {
-            throw new EmailAlreadyExistsException("Email Already Exists");
-        }
-
         user.setName(dto.name());
-        user.setEmail(dto.email());
-        user.setPassword(dto.password());
         user.setAddress(dto.address());
 
         return userMapper.toResponse(user);

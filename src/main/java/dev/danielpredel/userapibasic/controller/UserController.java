@@ -2,6 +2,7 @@ package dev.danielpredel.userapibasic.controller;
 
 import dev.danielpredel.userapibasic.dto.UserRequest;
 import dev.danielpredel.userapibasic.dto.UserResponse;
+import dev.danielpredel.userapibasic.dto.UserUpdateRequest;
 import dev.danielpredel.userapibasic.security.CustomUserDetails;
 import dev.danielpredel.userapibasic.service.UserService;
 import jakarta.validation.Valid;
@@ -60,8 +61,12 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponse> update(@PathVariable Long id, @Valid @RequestBody UserRequest dto) {
-        return ResponseEntity.ok(userService.update(id, dto));
+    public ResponseEntity<UserResponse> update(
+            @AuthenticationPrincipal CustomUserDetails user,
+            @PathVariable Long id,
+            @Valid @RequestBody UserUpdateRequest  dto
+    ) {
+        return ResponseEntity.ok(userService.update(id, user.getId(), dto));
     }
 
     @DeleteMapping("/{id}")
