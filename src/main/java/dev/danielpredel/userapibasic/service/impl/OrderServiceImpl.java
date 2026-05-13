@@ -106,8 +106,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public OrderResponse cancel(Long id) {
-        Order order = orderRepository.findById(id)
+    public OrderResponse cancel(CustomUserDetails user, Long id) {
+        Order order = orderRepository.findByIdAndUserId(id, user.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
 
         if(!order.getStatus().equals(OrderStatus.CREATED)) {
