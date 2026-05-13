@@ -4,7 +4,7 @@ import dev.danielpredel.userapibasic.entity.User;
 import dev.danielpredel.userapibasic.exception.ResourceNotFoundException;
 import dev.danielpredel.userapibasic.repository.UserRepository;
 import dev.danielpredel.userapibasic.security.CustomUserDetails;
-import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.NullMarked;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,8 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(@NonNull String email) throws ResourceNotFoundException {
+    @NullMarked
+    public UserDetails loadUserByUsername(String email) throws ResourceNotFoundException {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
