@@ -1,6 +1,5 @@
 package dev.danielpredel.userapibasic.controller;
 
-import dev.danielpredel.userapibasic.dto.UserRequest;
 import dev.danielpredel.userapibasic.dto.UserResponse;
 import dev.danielpredel.userapibasic.dto.UserUpdateRequest;
 import dev.danielpredel.userapibasic.security.CustomUserDetails;
