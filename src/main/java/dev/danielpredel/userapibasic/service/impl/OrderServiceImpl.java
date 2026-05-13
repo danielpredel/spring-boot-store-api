@@ -13,6 +13,7 @@ import dev.danielpredel.userapibasic.mapper.OrderMapper;
 import dev.danielpredel.userapibasic.repository.OrderRepository;
 import dev.danielpredel.userapibasic.repository.ProductRepository;
 import dev.danielpredel.userapibasic.repository.UserRepository;
+import dev.danielpredel.userapibasic.security.CustomUserDetails;
 import dev.danielpredel.userapibasic.service.OrderService;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
@@ -83,9 +84,15 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @org.springframework.transaction.annotation.Transactional(readOnly = true)
-    public Page<OrderResponse> findAll(Pageable pageable) {
-        return orderRepository.findAll(pageable)
-                .map(orderMapper::toOrderResponse);
+    public Page<OrderResponse> findAll(CustomUserDetails user, Pageable pageable) {
+        if (user.isAdmin()) {
+            return orderRepository.findAll(pageable)
+                    .map(orderMapper::toOrderResponse);
+        }
+        else {
+            return orderRepository.findByUserId(user.getId(), pageable)
+                    .map(orderMapper::toOrderResponse);
+        }
     }
 
     @Override
