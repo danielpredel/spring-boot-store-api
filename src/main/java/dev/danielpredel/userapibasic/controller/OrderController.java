@@ -45,6 +45,7 @@ public class OrderController {
 
     @GetMapping
     public ResponseEntity<Page<OrderResponse>> findAll(
+            @AuthenticationPrincipal CustomUserDetails user,
             @RequestParam(defaultValue = "0") @Min(0) int page,
             @RequestParam(defaultValue = "10") @Min(1) @Max(50) int size,
             @RequestParam(defaultValue = "id") String sortBy,
@@ -62,7 +63,7 @@ public class OrderController {
 
         Pageable pageable = PageRequest.of(page, size, sort);
 
-        return ResponseEntity.ok(orderService.findAll(pageable));
+        return ResponseEntity.ok(orderService.findAll(user, pageable));
     }
 
     @GetMapping("/{id}")
