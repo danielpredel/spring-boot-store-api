@@ -1,5 +1,6 @@
 package dev.danielpredel.userapibasic.mapper;
 
+import dev.danielpredel.userapibasic.dto.AdminUserResponse;
 import dev.danielpredel.userapibasic.dto.UserRequest;
 import dev.danielpredel.userapibasic.dto.UserResponse;
 import dev.danielpredel.userapibasic.entity.User;
@@ -14,5 +15,9 @@ public class UserMapper {
 
     public User toEntity(UserRequest dto) {
         return new User(dto.name(), dto.email(), dto.password(), dto.address(), Role.USER, true);
+    }
+
+    public AdminUserResponse toAdminResponse(User user) {
+        return new AdminUserResponse(user.getId(), user.getName(), user.getEmail(), user.getRole(), user.isActive());
     }
 }
