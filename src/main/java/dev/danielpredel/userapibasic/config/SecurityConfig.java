@@ -65,11 +65,7 @@ public class SecurityConfig {
                         .requestMatchers("/admin/**").hasRole("ADMIN")
 
                         // Users
-                        .requestMatchers(HttpMethod.GET, "/users").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/users/*").authenticated()        // self check in service
-                        .requestMatchers(HttpMethod.PUT, "/users/*").hasRole("USER")        // self check in service
-                        .requestMatchers(HttpMethod.DELETE, "/users/*").hasRole("USER")     // self check in service
-
+                        .requestMatchers("/users/**").hasRole("USER")
 
                         // Orders
                         .requestMatchers(HttpMethod.GET, "/orders").authenticated()         // own/admin in service
