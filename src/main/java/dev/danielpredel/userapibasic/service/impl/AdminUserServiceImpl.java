@@ -1,6 +1,8 @@
 package dev.danielpredel.userapibasic.service.impl;
 
 import dev.danielpredel.userapibasic.dto.AdminUserResponse;
+import dev.danielpredel.userapibasic.entity.User;
+import dev.danielpredel.userapibasic.exception.ResourceNotFoundException;
 import dev.danielpredel.userapibasic.mapper.UserMapper;
 import dev.danielpredel.userapibasic.repository.UserRepository;
 import dev.danielpredel.userapibasic.service.AdminUserService;
@@ -22,5 +24,13 @@ public class AdminUserServiceImpl implements AdminUserService {
     public Page<AdminUserResponse> findAll(Pageable pageable) {
         return userRepository.findAll(pageable)
                 .map(userMapper::toAdminResponse);
+    }
+
+    @Override
+    public AdminUserResponse findById(Long id) {
+        User searchedUser = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
+
+        return userMapper.toAdminResponse(searchedUser);
     }
 }
