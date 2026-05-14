@@ -39,14 +39,17 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    private boolean active;
+
     public User() {}
 
-    public User(String name, String email, String password, String address, Role  role) {
+    public User(String name, String email, String password, String address, Role  role, boolean active) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.address = address;
         this.role = role;
+        this.active = active;
     }
 
     @Override
