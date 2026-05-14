@@ -62,4 +62,9 @@ public class AdminProductController {
         Pageable pageable = PageRequest.of(page, size, sort);
         return ResponseEntity.ok(adminProductService.findAll(pageable));
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AdminProductResponse> findById(@PathVariable Long id) {
+        return ResponseEntity.ok(adminProductService.findById(id));
+    }
 }
