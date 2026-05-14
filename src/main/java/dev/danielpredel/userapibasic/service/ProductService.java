@@ -10,5 +10,4 @@ public interface ProductService {
     Page<ProductResponse> findAll(Pageable pageable);
     ProductResponse findById(Long id);
     ProductResponse update(Long id, ProductRequest dto);
-    void deleteById(Long id);
 }
