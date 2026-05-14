@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
             throw new ResourceNotFoundException("User Not Found");
         }
 
-        User user = userRepository.findById(id)
+        User user = userRepository.findByIdAndActive(id, true)
                 .orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
 
         user.setName(dto.name());
