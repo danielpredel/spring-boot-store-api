@@ -9,4 +9,5 @@ public interface AdminProductService {
     AdminProductResponse save(ProductRequest dto);
     Page<AdminProductResponse> findAll(Pageable pageable);
     AdminProductResponse findById(Long id);
+    AdminProductResponse update(Long id, ProductRequest dto);
 }

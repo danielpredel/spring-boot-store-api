@@ -7,6 +7,7 @@ import dev.danielpredel.userapibasic.exception.ResourceNotFoundException;
 import dev.danielpredel.userapibasic.mapper.ProductMapper;
 import dev.danielpredel.userapibasic.repository.ProductRepository;
 import dev.danielpredel.userapibasic.service.AdminProductService;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -38,6 +39,21 @@ public class AdminProductServiceImpl implements AdminProductService {
     public AdminProductResponse findById(Long id) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product Not Found"));
+
+        return productMapper.toAdminResponse(product);
+    }
+
+    @Override
+    @Transactional
+    public AdminProductResponse update(Long id, ProductRequest dto) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Product Not Found"));
+
+        product.setName(dto.name());
+        product.setPrice(dto.price());
+        product.setStock(dto.stock());
+        product.setImageUrl(dto.imageUrl());
+        product.setActive(dto.active());
 
         return productMapper.toAdminResponse(product);
     }
