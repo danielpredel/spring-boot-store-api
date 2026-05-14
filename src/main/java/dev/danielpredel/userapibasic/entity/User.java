@@ -39,6 +39,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Setter
     private boolean active;
 
     public User() {}
