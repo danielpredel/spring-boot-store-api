@@ -44,4 +44,9 @@ public class AdminUserController {
         Pageable pageable = PageRequest.of(page, size, sort);
         return ResponseEntity.ok(adminUserService.findAll(pageable));
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AdminUserResponse> findById(@PathVariable Long id) {
+        return ResponseEntity.ok(adminUserService.findById(id));
+    }
 }
