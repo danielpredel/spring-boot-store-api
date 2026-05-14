@@ -58,6 +58,9 @@ public class SecurityConfig {
                         // Auth
                         .requestMatchers("/auth/**").permitAll()
 
+                        // Admin Endpoints
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+
                         // Users
                         .requestMatchers(HttpMethod.GET, "/users").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/users/*").authenticated()        // self check in service
