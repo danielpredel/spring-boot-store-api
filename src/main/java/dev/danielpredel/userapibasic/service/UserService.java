@@ -13,5 +13,5 @@ public interface UserService {
     Page<UserResponse> findAll(Pageable pageable);
     UserResponse findById(CustomUserDetails user, Long id);
     UserResponse update(Long id, Long userId, UserUpdateRequest dto);
-    void deleteById(Long id);
+    void deleteById(Long id, Long userId);
 }
