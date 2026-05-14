@@ -23,13 +23,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductResponse save(ProductRequest dto) {
-        Product product = productMapper.toEntity(dto);
-        product = productRepository.save(product);
-        return productMapper.toResponse(product);
-    }
-
-    @Override
     public Page<ProductResponse> findAll(Pageable pageable) {
         return productRepository.findAll(pageable)
                 .map(productMapper::toResponse);

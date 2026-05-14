@@ -13,9 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 
 @Validated
@@ -26,19 +24,6 @@ public class ProductController {
 
     public ProductController(ProductService productService) {
         this.productService = productService;
-    }
-
-    @PostMapping
-    public ResponseEntity<ProductResponse> create(@Valid @RequestBody ProductRequest dto) {
-        ProductResponse savedProduct = productService.save(dto);
-
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(savedProduct.id())
-                .toUri();
-
-        return ResponseEntity.created(location).body(savedProduct);
     }
 
     @GetMapping
