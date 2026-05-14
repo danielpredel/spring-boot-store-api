@@ -67,4 +67,9 @@ public class AdminProductController {
     public ResponseEntity<AdminProductResponse> findById(@PathVariable Long id) {
         return ResponseEntity.ok(adminProductService.findById(id));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<AdminProductResponse> update(@PathVariable Long id, @Valid @RequestBody ProductRequest dto) {
+        return  ResponseEntity.ok(adminProductService.update(id, dto));
+    }
 }
