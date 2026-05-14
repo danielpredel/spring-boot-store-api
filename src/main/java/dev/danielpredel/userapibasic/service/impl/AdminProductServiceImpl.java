@@ -3,6 +3,7 @@ package dev.danielpredel.userapibasic.service.impl;
 import dev.danielpredel.userapibasic.dto.AdminProductResponse;
 import dev.danielpredel.userapibasic.dto.ProductRequest;
 import dev.danielpredel.userapibasic.entity.Product;
+import dev.danielpredel.userapibasic.exception.ResourceNotFoundException;
 import dev.danielpredel.userapibasic.mapper.ProductMapper;
 import dev.danielpredel.userapibasic.repository.ProductRepository;
 import dev.danielpredel.userapibasic.service.AdminProductService;
@@ -31,5 +32,13 @@ public class AdminProductServiceImpl implements AdminProductService {
     public Page<AdminProductResponse> findAll(Pageable pageable) {
         return productRepository.findAll(pageable)
                 .map(productMapper::toAdminResponse);
+    }
+
+    @Override
+    public AdminProductResponse findById(Long id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Product Not Found"));
+
+        return productMapper.toAdminResponse(product);
     }
 }
