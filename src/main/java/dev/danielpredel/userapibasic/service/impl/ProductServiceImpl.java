@@ -22,7 +22,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<ProductResponse> findAll(Pageable pageable) {
-        return productRepository.findAll(pageable)
+        return productRepository.findByActiveTrue(pageable)
                 .map(productMapper::toResponse);
     }
 
