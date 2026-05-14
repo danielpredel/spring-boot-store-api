@@ -59,7 +59,7 @@ public class SecurityConfig {
                         .requestMatchers("/auth/**").permitAll()
 
                         // Products
-                        .requestMatchers(HttpMethod.GET, "/products/**").permitAll()
+                        .requestMatchers("/products/**").permitAll()
 
                         // Admin Endpoints
                         .requestMatchers("/admin/**").hasRole("ADMIN")
