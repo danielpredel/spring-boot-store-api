@@ -1,9 +1,7 @@
 package dev.danielpredel.userapibasic.controller;
 
-import dev.danielpredel.userapibasic.dto.ProductRequest;
 import dev.danielpredel.userapibasic.dto.ProductResponse;
 import dev.danielpredel.userapibasic.service.ProductService;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import org.springframework.data.domain.Page;
@@ -50,10 +48,5 @@ public class ProductController {
     @GetMapping("/{id}")
     public ResponseEntity<ProductResponse> findById(@PathVariable Long id) {
         return ResponseEntity.ok(productService.findById(id));
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<ProductResponse> update(@PathVariable Long id, @Valid @RequestBody ProductRequest dto) {
-        return  ResponseEntity.ok(productService.update(id, dto));
     }
 }

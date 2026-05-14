@@ -8,5 +8,4 @@ import org.springframework.data.domain.Pageable;
 public interface ProductService {
     Page<ProductResponse> findAll(Pageable pageable);
     ProductResponse findById(Long id);
-    ProductResponse update(Long id, ProductRequest dto);
 }

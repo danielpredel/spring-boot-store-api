@@ -58,6 +58,9 @@ public class SecurityConfig {
                         // Auth
                         .requestMatchers("/auth/**").permitAll()
 
+                        // Products
+                        .requestMatchers(HttpMethod.GET, "/products/**").permitAll()
+
                         // Admin Endpoints
                         .requestMatchers("/admin/**").hasRole("ADMIN")
 
@@ -67,9 +70,6 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/users/*").hasRole("USER")        // self check in service
                         .requestMatchers(HttpMethod.DELETE, "/users/*").hasRole("USER")     // self check in service
 
-                        // Products
-                        .requestMatchers(HttpMethod.GET, "/products/**").permitAll()
-                        .requestMatchers(HttpMethod.PUT, "/products/*").hasRole("ADMIN")
 
                         // Orders
                         .requestMatchers(HttpMethod.GET, "/orders").authenticated()         // own/admin in service
