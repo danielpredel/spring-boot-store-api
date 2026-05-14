@@ -52,7 +52,10 @@ public class UserServiceImpl implements UserService {
             throw new ResourceNotFoundException("User Not Found");
         }
 
-        User searchedUser = userRepository.findById(id)
+        User searchedUser = user.isAdmin()
+            ? userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User Not Found"))
+            : userRepository.findByIdAndActive(id, true)
                 .orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
 
         return userMapper.toResponse(searchedUser);
