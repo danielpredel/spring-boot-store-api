@@ -33,7 +33,7 @@ public class AdminSeeder {
             Role role = Role.ADMIN;
 
             if (userRepository.findByEmail(email).isEmpty()) {
-                User admin = new User(name, email, password, address, role);
+                User admin = new User(name, email, password, address, role, true);
 
                 userRepository.save(admin);
 

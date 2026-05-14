@@ -13,6 +13,6 @@ public class UserMapper {
     }
 
     public User toEntity(UserRequest dto) {
-        return new User(dto.name(), dto.email(), dto.password(), dto.address(), Role.USER);
+        return new User(dto.name(), dto.email(), dto.password(), dto.address(), Role.USER, true);
     }
 }
