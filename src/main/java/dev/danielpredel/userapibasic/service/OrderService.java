@@ -11,7 +11,7 @@ import org.springframework.data.domain.Pageable;
 public interface OrderService {
     OrderResponse save(Long id, OrderRequest dto);
     Page<OrderResponse> findAll(Long userId, Pageable pageable);
-    OrderResponse findById(CustomUserDetails user, Long id);
+    OrderResponse findById(Long id);
     OrderResponse cancel(CustomUserDetails user, Long id);
     OrderPreviewResponse preview(OrderPreviewRequest dto);
 }

@@ -18,6 +18,7 @@ import dev.danielpredel.userapibasic.service.OrderService;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -90,13 +91,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @PreAuthorize("@orderSecurity.isOwner(#id, authentication.principal.id)")
     @org.springframework.transaction.annotation.Transactional(readOnly = true)
-    public OrderResponse findById(CustomUserDetails user, Long id) {
-        Order order = user.isAdmin()
-                ? orderRepository.findById(id)
-                    .orElseThrow(() -> new ResourceNotFoundException("Order not found"))
-                : orderRepository.findByIdAndUserId(id, user.getId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
+    public OrderResponse findById(Long id) {
+        Order order = orderRepository.findById(id)
+                    .orElseThrow(() -> new ResourceNotFoundException("Order Not Found"));
 
         return orderMapper.toOrderResponse(order);
     }
