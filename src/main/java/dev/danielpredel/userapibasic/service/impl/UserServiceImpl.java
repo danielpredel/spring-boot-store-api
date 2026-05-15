@@ -1,5 +1,6 @@
 package dev.danielpredel.userapibasic.service.impl;
 
+import dev.danielpredel.userapibasic.dto.UserUpdateRequest;
 import dev.danielpredel.userapibasic.exception.EmailAlreadyExistsException;
 import dev.danielpredel.userapibasic.mapper.UserMapper;
 import dev.danielpredel.userapibasic.dto.UserRequest;
@@ -9,19 +10,20 @@ import dev.danielpredel.userapibasic.entity.User;
 import dev.danielpredel.userapibasic.repository.UserRepository;
 import dev.danielpredel.userapibasic.service.UserService;
 import jakarta.transaction.Transactional;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
-
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository ,UserMapper userMapper) {
+    public UserServiceImpl(UserRepository userRepository ,UserMapper userMapper, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -31,56 +33,40 @@ public class UserServiceImpl implements UserService {
         }
 
         User newUser = userMapper.toEntity(dto);
+        newUser.setPassword(passwordEncoder.encode(dto.password()));
         User savedUser = userRepository.save(newUser);
         return userMapper.toResponse(savedUser);
     }
 
     @Override
-    public Page<UserResponse> findAll(Pageable pageable) {
-        return userRepository.findAll(pageable)
-                .map(userMapper::toResponse);
-    }
-
-    @Override
+    @PreAuthorize("#id == authentication.principal.id")
     public UserResponse findById(Long id) {
-        User user = userRepository.findById(id)
+        User user = userRepository.findByIdAndActiveTrue(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
 
         return userMapper.toResponse(user);
     }
 
     @Override
-    public UserResponse findByEmail(String email) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
-
-        return userMapper.toResponse(user);
-    }
-
-    @Override
+    @PreAuthorize("#id == authentication.principal.id")
     @Transactional
-    public UserResponse update(Long id, UserRequest dto) {
-        User user = userRepository.findById(id)
+    public UserResponse update(Long id, UserUpdateRequest dto) {
+        User user = userRepository.findByIdAndActiveTrue(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
-
-        if(userRepository.existsByEmailAndIdNot(dto.email(), id)) {
-            throw new EmailAlreadyExistsException("Email Already Exists");
-        }
 
         user.setName(dto.name());
-        user.setEmail(dto.email());
-        user.setPassword(dto.password());
         user.setAddress(dto.address());
 
         return userMapper.toResponse(user);
     }
 
     @Override
+    @PreAuthorize("#id == authentication.principal.id")
+    @Transactional
     public void deleteById(Long id) {
-        if(!userRepository.existsById(id)) {
-            throw new ResourceNotFoundException("User Not Found");
-        }
+        User user = userRepository.findByIdAndActiveTrue(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
 
-        userRepository.deleteById(id);
+        user.setActive(false);
     }
 }

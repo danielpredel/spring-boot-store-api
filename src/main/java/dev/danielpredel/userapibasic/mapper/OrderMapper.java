@@ -1,5 +1,6 @@
 package dev.danielpredel.userapibasic.mapper;
 
+import dev.danielpredel.userapibasic.dto.AdminOrderResponse;
 import dev.danielpredel.userapibasic.dto.OrderItemResponse;
 import dev.danielpredel.userapibasic.dto.OrderResponse;
 import dev.danielpredel.userapibasic.entity.Order;
@@ -24,5 +25,13 @@ public class OrderMapper {
                 orderItem.getProduct().getName(),
                 orderItem.getQuantity(),
                 orderItem.getPriceAtPurchase());
+    }
+
+    public AdminOrderResponse toAdminOrderResponse(Order order) {
+        List<OrderItemResponse> items = order.getOrderItems()
+                .stream()
+                .map(this::toOrderItemResponse)
+                .toList();
+        return new AdminOrderResponse(order.getId(), order.getUser().getId(), items, order.getTotalAmount(), order.getPurchaseDate(), order.getStatus());
     }
 }
