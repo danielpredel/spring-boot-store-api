@@ -11,8 +11,6 @@ import dev.danielpredel.userapibasic.repository.UserRepository;
 import dev.danielpredel.userapibasic.security.CustomUserDetails;
 import dev.danielpredel.userapibasic.service.UserService;
 import jakarta.transaction.Transactional;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -38,12 +36,6 @@ public class UserServiceImpl implements UserService {
         newUser.setPassword(passwordEncoder.encode(dto.password()));
         User savedUser = userRepository.save(newUser);
         return userMapper.toResponse(savedUser);
-    }
-
-    @Override
-    public Page<UserResponse> findAll(Pageable pageable) {
-        return userRepository.findAll(pageable)
-                .map(userMapper::toResponse);
     }
 
     @Override
