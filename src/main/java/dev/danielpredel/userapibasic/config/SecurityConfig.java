@@ -70,12 +70,7 @@ public class SecurityConfig {
                         .requestMatchers("/users/**").hasRole("USER")
 
                         // Orders
-                        .requestMatchers(HttpMethod.GET, "/orders").authenticated()         // own/admin in service
-                        .requestMatchers(HttpMethod.GET, "/orders/*").authenticated()       // own/admin in service
-                        .requestMatchers(HttpMethod.POST, "/orders").hasRole("USER")
-                        .requestMatchers(HttpMethod.POST, "/orders/preview").permitAll()
-                        .requestMatchers(HttpMethod.PATCH, "/orders/*/cancel").hasRole("USER")
-                        .requestMatchers(HttpMethod.PATCH, "/orders/*/deliver").hasRole("ADMIN")
+                        .requestMatchers("/orders/**").hasRole("USER")
 
                         // Everything else
                         .anyRequest().denyAll()
