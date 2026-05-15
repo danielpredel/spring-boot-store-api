@@ -55,7 +55,7 @@ public class OrderServiceImpl implements OrderService {
         BigDecimal totalPrice = BigDecimal.ZERO;
 
         for (OrderItemRequest item: dto.items()) {
-            Product product = productRepository.findById(item.productId())
+            Product product = productRepository.findByIdAndActiveTrue(item.productId())
                     .orElseThrow(() -> new ResourceNotFoundException("Product with id " + item.productId() + " not found"));
 
             if (product.getStock() < item.quantity()) {
@@ -125,7 +125,7 @@ public class OrderServiceImpl implements OrderService {
         BigDecimal totalAmount = BigDecimal.ZERO;
 
         for (OrderItemRequest item: dto.items()) {
-            Product product = productRepository.findById(item.productId())
+            Product product = productRepository.findByIdAndActiveTrue(item.productId())
                     .orElseThrow(() -> new ResourceNotFoundException("Product with id " + item.productId() + " not found"));
 
             OrderItemPreviewResponse orderItem = new OrderItemPreviewResponse(
