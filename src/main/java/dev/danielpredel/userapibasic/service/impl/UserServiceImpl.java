@@ -48,12 +48,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @PreAuthorize("#id == authentication.principal.id")
     @Transactional
-    public UserResponse update(Long id, Long userId, UserUpdateRequest dto) {
-        if (!userId.equals(id)) {
-            throw new ResourceNotFoundException("User Not Found");
-        }
-
+    public UserResponse update(Long id, UserUpdateRequest dto) {
         User user = userRepository.findByIdAndActiveTrue(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
 
