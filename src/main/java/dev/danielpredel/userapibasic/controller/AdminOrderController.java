@@ -43,4 +43,9 @@ public class AdminOrderController {
 
         return ResponseEntity.ok(adminOrderService.findAll(pageable));
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AdminOrderResponse> findById(@PathVariable Long id) {
+        return ResponseEntity.ok(adminOrderService.findById(id));
+    }
 }
