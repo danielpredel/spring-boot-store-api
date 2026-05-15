@@ -67,8 +67,8 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<OrderResponse> findById(@AuthenticationPrincipal CustomUserDetails user, @PathVariable Long id) {
-        return ResponseEntity.ok(orderService.findById(user, id));
+    public ResponseEntity<OrderResponse> findById(@PathVariable Long id) {
+        return ResponseEntity.ok(orderService.findById(id));
     }
 
     @PatchMapping("/{id}/cancel")
