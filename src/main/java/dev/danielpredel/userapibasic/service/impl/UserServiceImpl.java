@@ -61,12 +61,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @PreAuthorize("#id == authentication.principal.id")
     @Transactional
-    public void deleteById(Long id, Long userId) {
-        if(!userId.equals(id) || !userRepository.existsById(id)) {
-            throw new ResourceNotFoundException("User Not Found");
-        }
-
+    public void deleteById(Long id) {
         User user = userRepository.findByIdAndActiveTrue(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
 
