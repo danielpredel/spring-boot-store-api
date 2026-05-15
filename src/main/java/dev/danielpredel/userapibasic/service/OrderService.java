@@ -13,6 +13,5 @@ public interface OrderService {
     Page<OrderResponse> findAll(CustomUserDetails user, Pageable pageable);
     OrderResponse findById(CustomUserDetails user, Long id);
     OrderResponse cancel(CustomUserDetails user, Long id);
-    OrderResponse deliver(Long id);
     OrderPreviewResponse preview(OrderPreviewRequest dto);
 }

@@ -124,21 +124,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @Transactional
-    public OrderResponse deliver(Long id) {
-        Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
-
-        if(!order.getStatus().equals(OrderStatus.CREATED)) {
-            throw new InvalidOrderStateException("Invalid order status transition");
-        }
-
-        order.setStatus(OrderStatus.DELIVERED);
-
-        return  orderMapper.toOrderResponse(order);
-    }
-
-    @Override
     public OrderPreviewResponse preview(OrderPreviewRequest dto) {
         List<OrderItemPreviewResponse> items = new ArrayList<>();
         BigDecimal totalAmount = BigDecimal.ZERO;

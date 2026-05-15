@@ -76,11 +76,6 @@ public class OrderController {
         return ResponseEntity.ok(orderService.cancel(user, id));
     }
 
-    @PatchMapping("/{id}/deliver")
-    public ResponseEntity<OrderResponse> deliver(@PathVariable Long id) {
-        return ResponseEntity.ok(orderService.deliver(id));
-    }
-
     @PostMapping("/preview")
     public ResponseEntity<OrderPreviewResponse> preview(@Valid @RequestBody OrderPreviewRequest dto) {
         return ResponseEntity.ok(orderService.preview(dto));
