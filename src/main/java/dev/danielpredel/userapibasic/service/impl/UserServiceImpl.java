@@ -8,9 +8,9 @@ import dev.danielpredel.userapibasic.dto.UserResponse;
 import dev.danielpredel.userapibasic.exception.ResourceNotFoundException;
 import dev.danielpredel.userapibasic.entity.User;
 import dev.danielpredel.userapibasic.repository.UserRepository;
-import dev.danielpredel.userapibasic.security.CustomUserDetails;
 import dev.danielpredel.userapibasic.service.UserService;
 import jakarta.transaction.Transactional;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -39,18 +39,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse findById(CustomUserDetails user, Long id) {
-        if (!user.isAdmin() && !user.getId().equals(id)) {
-            throw new ResourceNotFoundException("User Not Found");
-        }
-
-        User searchedUser = user.isAdmin()
-            ? userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User Not Found"))
-            : userRepository.findByIdAndActive(id, true)
+    @PreAuthorize("#id == authentication.principal.id")
+    public UserResponse findById(Long id) {
+        User user = userRepository.findByIdAndActive(id, true)
                 .orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
 
-        return userMapper.toResponse(searchedUser);
+        return userMapper.toResponse(user);
     }
 
     @Override
