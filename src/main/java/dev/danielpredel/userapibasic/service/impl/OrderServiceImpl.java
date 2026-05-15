@@ -13,7 +13,6 @@ import dev.danielpredel.userapibasic.mapper.OrderMapper;
 import dev.danielpredel.userapibasic.repository.OrderRepository;
 import dev.danielpredel.userapibasic.repository.ProductRepository;
 import dev.danielpredel.userapibasic.repository.UserRepository;
-import dev.danielpredel.userapibasic.security.CustomUserDetails;
 import dev.danielpredel.userapibasic.service.OrderService;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
@@ -101,9 +100,10 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @PreAuthorize("@orderSecurity.isOwner(#id, authentication.principal.id)")
     @Transactional
-    public OrderResponse cancel(CustomUserDetails user, Long id) {
-        Order order = orderRepository.findByIdAndUserId(id, user.getId())
+    public OrderResponse cancel(Long id) {
+        Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
 
         if(!order.getStatus().equals(OrderStatus.CREATED)) {
