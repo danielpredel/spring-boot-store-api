@@ -6,4 +6,5 @@ import org.springframework.data.domain.Pageable;
 
 public interface AdminOrderService {
     Page<AdminOrderResponse> findAll(Pageable pageable);
+    AdminOrderResponse findById(Long id);
 }

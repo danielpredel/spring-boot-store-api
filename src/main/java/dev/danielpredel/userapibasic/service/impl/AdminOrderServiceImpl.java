@@ -1,6 +1,8 @@
 package dev.danielpredel.userapibasic.service.impl;
 
 import dev.danielpredel.userapibasic.dto.*;
+import dev.danielpredel.userapibasic.entity.Order;
+import dev.danielpredel.userapibasic.exception.ResourceNotFoundException;
 import dev.danielpredel.userapibasic.mapper.OrderMapper;
 import dev.danielpredel.userapibasic.repository.OrderRepository;
 import dev.danielpredel.userapibasic.service.AdminOrderService;
@@ -25,6 +27,15 @@ public class AdminOrderServiceImpl implements AdminOrderService {
     @org.springframework.transaction.annotation.Transactional(readOnly = true)
     public Page<AdminOrderResponse> findAll(Pageable pageable) {
         return orderRepository.findAll(pageable)
-                    .map(orderMapper::toAdminOrderResponse);
+                .map(orderMapper::toAdminOrderResponse);
+    }
+
+    @Override
+    @org.springframework.transaction.annotation.Transactional(readOnly = true)
+    public AdminOrderResponse findById(Long id) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Order Not Found"));
+
+        return orderMapper.toAdminOrderResponse(order);
     }
 }
