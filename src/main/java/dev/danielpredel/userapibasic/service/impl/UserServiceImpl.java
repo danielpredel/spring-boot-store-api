@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @PreAuthorize("#id == authentication.principal.id")
     public UserResponse findById(Long id) {
-        User user = userRepository.findByIdAndActive(id, true)
+        User user = userRepository.findByIdAndActiveTrue(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
 
         return userMapper.toResponse(user);
@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
             throw new ResourceNotFoundException("User Not Found");
         }
 
-        User user = userRepository.findByIdAndActive(id, true)
+        User user = userRepository.findByIdAndActiveTrue(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
 
         user.setName(dto.name());
@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
             throw new ResourceNotFoundException("User Not Found");
         }
 
-        User user = userRepository.findByIdAndActive(id, true)
+        User user = userRepository.findByIdAndActiveTrue(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
 
         user.setActive(false);
