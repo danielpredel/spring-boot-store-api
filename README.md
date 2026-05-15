@@ -12,19 +12,40 @@ The project demonstrates:
 - global exception handling
 - entity relationships
 - order processing workflows
+- Spring Security authentication & authorization
+- role-based access control
 
 ---
 
 ## Features
 
+### API Design
+- public and admin endpoint separation
+- role-specific DTO responses
+- soft delete strategy
+
+### Authentication & Security
+- Spring Security integration
+- role-based authentication & authorization
+- ADMIN and USER roles
+- endpoint protection based on roles
+- DTO-level response visibility
+- custom security configuration
+- request filtering
+- automatic admin user seeding
+- soft delete user handling
+
 ### Users
 - CRUD operations
 - validation
 - DTO-based responses
+- role-based authorization
+- soft delete support
 
 ### Products
 - CRUD operations
 - stock management
+- protected admin operations
 
 ### Orders
 - create orders
@@ -35,12 +56,15 @@ The project demonstrates:
 
 ### Technical Features
 - Spring Data JPA
+- Spring Security
 - PostgreSQL persistence
 - Manual mapping
 - global exception handling
 - entity auditing timestamps
 - LAZY relationship loading
 - transactional operations
+- custom security filters
+- startup data seeding
 
 ---
 
@@ -49,14 +73,18 @@ The project demonstrates:
 - User -> Orders
 - Order -> OrderItems
 - Product -> OrderItems
+- User -> Roles
 
 ---
 
 ## Project Structure
 
-```
-src/main/java/danielpredel.dev/userapibasic/
+```text
+src/main/java/dev.danielpredel/userapibasic/
+├── config/
 ├── controller/
+├── filter/
+├── security/
 ├── service/
 │   └── impl/
 ├── repository/
@@ -65,56 +93,175 @@ src/main/java/danielpredel.dev/userapibasic/
 ├── mapper/
 ├── exception/
 ├── enums/
+├── seeder/
 └── UserApiBasicApplication.java
+```
+
+---
+
+## Security
+
+The API uses Spring Security with role-based authorization.
+
+### Roles
+- `ADMIN`
+- `USER`
+
+### Admin Seeder
+An `AdminSeeder` runs during application startup to create or verify the default admin account.
+
+This ensures an administrator user is always available for protected operations.
+
+---
+
+## API Versioning
+
+The API uses URI versioning.
+
+Current version:
+
+```text
+/api/v1
+```
+
+Example:
+
+```text
+/api/v1/products
+/api/v1/auth/login
 ```
 
 ---
 
 ## API Endpoints
 
-### Users
+### Auth
 
-| Method | Endpoint | Description |
-|---|---|---|
-| POST | `/api/users` | Create user |
-| GET | `/api/users` | Get all users |
-| GET | `/api/users/{id}` | Get user by ID |
-| PUT | `/api/users/{id}` | Update user |
-| DELETE | `/api/users/{id}` | Delete user |
+| Method | Endpoint | Access | Description |
+|---|---|---|---|
+| POST | `/auth/register` | Public | Register new user |
+| POST | `/auth/login` | Public | Authenticate active user |
 
 ---
 
 ### Products
 
-| Method | Endpoint | Description |
-|---|---|---|
-| POST | `/api/products` | Create product |
-| GET | `/api/products` | Get all products |
-| GET | `/api/products/{id}` | Get product by ID |
-| PUT | `/api/products/{id}` | Update product |
-| DELETE | `/api/products/{id}` | Delete product |
+| Method | Endpoint | Access | Description |
+|---|---|---|---|
+| GET | `/products` | Public | Get active products |
+| GET | `/products/{id}` | Public | Get active product by ID |
+
+#### Public Product Response
+Visible fields:
+- id
+- name
+- price
+- stock
+- imageUrl
+
+---
+
+### Users
+
+| Method | Endpoint | Access | Description |
+|---|---|---|---|
+| GET | `/users/{id}` | USER | Get own profile |
+| PUT | `/users/{id}` | USER | Update own profile |
+| DELETE | `/users/{id}` | USER | Soft delete own account |
+
+#### User Response
+Visible fields:
+- id
+- name
+- email
+- address
 
 ---
 
 ### Orders
 
-| Method | Endpoint | Description |
-|---|---|---|
-| POST | `/api/orders` | Create order |
-| POST | `/api/orders/preview` | Preview order before purchase |
-| GET | `/api/orders` | Get all orders |
-| GET | `/api/orders/{id}` | Get order by ID |
-| PATCH | `/api/orders/{id}/cancel` | Cancel order |
-| PATCH | `/api/orders/{id}/deliver` | Mark order as delivered |
+| Method | Endpoint | Access | Description |
+|---|---|---|---|
+| GET | `/orders` | USER | Get own orders |
+| GET | `/orders/{id}` | USER | Get own order by ID |
+| POST | `/orders` | USER | Create order |
+| POST | `/orders/preview` | USER | Preview order |
+| PATCH | `/orders/{id}/cancel` | USER | Cancel CREATED order |
+
+#### User Order Response
+Visible fields:
+- id
+- orderItems
+- totalAmount
+- purchaseDate
+- status
+
+---
+
+# Admin Endpoints
+
+### Admin Products
+
+| Method | Endpoint | Access | Description |
+|---|---|---|---|
+| POST | `/admin/products` | ADMIN | Create product |
+| GET | `/admin/products` | ADMIN | Get all products |
+| GET | `/admin/products/{id}` | ADMIN | Get product by ID |
+| PUT | `/admin/products/{id}` | ADMIN | Update product |
+
+#### Admin Product Response
+Visible fields:
+- id
+- name
+- price
+- stock
+- imageUrl
+- active
+
+---
+
+### Admin Users
+
+| Method | Endpoint | Access | Description |
+|---|---|---|---|
+| GET | `/admin/users` | ADMIN | Get all users |
+| GET | `/admin/users/{id}` | ADMIN | Get user by ID |
+
+#### Admin User Response
+Visible fields:
+- id
+- name
+- email
+- active
+- role
+
+---
+
+### Admin Orders
+
+| Method | Endpoint | Access | Description |
+|---|---|---|---|
+| GET | `/admin/orders` | ADMIN | Get all orders |
+| GET | `/admin/orders/{id}` | ADMIN | Get order by ID |
+| PATCH | `/admin/orders/{id}/deliver` | ADMIN | Deliver CREATED order |
+
+#### Admin Order Response
+Visible fields:
+- id
+- userId
+- orderItems
+- totalAmount
+- purchaseDate
+- status
 
 ---
 
 ## Example Requests
 
-### Create User
+### Register User
 
 ```bash
-curl -i -X POST http://localhost:8080/api/users \
+curl -X POST http://localhost:8080/api/v1/auth/register \
 -H "Content-Type: application/json" \
 -d '{
   "name": "John Doe",
@@ -124,52 +271,61 @@ curl -i -X POST http://localhost:8080/api/users \
 }'
 ```
 
-### Get All Users
-
-Query params:
-- `page` (default: 0)
-- `size` (1-50, default: 10)
-- `sortBy` (`id`, `name`, `email`)
-- `direction` (`asc`, `desc`)
+### Login
 
 ```bash
-curl "http://localhost:8080/api/users?page=0&size=10&sortBy=name&direction=asc"
+curl -X POST http://localhost:8080/api/v1/auth/login \
+-H "Content-Type: application/json" \
+-d '{
+  "email": "john@example.com",
+  "password": "12345678"
+}'
+```
+
+---
+
+### Get Products
+
+```bash
+curl http://localhost:8080/api/v1/products
+```
+
+### Get Product By ID
+
+```bash
+curl http://localhost:8080/api/v1/products/1
+```
+
+---
+
+### Get Own User Profile
+
+```bash
+curl http://localhost:8080/api/v1/users/1 \
+-H "Authorization: Bearer YOUR_TOKEN"
 ```
 
 ### Update User
 
 ```bash
-curl -X PUT http://localhost:8080/api/users/1 \
+curl -X PUT http://localhost:8080/api/v1/users/1 \
+-H "Authorization: Bearer YOUR_TOKEN" \
 -H "Content-Type: application/json" \
 -d '{
   "name": "Updated Name",
-  "email": "updated@example.com",
-  "password": "qwerty12345",
-  "address": "Not a Fake Street #102"
+  "address": "Updated Address #102"
 }'
 ```
 
-### Create Product
-
-```bash
-curl -X POST http://localhost:8080/api/products \
--H "Content-Type: application/json" \
--d '{
-  "name": "Mechanical Keyboard",
-  "price": 129.99,
-  "stock": 15,
-  "imageUrl": "https://example.com/keyboard.jpg",
-  "active": true
-}'
-```
+---
 
 ### Create Order
 
 ```bash
-curl -X POST http://localhost:8080/api/orders \
+curl -X POST http://localhost:8080/api/v1/orders \
+-H "Authorization: Bearer YOUR_TOKEN" \
 -H "Content-Type: application/json" \
 -d '{
-  "userId": 1,
   "items": [
     {
       "productId": 1,
@@ -186,17 +342,14 @@ curl -X POST http://localhost:8080/api/orders \
 ### Preview Order
 
 ```bash
-curl -X POST http://localhost:8080/api/orders/preview \
+curl -X POST http://localhost:8080/api/v1/orders/preview \
+-H "Authorization: Bearer YOUR_TOKEN" \
 -H "Content-Type: application/json" \
 -d '{
   "items": [
     {
       "productId": 1,
       "quantity": 2
-    },
-    {
-      "productId": 3,
-      "quantity": 1
     }
   ]
 }'
@@ -205,13 +358,41 @@ curl -X POST http://localhost:8080/api/orders/preview \
 ### Cancel Order
 
 ```bash
-curl -X PATCH http://localhost:8080/api/orders/1/cancel
+curl -X PATCH http://localhost:8080/api/v1/orders/1/cancel \
+-H "Authorization: Bearer YOUR_TOKEN"
+```
+
+---
+
+## Admin Requests
+
+### Create Product
+
+```bash
+curl -X POST http://localhost:8080/api/v1/admin/products \
+-H "Authorization: Bearer ADMIN_TOKEN" \
+-H "Content-Type: application/json" \
+-d '{
+  "name": "Mechanical Keyboard",
+  "price": 129.99,
+  "stock": 15,
+  "imageUrl": "https://example.com/keyboard.jpg",
+  "active": true
+}'
+```
+
+### Get All Users
+
+```bash
+curl http://localhost:8080/api/v1/admin/users \
+-H "Authorization: Bearer ADMIN_TOKEN"
 ```
 
 ### Deliver Order
 
 ```bash
-curl -X PATCH http://localhost:8080/api/orders/1/deliver
+curl -X PATCH http://localhost:8080/api/v1/admin/orders/1/deliver \
+-H "Authorization: Bearer ADMIN_TOKEN"
 ```
 
 ---
@@ -229,9 +410,18 @@ curl -X PATCH http://localhost:8080/api/orders/1/deliver
 Create a `.env` file in the project root with the following variables:
 
 ```env
+# Database configuration
 DB_NAME=your_database_name
 DB_USER=your_database_user
 DB_PASSWORD=your_database_password
+
+# JWT configuration
+# JWT_SECRET must be a cryptographically random string with at least 32 bytes (256 bits) of entropy; use a long hex or base64 value.
+JWT_SECRET
+
+# Admin user credentials
+ADMIN_EMAIL
+ADMIN_PASSWORD
 ```
 
 ### Steps
@@ -261,5 +451,10 @@ http://localhost:8080
 
 ## Notes
 
-- Authentication/authorization planned for next stage
-- Future security implementation will use JWT + role-based access control
+- Current architecture is being refactored from global layered structure to domain-based modular structure
+- Production concerns planned for next stage:
+    - Dockerization
+    - OpenAPI/Swagger documentation
+    - Environment profiles
+    - Automated testing
+    - Improved validation/error handling
