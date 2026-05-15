@@ -48,4 +48,9 @@ public class AdminOrderController {
     public ResponseEntity<AdminOrderResponse> findById(@PathVariable Long id) {
         return ResponseEntity.ok(adminOrderService.findById(id));
     }
+
+    @PatchMapping("/{id}/deliver")
+    public ResponseEntity<AdminOrderResponse> deliver(@PathVariable Long id) {
+        return ResponseEntity.ok(adminOrderService.deliver(id));
+    }
 }
