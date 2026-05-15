@@ -63,7 +63,7 @@ public class OrderController {
 
         Pageable pageable = PageRequest.of(page, size, sort);
 
-        return ResponseEntity.ok(orderService.findAll(user, pageable));
+        return ResponseEntity.ok(orderService.findAll(user.getId(), pageable));
     }
 
     @GetMapping("/{id}")

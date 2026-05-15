@@ -84,11 +84,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @org.springframework.transaction.annotation.Transactional(readOnly = true)
-    public Page<OrderResponse> findAll(CustomUserDetails user, Pageable pageable) {
-        return user.isAdmin()
-                ? orderRepository.findAll(pageable)
-                    .map(orderMapper::toOrderResponse)
-                : orderRepository.findByUserId(user.getId(), pageable)
+    public Page<OrderResponse> findAll(Long userId, Pageable pageable) {
+        return orderRepository.findByUserId(userId, pageable)
                     .map(orderMapper::toOrderResponse);
     }
 
