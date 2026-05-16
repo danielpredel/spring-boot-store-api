@@ -1,4 +1,4 @@
-package dev.danielpredel.storeapi.service.impl;
+package dev.danielpredel.storeapi.user.service;
 
 import dev.danielpredel.storeapi.user.dto.admin.AdminUserResponse;
 import dev.danielpredel.storeapi.user.entity.User;
