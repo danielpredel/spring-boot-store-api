@@ -1,4 +1,4 @@
-package dev.danielpredel.storeapi.mapper;
+package dev.danielpredel.storeapi.product.mapper;
 
 import dev.danielpredel.storeapi.dto.AdminProductResponse;
 import dev.danielpredel.storeapi.dto.ProductRequest;

@@ -4,7 +4,7 @@ import dev.danielpredel.storeapi.dto.AdminProductResponse;
 import dev.danielpredel.storeapi.dto.ProductRequest;
 import dev.danielpredel.storeapi.product.entity.Product;
 import dev.danielpredel.storeapi.exception.ResourceNotFoundException;
-import dev.danielpredel.storeapi.mapper.ProductMapper;
+import dev.danielpredel.storeapi.product.mapper.ProductMapper;
 import dev.danielpredel.storeapi.product.repository.ProductRepository;
 import dev.danielpredel.storeapi.service.AdminProductService;
 import jakarta.transaction.Transactional;
