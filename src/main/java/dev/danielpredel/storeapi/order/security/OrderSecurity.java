@@ -1,4 +1,4 @@
-package dev.danielpredel.storeapi.security;
+package dev.danielpredel.storeapi.order.security;
 
 import dev.danielpredel.storeapi.order.repository.OrderRepository;
 import org.springframework.stereotype.Component;
