@@ -1,4 +1,4 @@
-package dev.danielpredel.storeapi.entity;
+package dev.danielpredel.storeapi.order.entity;
 
 import dev.danielpredel.storeapi.enums.OrderStatus;
 import dev.danielpredel.storeapi.user.entity.User;

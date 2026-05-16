@@ -3,8 +3,8 @@ package dev.danielpredel.storeapi.mapper;
 import dev.danielpredel.storeapi.dto.AdminOrderResponse;
 import dev.danielpredel.storeapi.dto.OrderItemResponse;
 import dev.danielpredel.storeapi.dto.OrderResponse;
-import dev.danielpredel.storeapi.entity.Order;
-import dev.danielpredel.storeapi.entity.OrderItem;
+import dev.danielpredel.storeapi.order.entity.Order;
+import dev.danielpredel.storeapi.order.entity.OrderItem;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

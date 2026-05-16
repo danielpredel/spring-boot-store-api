@@ -1,6 +1,6 @@
 package dev.danielpredel.storeapi.repository;
 
-import dev.danielpredel.storeapi.entity.Order;
+import dev.danielpredel.storeapi.order.entity.Order;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

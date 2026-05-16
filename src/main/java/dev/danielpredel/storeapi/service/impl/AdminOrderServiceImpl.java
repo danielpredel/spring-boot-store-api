@@ -1,7 +1,7 @@
 package dev.danielpredel.storeapi.service.impl;
 
 import dev.danielpredel.storeapi.dto.*;
-import dev.danielpredel.storeapi.entity.Order;
+import dev.danielpredel.storeapi.order.entity.Order;
 import dev.danielpredel.storeapi.enums.OrderStatus;
 import dev.danielpredel.storeapi.exception.InvalidOrderStateException;
 import dev.danielpredel.storeapi.exception.ResourceNotFoundException;
