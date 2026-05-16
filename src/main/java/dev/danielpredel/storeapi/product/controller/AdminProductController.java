@@ -2,8 +2,7 @@ package dev.danielpredel.storeapi.product.controller;
 
 import dev.danielpredel.storeapi.product.dto.admin.AdminProductResponse;
 import dev.danielpredel.storeapi.product.dto.ProductRequest;
-import dev.danielpredel.storeapi.service.AdminProductService;
-import dev.danielpredel.storeapi.product.service.AdminProductServiceImpl;
+import dev.danielpredel.storeapi.product.service.AdminProductService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -25,7 +24,7 @@ import java.util.List;
 public class AdminProductController {
     private final AdminProductService adminProductService;
 
-    public AdminProductController(AdminProductServiceImpl adminProductService) {
+    public AdminProductController(AdminProductService adminProductService) {
         this.adminProductService = adminProductService;
     }
 
