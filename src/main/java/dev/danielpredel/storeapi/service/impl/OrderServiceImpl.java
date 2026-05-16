@@ -3,7 +3,7 @@ package dev.danielpredel.storeapi.service.impl;
 import dev.danielpredel.storeapi.dto.*;
 import dev.danielpredel.storeapi.entity.Order;
 import dev.danielpredel.storeapi.entity.OrderItem;
-import dev.danielpredel.storeapi.entity.Product;
+import dev.danielpredel.storeapi.product.entity.Product;
 import dev.danielpredel.storeapi.user.entity.User;
 import dev.danielpredel.storeapi.enums.OrderStatus;
 import dev.danielpredel.storeapi.exception.InsufficientStockException;

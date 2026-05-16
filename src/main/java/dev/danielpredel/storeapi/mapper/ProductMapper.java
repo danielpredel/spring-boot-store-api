@@ -3,7 +3,7 @@ package dev.danielpredel.storeapi.mapper;
 import dev.danielpredel.storeapi.dto.AdminProductResponse;
 import dev.danielpredel.storeapi.dto.ProductRequest;
 import dev.danielpredel.storeapi.dto.ProductResponse;
-import dev.danielpredel.storeapi.entity.Product;
+import dev.danielpredel.storeapi.product.entity.Product;
 import org.springframework.stereotype.Component;
 
 @Component

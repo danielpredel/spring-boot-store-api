@@ -1,7 +1,7 @@
 package dev.danielpredel.storeapi.service.impl;
 
 import dev.danielpredel.storeapi.dto.ProductResponse;
-import dev.danielpredel.storeapi.entity.Product;
+import dev.danielpredel.storeapi.product.entity.Product;
 import dev.danielpredel.storeapi.exception.ResourceNotFoundException;
 import dev.danielpredel.storeapi.mapper.ProductMapper;
 import dev.danielpredel.storeapi.repository.ProductRepository;

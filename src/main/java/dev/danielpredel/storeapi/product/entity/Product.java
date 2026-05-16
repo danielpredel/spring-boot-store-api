@@ -1,4 +1,4 @@
-package dev.danielpredel.storeapi.entity;
+package dev.danielpredel.storeapi.product.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
