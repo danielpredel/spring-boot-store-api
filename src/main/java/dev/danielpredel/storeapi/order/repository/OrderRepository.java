@@ -1,4 +1,4 @@
-package dev.danielpredel.storeapi.repository;
+package dev.danielpredel.storeapi.order.repository;
 
 import dev.danielpredel.storeapi.order.entity.Order;
 import org.springframework.data.domain.Page;

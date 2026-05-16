@@ -6,7 +6,7 @@ import dev.danielpredel.storeapi.enums.OrderStatus;
 import dev.danielpredel.storeapi.exception.InvalidOrderStateException;
 import dev.danielpredel.storeapi.exception.ResourceNotFoundException;
 import dev.danielpredel.storeapi.mapper.OrderMapper;
-import dev.danielpredel.storeapi.repository.OrderRepository;
+import dev.danielpredel.storeapi.order.repository.OrderRepository;
 import dev.danielpredel.storeapi.service.AdminOrderService;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
