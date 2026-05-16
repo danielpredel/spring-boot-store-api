@@ -1,7 +1,7 @@
 package dev.danielpredel.storeapi.product.controller;
 
 import dev.danielpredel.storeapi.product.dto.ProductResponse;
-import dev.danielpredel.storeapi.service.ProductService;
+import dev.danielpredel.storeapi.product.service.ProductService;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import org.springframework.data.domain.Page;
