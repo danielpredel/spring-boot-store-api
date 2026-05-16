@@ -1,6 +1,6 @@
 package dev.danielpredel.storeapi.service;
 
-import dev.danielpredel.storeapi.dto.UserRequest;
+import dev.danielpredel.storeapi.user.dto.auth.UserRequest;
 import dev.danielpredel.storeapi.user.dto.UserResponse;
 import dev.danielpredel.storeapi.user.dto.UserUpdateRequest;
 
