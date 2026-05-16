@@ -1,4 +1,4 @@
-package dev.danielpredel.storeapi.dto;
+package dev.danielpredel.storeapi.product.dto;
 
 import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.URL;

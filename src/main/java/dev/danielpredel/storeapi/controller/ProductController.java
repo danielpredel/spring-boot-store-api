@@ -1,6 +1,6 @@
 package dev.danielpredel.storeapi.controller;
 
-import dev.danielpredel.storeapi.dto.ProductResponse;
+import dev.danielpredel.storeapi.product.dto.ProductResponse;
 import dev.danielpredel.storeapi.service.ProductService;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;

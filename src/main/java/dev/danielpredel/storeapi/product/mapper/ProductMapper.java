@@ -1,8 +1,8 @@
 package dev.danielpredel.storeapi.product.mapper;
 
 import dev.danielpredel.storeapi.dto.AdminProductResponse;
-import dev.danielpredel.storeapi.dto.ProductRequest;
-import dev.danielpredel.storeapi.dto.ProductResponse;
+import dev.danielpredel.storeapi.product.dto.ProductRequest;
+import dev.danielpredel.storeapi.product.dto.ProductResponse;
 import dev.danielpredel.storeapi.product.entity.Product;
 import org.springframework.stereotype.Component;
 

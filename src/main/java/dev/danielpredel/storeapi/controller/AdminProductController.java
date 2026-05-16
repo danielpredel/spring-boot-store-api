@@ -1,7 +1,7 @@
 package dev.danielpredel.storeapi.controller;
 
 import dev.danielpredel.storeapi.dto.AdminProductResponse;
-import dev.danielpredel.storeapi.dto.ProductRequest;
+import dev.danielpredel.storeapi.product.dto.ProductRequest;
 import dev.danielpredel.storeapi.service.AdminProductService;
 import dev.danielpredel.storeapi.service.impl.AdminProductServiceImpl;
 import jakarta.validation.Valid;
