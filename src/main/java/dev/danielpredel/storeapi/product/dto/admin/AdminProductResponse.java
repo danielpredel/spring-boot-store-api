@@ -1,4 +1,4 @@
-package dev.danielpredel.storeapi.dto;
+package dev.danielpredel.storeapi.product.dto.admin;
 
 import java.math.BigDecimal;
 
