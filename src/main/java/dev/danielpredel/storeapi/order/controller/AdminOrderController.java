@@ -1,7 +1,7 @@
 package dev.danielpredel.storeapi.order.controller;
 
 import dev.danielpredel.storeapi.order.dto.admin.AdminOrderResponse;
-import dev.danielpredel.storeapi.service.AdminOrderService;
+import dev.danielpredel.storeapi.order.service.AdminOrderService;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import org.springframework.data.domain.Page;

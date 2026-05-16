@@ -7,18 +7,17 @@ import dev.danielpredel.storeapi.exception.InvalidOrderStateException;
 import dev.danielpredel.storeapi.exception.ResourceNotFoundException;
 import dev.danielpredel.storeapi.order.mapper.OrderMapper;
 import dev.danielpredel.storeapi.order.repository.OrderRepository;
-import dev.danielpredel.storeapi.service.AdminOrderService;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AdminOrderServiceImpl implements AdminOrderService {
+public class AdminOrderService {
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
 
-    public AdminOrderServiceImpl(
+    public AdminOrderService(
             OrderRepository orderRepository,
             OrderMapper orderMapper
     ) {
@@ -26,14 +25,12 @@ public class AdminOrderServiceImpl implements AdminOrderService {
         this.orderMapper = orderMapper;
     }
 
-    @Override
     @org.springframework.transaction.annotation.Transactional(readOnly = true)
     public Page<AdminOrderResponse> findAll(Pageable pageable) {
         return orderRepository.findAll(pageable)
                 .map(orderMapper::toAdminOrderResponse);
     }
 
-    @Override
     @org.springframework.transaction.annotation.Transactional(readOnly = true)
     public AdminOrderResponse findById(Long id) {
         Order order = orderRepository.findById(id)
@@ -42,7 +39,6 @@ public class AdminOrderServiceImpl implements AdminOrderService {
         return orderMapper.toAdminOrderResponse(order);
     }
 
-    @Override
     @Transactional
     public AdminOrderResponse deliver(Long id) {
         Order order = orderRepository.findById(id)
