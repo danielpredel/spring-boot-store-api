@@ -2,7 +2,7 @@ package dev.danielpredel.storeapi.service.impl;
 
 import dev.danielpredel.storeapi.dto.UserUpdateRequest;
 import dev.danielpredel.storeapi.exception.EmailAlreadyExistsException;
-import dev.danielpredel.storeapi.mapper.UserMapper;
+import dev.danielpredel.storeapi.user.mapper.UserMapper;
 import dev.danielpredel.storeapi.dto.UserRequest;
 import dev.danielpredel.storeapi.dto.UserResponse;
 import dev.danielpredel.storeapi.exception.ResourceNotFoundException;
