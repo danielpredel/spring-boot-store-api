@@ -1,4 +1,4 @@
-package dev.danielpredel.storeapi.service.impl;
+package dev.danielpredel.storeapi.order.service;
 
 import dev.danielpredel.storeapi.order.dto.admin.AdminOrderResponse;
 import dev.danielpredel.storeapi.order.entity.Order;
