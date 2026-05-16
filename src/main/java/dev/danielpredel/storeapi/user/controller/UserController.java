@@ -1,4 +1,4 @@
-package dev.danielpredel.storeapi.controller;
+package dev.danielpredel.storeapi.user.controller;
 
 import dev.danielpredel.storeapi.user.dto.UserResponse;
 import dev.danielpredel.storeapi.user.dto.UserUpdateRequest;
