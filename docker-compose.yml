@@ -1,6 +1,6 @@
 services:
   db:
-    container_name: postgres-sb-user-api
+    container_name: postgres-store-api-db
     image: postgres:latest
     environment:
       POSTGRES_USER: ${DB_USER}
