@@ -1,7 +1,7 @@
 package dev.danielpredel.storeapi.controller;
 
-import dev.danielpredel.storeapi.dto.UserResponse;
-import dev.danielpredel.storeapi.dto.UserUpdateRequest;
+import dev.danielpredel.storeapi.user.dto.UserResponse;
+import dev.danielpredel.storeapi.user.dto.UserUpdateRequest;
 import dev.danielpredel.storeapi.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;

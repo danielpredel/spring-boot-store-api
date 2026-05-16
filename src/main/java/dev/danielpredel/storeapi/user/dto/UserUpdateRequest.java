@@ -1,4 +1,4 @@
-package dev.danielpredel.storeapi.dto;
+package dev.danielpredel.storeapi.user.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

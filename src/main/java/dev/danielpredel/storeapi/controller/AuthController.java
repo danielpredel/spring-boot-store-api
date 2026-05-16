@@ -3,7 +3,7 @@ package dev.danielpredel.storeapi.controller;
 import dev.danielpredel.storeapi.dto.AuthRequest;
 import dev.danielpredel.storeapi.dto.AuthResponse;
 import dev.danielpredel.storeapi.dto.UserRequest;
-import dev.danielpredel.storeapi.dto.UserResponse;
+import dev.danielpredel.storeapi.user.dto.UserResponse;
 import dev.danielpredel.storeapi.service.AuthService;
 import dev.danielpredel.storeapi.service.UserService;
 import jakarta.validation.Valid;

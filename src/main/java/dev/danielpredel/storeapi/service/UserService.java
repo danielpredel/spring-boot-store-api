@@ -1,8 +1,8 @@
 package dev.danielpredel.storeapi.service;
 
 import dev.danielpredel.storeapi.dto.UserRequest;
-import dev.danielpredel.storeapi.dto.UserResponse;
-import dev.danielpredel.storeapi.dto.UserUpdateRequest;
+import dev.danielpredel.storeapi.user.dto.UserResponse;
+import dev.danielpredel.storeapi.user.dto.UserUpdateRequest;
 
 
 public interface UserService {
