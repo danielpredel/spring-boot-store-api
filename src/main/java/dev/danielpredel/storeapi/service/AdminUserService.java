@@ -1,6 +1,6 @@
 package dev.danielpredel.storeapi.service;
 
-import dev.danielpredel.storeapi.dto.AdminUserResponse;
+import dev.danielpredel.storeapi.user.dto.admin.AdminUserResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

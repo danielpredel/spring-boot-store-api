@@ -1,6 +1,6 @@
 package dev.danielpredel.storeapi.user.mapper;
 
-import dev.danielpredel.storeapi.dto.AdminUserResponse;
+import dev.danielpredel.storeapi.user.dto.admin.AdminUserResponse;
 import dev.danielpredel.storeapi.dto.UserRequest;
 import dev.danielpredel.storeapi.user.dto.UserResponse;
 import dev.danielpredel.storeapi.user.entity.User;

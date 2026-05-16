@@ -1,4 +1,4 @@
-package dev.danielpredel.storeapi.dto;
+package dev.danielpredel.storeapi.user.dto.admin;
 
 import dev.danielpredel.storeapi.enums.Role;
 

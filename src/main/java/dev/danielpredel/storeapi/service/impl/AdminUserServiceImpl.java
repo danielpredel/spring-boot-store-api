@@ -1,6 +1,6 @@
 package dev.danielpredel.storeapi.service.impl;
 
-import dev.danielpredel.storeapi.dto.AdminUserResponse;
+import dev.danielpredel.storeapi.user.dto.admin.AdminUserResponse;
 import dev.danielpredel.storeapi.user.entity.User;
 import dev.danielpredel.storeapi.exception.ResourceNotFoundException;
 import dev.danielpredel.storeapi.user.mapper.UserMapper;
