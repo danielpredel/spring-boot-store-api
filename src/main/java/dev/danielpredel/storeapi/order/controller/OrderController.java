@@ -1,4 +1,4 @@
-package dev.danielpredel.storeapi.controller;
+package dev.danielpredel.storeapi.order.controller;
 
 import dev.danielpredel.storeapi.order.dto.OrderPreviewRequest;
 import dev.danielpredel.storeapi.order.dto.OrderPreviewResponse;
