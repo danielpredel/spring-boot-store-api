@@ -2,7 +2,7 @@ package dev.danielpredel.storeapi.controller;
 
 import dev.danielpredel.storeapi.dto.AuthRequest;
 import dev.danielpredel.storeapi.dto.AuthResponse;
-import dev.danielpredel.storeapi.user.dto.auth.UserRequest;
+import dev.danielpredel.storeapi.user.dto.auth.RegisterRequest;
 import dev.danielpredel.storeapi.user.dto.UserResponse;
 import dev.danielpredel.storeapi.service.AuthService;
 import dev.danielpredel.storeapi.service.UserService;
@@ -28,7 +28,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserResponse> create(@Valid @RequestBody UserRequest request) {
+    public ResponseEntity<UserResponse> create(@Valid @RequestBody RegisterRequest request) {
         UserResponse savedUser = userService.save(request);
 
         URI location = ServletUriComponentsBuilder

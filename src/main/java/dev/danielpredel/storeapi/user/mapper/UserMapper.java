@@ -1,7 +1,7 @@
 package dev.danielpredel.storeapi.user.mapper;
 
 import dev.danielpredel.storeapi.user.dto.admin.AdminUserResponse;
-import dev.danielpredel.storeapi.user.dto.auth.UserRequest;
+import dev.danielpredel.storeapi.user.dto.auth.RegisterRequest;
 import dev.danielpredel.storeapi.user.dto.UserResponse;
 import dev.danielpredel.storeapi.user.entity.User;
 import dev.danielpredel.storeapi.enums.Role;
@@ -13,7 +13,7 @@ public class UserMapper {
         return new UserResponse(user.getId(), user.getName(), user.getEmail(), user.getAddress());
     }
 
-    public User toEntity(UserRequest dto) {
+    public User toEntity(RegisterRequest dto) {
         return new User(dto.name(), dto.email(), dto.password(), dto.address(), Role.USER, true);
     }
 
