@@ -1,6 +1,6 @@
 package dev.danielpredel.storeapi.service.impl;
 
-import dev.danielpredel.storeapi.dto.*;
+import dev.danielpredel.storeapi.order.dto.admin.AdminOrderResponse;
 import dev.danielpredel.storeapi.order.entity.Order;
 import dev.danielpredel.storeapi.enums.OrderStatus;
 import dev.danielpredel.storeapi.exception.InvalidOrderStateException;

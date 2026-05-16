@@ -1,4 +1,4 @@
-package dev.danielpredel.storeapi.dto;
+package dev.danielpredel.storeapi.order.dto.admin;
 
 import dev.danielpredel.storeapi.enums.OrderStatus;
 import dev.danielpredel.storeapi.order.dto.OrderItemResponse;

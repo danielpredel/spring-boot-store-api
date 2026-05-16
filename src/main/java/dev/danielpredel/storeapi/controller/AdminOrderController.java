@@ -1,6 +1,6 @@
 package dev.danielpredel.storeapi.controller;
 
-import dev.danielpredel.storeapi.dto.*;
+import dev.danielpredel.storeapi.order.dto.admin.AdminOrderResponse;
 import dev.danielpredel.storeapi.service.AdminOrderService;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;

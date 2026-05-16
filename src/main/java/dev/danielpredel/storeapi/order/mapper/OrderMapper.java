@@ -1,6 +1,6 @@
 package dev.danielpredel.storeapi.order.mapper;
 
-import dev.danielpredel.storeapi.dto.AdminOrderResponse;
+import dev.danielpredel.storeapi.order.dto.admin.AdminOrderResponse;
 import dev.danielpredel.storeapi.order.dto.OrderItemResponse;
 import dev.danielpredel.storeapi.order.dto.OrderResponse;
 import dev.danielpredel.storeapi.order.entity.Order;
