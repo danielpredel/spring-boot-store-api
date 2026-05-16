@@ -1,7 +1,7 @@
 package dev.danielpredel.storeapi.user.controller;
 
 import dev.danielpredel.storeapi.user.dto.admin.AdminUserResponse;
-import dev.danielpredel.storeapi.service.AdminUserService;
+import dev.danielpredel.storeapi.user.service.AdminUserService;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import org.springframework.data.domain.Page;
