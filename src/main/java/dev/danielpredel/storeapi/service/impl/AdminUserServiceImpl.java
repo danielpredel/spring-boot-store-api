@@ -4,7 +4,7 @@ import dev.danielpredel.storeapi.dto.AdminUserResponse;
 import dev.danielpredel.storeapi.user.entity.User;
 import dev.danielpredel.storeapi.exception.ResourceNotFoundException;
 import dev.danielpredel.storeapi.mapper.UserMapper;
-import dev.danielpredel.storeapi.repository.UserRepository;
+import dev.danielpredel.storeapi.user.repository.UserRepository;
 import dev.danielpredel.storeapi.service.AdminUserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -7,7 +7,7 @@ import dev.danielpredel.storeapi.dto.UserRequest;
 import dev.danielpredel.storeapi.dto.UserResponse;
 import dev.danielpredel.storeapi.exception.ResourceNotFoundException;
 import dev.danielpredel.storeapi.user.entity.User;
-import dev.danielpredel.storeapi.repository.UserRepository;
+import dev.danielpredel.storeapi.user.repository.UserRepository;
 import dev.danielpredel.storeapi.service.UserService;
 import jakarta.transaction.Transactional;
 import org.springframework.security.access.prepost.PreAuthorize;
