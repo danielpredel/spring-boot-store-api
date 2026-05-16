@@ -1,4 +1,4 @@
-package dev.danielpredel.storeapi.controller;
+package dev.danielpredel.storeapi.product.controller.admin;
 
 import dev.danielpredel.storeapi.product.dto.admin.AdminProductResponse;
 import dev.danielpredel.storeapi.product.dto.ProductRequest;
