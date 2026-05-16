@@ -1,9 +1,9 @@
 package dev.danielpredel.storeapi.controller;
 
-import dev.danielpredel.storeapi.dto.OrderPreviewRequest;
-import dev.danielpredel.storeapi.dto.OrderPreviewResponse;
-import dev.danielpredel.storeapi.dto.OrderRequest;
-import dev.danielpredel.storeapi.dto.OrderResponse;
+import dev.danielpredel.storeapi.order.dto.OrderPreviewRequest;
+import dev.danielpredel.storeapi.order.dto.OrderPreviewResponse;
+import dev.danielpredel.storeapi.order.dto.OrderRequest;
+import dev.danielpredel.storeapi.order.dto.OrderResponse;
 import dev.danielpredel.storeapi.security.CustomUserDetails;
 import dev.danielpredel.storeapi.service.OrderService;
 import jakarta.validation.Valid;

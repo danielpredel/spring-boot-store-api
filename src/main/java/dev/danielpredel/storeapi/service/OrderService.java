@@ -1,9 +1,9 @@
 package dev.danielpredel.storeapi.service;
 
-import dev.danielpredel.storeapi.dto.OrderPreviewRequest;
-import dev.danielpredel.storeapi.dto.OrderPreviewResponse;
-import dev.danielpredel.storeapi.dto.OrderRequest;
-import dev.danielpredel.storeapi.dto.OrderResponse;
+import dev.danielpredel.storeapi.order.dto.OrderPreviewRequest;
+import dev.danielpredel.storeapi.order.dto.OrderPreviewResponse;
+import dev.danielpredel.storeapi.order.dto.OrderRequest;
+import dev.danielpredel.storeapi.order.dto.OrderResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

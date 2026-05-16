@@ -1,6 +1,6 @@
 package dev.danielpredel.storeapi.service.impl;
 
-import dev.danielpredel.storeapi.dto.*;
+import dev.danielpredel.storeapi.order.dto.*;
 import dev.danielpredel.storeapi.order.entity.Order;
 import dev.danielpredel.storeapi.order.entity.OrderItem;
 import dev.danielpredel.storeapi.product.entity.Product;

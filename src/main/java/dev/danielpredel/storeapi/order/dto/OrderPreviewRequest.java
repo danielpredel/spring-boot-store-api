@@ -1,4 +1,4 @@
-package dev.danielpredel.storeapi.dto;
+package dev.danielpredel.storeapi.order.dto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;

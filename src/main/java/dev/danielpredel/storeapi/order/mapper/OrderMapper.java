@@ -1,8 +1,8 @@
 package dev.danielpredel.storeapi.order.mapper;
 
 import dev.danielpredel.storeapi.dto.AdminOrderResponse;
-import dev.danielpredel.storeapi.dto.OrderItemResponse;
-import dev.danielpredel.storeapi.dto.OrderResponse;
+import dev.danielpredel.storeapi.order.dto.OrderItemResponse;
+import dev.danielpredel.storeapi.order.dto.OrderResponse;
 import dev.danielpredel.storeapi.order.entity.Order;
 import dev.danielpredel.storeapi.order.entity.OrderItem;
 import org.springframework.stereotype.Component;
