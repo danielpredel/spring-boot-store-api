@@ -1,6 +1,6 @@
 package dev.danielpredel.storeapi.security;
 
-import dev.danielpredel.storeapi.entity.User;
+import dev.danielpredel.storeapi.user.entity.User;
 import lombok.Getter;
 import org.jspecify.annotations.NullMarked;
 import org.springframework.security.core.GrantedAuthority;

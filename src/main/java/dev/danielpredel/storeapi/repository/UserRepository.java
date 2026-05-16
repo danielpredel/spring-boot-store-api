@@ -1,6 +1,6 @@
 package dev.danielpredel.storeapi.repository;
 
-import dev.danielpredel.storeapi.entity.User;
+import dev.danielpredel.storeapi.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

@@ -1,6 +1,7 @@
 package dev.danielpredel.storeapi.entity;
 
 import dev.danielpredel.storeapi.enums.OrderStatus;
+import dev.danielpredel.storeapi.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

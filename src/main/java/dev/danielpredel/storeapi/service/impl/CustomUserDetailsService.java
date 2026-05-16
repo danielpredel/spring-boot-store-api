@@ -1,6 +1,6 @@
 package dev.danielpredel.storeapi.service.impl;
 
-import dev.danielpredel.storeapi.entity.User;
+import dev.danielpredel.storeapi.user.entity.User;
 import dev.danielpredel.storeapi.exception.ResourceNotFoundException;
 import dev.danielpredel.storeapi.repository.UserRepository;
 import dev.danielpredel.storeapi.security.CustomUserDetails;

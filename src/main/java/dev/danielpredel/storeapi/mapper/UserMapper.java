@@ -3,7 +3,7 @@ package dev.danielpredel.storeapi.mapper;
 import dev.danielpredel.storeapi.dto.AdminUserResponse;
 import dev.danielpredel.storeapi.dto.UserRequest;
 import dev.danielpredel.storeapi.dto.UserResponse;
-import dev.danielpredel.storeapi.entity.User;
+import dev.danielpredel.storeapi.user.entity.User;
 import dev.danielpredel.storeapi.enums.Role;
 import org.springframework.stereotype.Component;
 

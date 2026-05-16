@@ -1,6 +1,6 @@
 package dev.danielpredel.storeapi.config;
 
-import dev.danielpredel.storeapi.entity.User;
+import dev.danielpredel.storeapi.user.entity.User;
 import dev.danielpredel.storeapi.enums.Role;
 import dev.danielpredel.storeapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
