@@ -13,7 +13,6 @@ import dev.danielpredel.storeapi.order.mapper.OrderMapper;
 import dev.danielpredel.storeapi.order.repository.OrderRepository;
 import dev.danielpredel.storeapi.product.repository.ProductRepository;
 import dev.danielpredel.storeapi.user.repository.UserRepository;
-import dev.danielpredel.storeapi.service.OrderService;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,13 +25,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class OrderServiceImpl implements OrderService {
+public class OrderService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
     private final OrderMapper orderMapper;
 
-    public OrderServiceImpl(
+    public OrderService(
             OrderRepository orderRepository,
             ProductRepository productRepository,
             UserRepository userRepository,
@@ -44,7 +43,6 @@ public class OrderServiceImpl implements OrderService {
         this.orderMapper = orderMapper;
     }
 
-    @Override
     @Transactional
     public OrderResponse save(Long id, OrderRequest dto) {
         User user = userRepository.findById(id)
@@ -82,14 +80,12 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.toOrderResponse(order);
     }
 
-    @Override
     @org.springframework.transaction.annotation.Transactional(readOnly = true)
     public Page<OrderResponse> findAll(Long userId, Pageable pageable) {
         return orderRepository.findByUserId(userId, pageable)
                     .map(orderMapper::toOrderResponse);
     }
 
-    @Override
     @PreAuthorize("@orderSecurity.isOwner(#id, authentication.principal.id)")
     @org.springframework.transaction.annotation.Transactional(readOnly = true)
     public OrderResponse findById(Long id) {
@@ -99,7 +95,6 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.toOrderResponse(order);
     }
 
-    @Override
     @PreAuthorize("@orderSecurity.isOwner(#id, authentication.principal.id)")
     @Transactional
     public OrderResponse cancel(Long id) {
@@ -119,7 +114,6 @@ public class OrderServiceImpl implements OrderService {
         return  orderMapper.toOrderResponse(order);
     }
 
-    @Override
     public OrderPreviewResponse preview(OrderPreviewRequest dto) {
         List<OrderItemPreviewResponse> items = new ArrayList<>();
         BigDecimal totalAmount = BigDecimal.ZERO;
