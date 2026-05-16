@@ -11,7 +11,7 @@ import dev.danielpredel.storeapi.exception.InvalidOrderStateException;
 import dev.danielpredel.storeapi.exception.ResourceNotFoundException;
 import dev.danielpredel.storeapi.mapper.OrderMapper;
 import dev.danielpredel.storeapi.repository.OrderRepository;
-import dev.danielpredel.storeapi.repository.ProductRepository;
+import dev.danielpredel.storeapi.product.repository.ProductRepository;
 import dev.danielpredel.storeapi.user.repository.UserRepository;
 import dev.danielpredel.storeapi.service.OrderService;
 import jakarta.transaction.Transactional;

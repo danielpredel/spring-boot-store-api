@@ -1,4 +1,4 @@
-package dev.danielpredel.storeapi.repository;
+package dev.danielpredel.storeapi.product.repository;
 
 import dev.danielpredel.storeapi.product.entity.Product;
 import org.springframework.data.domain.Page;
