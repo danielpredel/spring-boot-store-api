@@ -1,0 +1,67 @@
+package dev.danielpredel.storeapi.user.service;
+
+import dev.danielpredel.storeapi.user.dto.UserUpdateRequest;
+import dev.danielpredel.storeapi.common.exception.EmailAlreadyExistsException;
+import dev.danielpredel.storeapi.user.mapper.UserMapper;
+import dev.danielpredel.storeapi.user.dto.auth.RegisterRequest;
+import dev.danielpredel.storeapi.user.dto.UserResponse;
+import dev.danielpredel.storeapi.common.exception.ResourceNotFoundException;
+import dev.danielpredel.storeapi.user.entity.User;
+import dev.danielpredel.storeapi.user.repository.UserRepository;
+import jakarta.transaction.Transactional;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserService {
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
+
+    public UserService(UserRepository userRepository , UserMapper userMapper, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.userMapper = userMapper;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    public UserResponse save(RegisterRequest dto) {
+        if(userRepository.existsByEmail(dto.email())) {
+            throw new EmailAlreadyExistsException("Email Already Exists");
+        }
+
+        User newUser = userMapper.toEntity(dto);
+        newUser.setPassword(passwordEncoder.encode(dto.password()));
+        User savedUser = userRepository.save(newUser);
+        return userMapper.toResponse(savedUser);
+    }
+
+    @PreAuthorize("#id == authentication.principal.id")
+    public UserResponse findById(Long id) {
+        User user = userRepository.findByIdAndActiveTrue(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
+
+        return userMapper.toResponse(user);
+    }
+
+    @PreAuthorize("#id == authentication.principal.id")
+    @Transactional
+    public UserResponse update(Long id, UserUpdateRequest dto) {
+        User user = userRepository.findByIdAndActiveTrue(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
+
+        user.setName(dto.name());
+        user.setAddress(dto.address());
+
+        return userMapper.toResponse(user);
+    }
+
+    @PreAuthorize("#id == authentication.principal.id")
+    @Transactional
+    public void deleteById(Long id) {
+        User user = userRepository.findByIdAndActiveTrue(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
+
+        user.setActive(false);
+    }
+}

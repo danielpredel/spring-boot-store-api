@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>dev.danielpredel</groupId>
-    <artifactId>user-api-basic</artifactId>
+    <artifactId>store-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>user-api-basic</name>
     <description>user-api-basic</description>
