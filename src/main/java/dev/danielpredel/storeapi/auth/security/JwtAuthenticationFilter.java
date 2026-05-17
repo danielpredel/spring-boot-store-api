@@ -1,7 +1,5 @@
-package dev.danielpredel.storeapi.filter;
+package dev.danielpredel.storeapi.auth.security;
 
-import dev.danielpredel.storeapi.security.JwtService;
-import dev.danielpredel.storeapi.service.impl.CustomUserDetailsService;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

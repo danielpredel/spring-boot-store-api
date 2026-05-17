@@ -1,7 +1,7 @@
 package dev.danielpredel.storeapi.config;
 
-import dev.danielpredel.storeapi.filter.JwtAuthenticationFilter;
-import dev.danielpredel.storeapi.service.impl.CustomUserDetailsService;
+import dev.danielpredel.storeapi.auth.security.JwtAuthenticationFilter;
+import dev.danielpredel.storeapi.auth.security.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

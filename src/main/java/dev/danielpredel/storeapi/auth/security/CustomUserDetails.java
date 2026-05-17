@@ -1,4 +1,4 @@
-package dev.danielpredel.storeapi.security;
+package dev.danielpredel.storeapi.auth.security;
 
 import dev.danielpredel.storeapi.user.entity.User;
 import lombok.Getter;

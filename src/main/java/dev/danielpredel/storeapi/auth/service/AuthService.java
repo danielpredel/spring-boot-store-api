@@ -2,8 +2,8 @@ package dev.danielpredel.storeapi.auth.service;
 
 import dev.danielpredel.storeapi.auth.dto.AuthRequest;
 import dev.danielpredel.storeapi.auth.dto.AuthResponse;
-import dev.danielpredel.storeapi.security.JwtService;
-import dev.danielpredel.storeapi.service.impl.CustomUserDetailsService;
+import dev.danielpredel.storeapi.auth.security.JwtService;
+import dev.danielpredel.storeapi.auth.security.CustomUserDetailsService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;

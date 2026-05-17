@@ -1,4 +1,4 @@
-package dev.danielpredel.storeapi.security;
+package dev.danielpredel.storeapi.auth.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

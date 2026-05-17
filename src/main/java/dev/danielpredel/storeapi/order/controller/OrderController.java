@@ -5,7 +5,7 @@ import dev.danielpredel.storeapi.order.dto.OrderPreviewResponse;
 import dev.danielpredel.storeapi.order.dto.OrderRequest;
 import dev.danielpredel.storeapi.order.dto.OrderResponse;
 import dev.danielpredel.storeapi.order.service.OrderService;
-import dev.danielpredel.storeapi.security.CustomUserDetails;
+import dev.danielpredel.storeapi.auth.security.CustomUserDetails;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
