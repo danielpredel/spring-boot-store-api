@@ -1,4 +1,4 @@
-package dev.danielpredel.storeapi.controller;
+package dev.danielpredel.storeapi.auth.controller;
 
 import dev.danielpredel.storeapi.dto.AuthRequest;
 import dev.danielpredel.storeapi.dto.AuthResponse;
