@@ -1,7 +1,7 @@
 package dev.danielpredel.storeapi.auth.controller;
 
-import dev.danielpredel.storeapi.dto.AuthRequest;
-import dev.danielpredel.storeapi.dto.AuthResponse;
+import dev.danielpredel.storeapi.auth.dto.AuthRequest;
+import dev.danielpredel.storeapi.auth.dto.AuthResponse;
 import dev.danielpredel.storeapi.user.dto.auth.RegisterRequest;
 import dev.danielpredel.storeapi.user.dto.UserResponse;
 import dev.danielpredel.storeapi.service.AuthService;
