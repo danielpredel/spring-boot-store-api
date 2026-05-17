@@ -2,7 +2,7 @@ package dev.danielpredel.storeapi.order.service;
 
 import dev.danielpredel.storeapi.order.dto.admin.AdminOrderResponse;
 import dev.danielpredel.storeapi.order.entity.Order;
-import dev.danielpredel.storeapi.enums.OrderStatus;
+import dev.danielpredel.storeapi.common.enums.OrderStatus;
 import dev.danielpredel.storeapi.exception.InvalidOrderStateException;
 import dev.danielpredel.storeapi.exception.ResourceNotFoundException;
 import dev.danielpredel.storeapi.order.mapper.OrderMapper;

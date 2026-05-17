@@ -5,7 +5,7 @@ import dev.danielpredel.storeapi.order.entity.Order;
 import dev.danielpredel.storeapi.order.entity.OrderItem;
 import dev.danielpredel.storeapi.product.entity.Product;
 import dev.danielpredel.storeapi.user.entity.User;
-import dev.danielpredel.storeapi.enums.OrderStatus;
+import dev.danielpredel.storeapi.common.enums.OrderStatus;
 import dev.danielpredel.storeapi.exception.InsufficientStockException;
 import dev.danielpredel.storeapi.exception.InvalidOrderStateException;
 import dev.danielpredel.storeapi.exception.ResourceNotFoundException;

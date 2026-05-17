@@ -1,7 +1,7 @@
 package dev.danielpredel.storeapi.config;
 
 import dev.danielpredel.storeapi.user.entity.User;
-import dev.danielpredel.storeapi.enums.Role;
+import dev.danielpredel.storeapi.common.enums.Role;
 import dev.danielpredel.storeapi.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;

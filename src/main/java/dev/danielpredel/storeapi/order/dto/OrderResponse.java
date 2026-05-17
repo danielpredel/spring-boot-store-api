@@ -1,6 +1,6 @@
 package dev.danielpredel.storeapi.order.dto;
 
-import dev.danielpredel.storeapi.enums.OrderStatus;
+import dev.danielpredel.storeapi.common.enums.OrderStatus;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

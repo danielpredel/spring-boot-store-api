@@ -1,6 +1,6 @@
 package dev.danielpredel.storeapi.order.dto.admin;
 
-import dev.danielpredel.storeapi.enums.OrderStatus;
+import dev.danielpredel.storeapi.common.enums.OrderStatus;
 import dev.danielpredel.storeapi.order.dto.OrderItemResponse;
 
 import java.math.BigDecimal;

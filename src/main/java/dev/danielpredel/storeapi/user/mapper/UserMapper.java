@@ -4,7 +4,7 @@ import dev.danielpredel.storeapi.user.dto.admin.AdminUserResponse;
 import dev.danielpredel.storeapi.user.dto.auth.RegisterRequest;
 import dev.danielpredel.storeapi.user.dto.UserResponse;
 import dev.danielpredel.storeapi.user.entity.User;
-import dev.danielpredel.storeapi.enums.Role;
+import dev.danielpredel.storeapi.common.enums.Role;
 import org.springframework.stereotype.Component;
 
 @Component
