@@ -2,7 +2,7 @@ package dev.danielpredel.storeapi.user.service;
 
 import dev.danielpredel.storeapi.user.dto.admin.AdminUserResponse;
 import dev.danielpredel.storeapi.user.entity.User;
-import dev.danielpredel.storeapi.exception.ResourceNotFoundException;
+import dev.danielpredel.storeapi.common.exception.ResourceNotFoundException;
 import dev.danielpredel.storeapi.user.mapper.UserMapper;
 import dev.danielpredel.storeapi.user.repository.UserRepository;
 import org.springframework.data.domain.Page;

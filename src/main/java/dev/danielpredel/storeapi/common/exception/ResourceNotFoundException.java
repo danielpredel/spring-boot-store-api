@@ -1,4 +1,4 @@
-package dev.danielpredel.storeapi.exception;
+package dev.danielpredel.storeapi.common.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
     public ResourceNotFoundException(String message) {

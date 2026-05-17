@@ -2,7 +2,7 @@ package dev.danielpredel.storeapi.product.service;
 
 import dev.danielpredel.storeapi.product.dto.ProductResponse;
 import dev.danielpredel.storeapi.product.entity.Product;
-import dev.danielpredel.storeapi.exception.ResourceNotFoundException;
+import dev.danielpredel.storeapi.common.exception.ResourceNotFoundException;
 import dev.danielpredel.storeapi.product.mapper.ProductMapper;
 import dev.danielpredel.storeapi.product.repository.ProductRepository;
 import org.springframework.data.domain.Page;

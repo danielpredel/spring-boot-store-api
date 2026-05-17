@@ -1,7 +1,7 @@
 package dev.danielpredel.storeapi.auth.security;
 
 import dev.danielpredel.storeapi.user.entity.User;
-import dev.danielpredel.storeapi.exception.ResourceNotFoundException;
+import dev.danielpredel.storeapi.common.exception.ResourceNotFoundException;
 import dev.danielpredel.storeapi.user.repository.UserRepository;
 import org.jspecify.annotations.NullMarked;
 import org.springframework.security.core.userdetails.UserDetails;

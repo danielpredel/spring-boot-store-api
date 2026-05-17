@@ -1,4 +1,4 @@
-package dev.danielpredel.storeapi.exception;
+package dev.danielpredel.storeapi.common.exception;
 
 public class InsufficientStockException extends RuntimeException {
     public InsufficientStockException(String message) {

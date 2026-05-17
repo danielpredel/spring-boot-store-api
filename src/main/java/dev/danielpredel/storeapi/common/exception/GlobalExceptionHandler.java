@@ -1,4 +1,4 @@
-package dev.danielpredel.storeapi.exception;
+package dev.danielpredel.storeapi.common.exception;
 
 import dev.danielpredel.storeapi.common.dto.ErrorResponse;
 import jakarta.validation.ConstraintViolationException;
