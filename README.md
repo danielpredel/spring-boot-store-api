@@ -4,7 +4,7 @@
 RESTful e-commerce/store API built with Spring Boot.
 
 The project demonstrates:
-- layered architecture
+- domain-based modular architecture
 - DTO pattern
 - JPA/Hibernate persistence
 - transactional business logic
@@ -80,21 +80,14 @@ The project demonstrates:
 ## Project Structure
 
 ```text
-src/main/java/dev.danielpredel/userapibasic/
+src/main/java/dev.danielpredel/storeapi/
+├── auth/
+├── common/
 ├── config/
-├── controller/
-├── filter/
-├── security/
-├── service/
-│   └── impl/
-├── repository/
-├── entity/
-├── dto/
-├── mapper/
-├── exception/
-├── enums/
-├── seeder/
-└── UserApiBasicApplication.java
+├── order/
+├── product/
+├── user/
+└── StoreApiApplication.java
 ```
 
 ---
@@ -429,10 +422,10 @@ ADMIN_PASSWORD
 ```bash
 # Clone the repository
 ## HTTPS
-git clone https://github.com/danielpredel/spring-boot-store-api.git
+git clone https://github.com/danielpredel/store-api.git
 
 # Navigate into the project
-cd spring-boot-store-api
+cd store-api
 
 # Start the database with Docker Compose
 docker compose up --build -d
@@ -451,10 +444,8 @@ http://localhost:8080
 
 ## Notes
 
-- Current architecture is being refactored from global layered structure to domain-based modular structure
 - Production concerns planned for next stage:
     - Dockerization
     - OpenAPI/Swagger documentation
-    - Environment profiles
     - Automated testing
     - Improved validation/error handling
