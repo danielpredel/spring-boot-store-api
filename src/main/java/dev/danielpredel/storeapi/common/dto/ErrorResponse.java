@@ -1,4 +1,4 @@
-package dev.danielpredel.storeapi.dto;
+package dev.danielpredel.storeapi.common.dto;
 
 import java.util.List;
 import java.util.Map;

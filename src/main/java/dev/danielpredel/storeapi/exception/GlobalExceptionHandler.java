@@ -1,6 +1,6 @@
 package dev.danielpredel.storeapi.exception;
 
-import dev.danielpredel.storeapi.dto.ErrorResponse;
+import dev.danielpredel.storeapi.common.dto.ErrorResponse;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,6 +1,6 @@
 package dev.danielpredel.storeapi.config;
 
-import dev.danielpredel.storeapi.dto.ErrorResponse;
+import dev.danielpredel.storeapi.common.dto.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
