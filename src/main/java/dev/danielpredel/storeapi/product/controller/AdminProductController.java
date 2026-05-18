@@ -1,5 +1,6 @@
 package dev.danielpredel.storeapi.product.controller;
 
+import dev.danielpredel.storeapi.common.dto.ApiResponse;
 import dev.danielpredel.storeapi.product.dto.admin.AdminProductResponse;
 import dev.danielpredel.storeapi.product.dto.ProductRequest;
 import dev.danielpredel.storeapi.product.service.AdminProductService;
@@ -10,12 +11,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.time.Instant;
 import java.util.List;
 
 @Validated
@@ -29,7 +32,7 @@ public class AdminProductController {
     }
 
     @PostMapping
-    public ResponseEntity<AdminProductResponse> create(@Valid @RequestBody ProductRequest dto) {
+    public ResponseEntity<ApiResponse<AdminProductResponse>> create(@Valid @RequestBody ProductRequest dto) {
         AdminProductResponse product = adminProductService.save(dto);
 
         URI location = ServletUriComponentsBuilder
@@ -38,11 +41,18 @@ public class AdminProductController {
                 .buildAndExpand(product.id())
                 .toUri();
 
-        return ResponseEntity.created(location).body(product);
+        return ResponseEntity.created(location).body(
+                new ApiResponse<>(
+                        "Product created successfully",
+                        HttpStatus.CREATED.value(),
+                        Instant.now().toString(),
+                        product
+                )
+        );
     }
 
     @GetMapping
-    public ResponseEntity<Page<AdminProductResponse>> findAll(
+    public ResponseEntity<ApiResponse<Page<AdminProductResponse>>> findAll(
             @RequestParam(defaultValue = "0") @Min(0) int page,
             @RequestParam(defaultValue = "10") @Min(1) @Max(50) int size,
             @RequestParam(defaultValue = "id") String sortBy,
@@ -59,16 +69,37 @@ public class AdminProductController {
         );
 
         Pageable pageable = PageRequest.of(page, size, sort);
-        return ResponseEntity.ok(adminProductService.findAll(pageable));
+        return ResponseEntity.ok(
+                new ApiResponse<>(
+                        "Products retrieved successfully",
+                        HttpStatus.OK.value(),
+                        Instant.now().toString(),
+                        adminProductService.findAll(pageable)
+                )
+        );
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AdminProductResponse> findById(@PathVariable Long id) {
-        return ResponseEntity.ok(adminProductService.findById(id));
+    public ResponseEntity<ApiResponse<AdminProductResponse>> findById(@PathVariable Long id) {
+        return ResponseEntity.ok(
+                new ApiResponse<>(
+                        "Product retrieved successfully",
+                        HttpStatus.OK.value(),
+                        Instant.now().toString(),
+                        adminProductService.findById(id)
+                )
+        );
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AdminProductResponse> update(@PathVariable Long id, @Valid @RequestBody ProductRequest dto) {
-        return  ResponseEntity.ok(adminProductService.update(id, dto));
+    public ResponseEntity<ApiResponse<AdminProductResponse>> update(@PathVariable Long id, @Valid @RequestBody ProductRequest dto) {
+        return  ResponseEntity.ok(
+                new ApiResponse<>(
+                        "Product updated successfully",
+                        HttpStatus.OK.value(),
+                        Instant.now().toString(),
+                        adminProductService.update(id, dto)
+                )
+        );
     }
 }
