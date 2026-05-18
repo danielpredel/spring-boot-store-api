@@ -8,8 +8,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +22,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleNotFoundException(ResourceNotFoundException ex) {
         String message = ex.getMessage();
         int status = HttpStatus.NOT_FOUND.value();
-        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        String timestamp = Instant.now().toString();
 
         ErrorResponse response = new ErrorResponse(message, status, timestamp, null);
 
@@ -36,7 +35,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleValidationException(MethodArgumentNotValidException ex) {
         String message = "Invalid Requested Data";
         int status = HttpStatus.BAD_REQUEST.value();
-        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        String timestamp = Instant.now().toString();
         Map<String, List<String>> errors = new HashMap<>();
 
         ex.getBindingResult().getFieldErrors().forEach(fieldError ->
@@ -55,7 +54,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleEmailAlreadyExistsException(EmailAlreadyExistsException ex) {
         String message = "Email Already Exists";
         int status = HttpStatus.CONFLICT.value();
-        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        String timestamp = Instant.now().toString();
 
         ErrorResponse response = new ErrorResponse(message, status, timestamp, null);
 
@@ -68,7 +67,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleValidationException(ConstraintViolationException ex) {
         String message = "Invalid Requested Data";
         int status = HttpStatus.BAD_REQUEST.value();
-        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        String timestamp = Instant.now().toString();
         Map<String, List<String>> errors = new HashMap<>();
 
         ex.getConstraintViolations().forEach(violation -> {
@@ -91,7 +90,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleInsufficientStockException(InsufficientStockException ex) {
         String message = ex.getMessage();
         int status = HttpStatus.CONFLICT.value();
-        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        String timestamp = Instant.now().toString();
 
         ErrorResponse response = new ErrorResponse(message, status, timestamp, null);
 
@@ -104,7 +103,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleInvalidOrderStateException(InvalidOrderStateException ex) {
         String message = ex.getMessage();
         int status = HttpStatus.CONFLICT.value();
-        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        String timestamp = Instant.now().toString();
 
         ErrorResponse response = new ErrorResponse(message, status, timestamp, null);
 
