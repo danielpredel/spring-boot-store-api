@@ -58,7 +58,7 @@ public class AdminUserController {
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<AdminUserResponse>> findById(@PathVariable Long id) {
         return ResponseEntity.ok(
-                new  ApiResponse<>(
+                new ApiResponse<>(
                         "User retrieved successfully",
                         HttpStatus.OK.value(),
                         Instant.now().toString(),

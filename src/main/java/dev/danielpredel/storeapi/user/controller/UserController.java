@@ -37,7 +37,7 @@ public class UserController {
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<UserResponse>> update(@PathVariable Long id, @Valid @RequestBody UserUpdateRequest  dto) {
         return ResponseEntity.ok(
-                new  ApiResponse<>(
+                new ApiResponse<>(
                         "User updated successfully",
                         HttpStatus.OK.value(),
                         Instant.now().toString(),
