@@ -5,6 +5,7 @@ import dev.danielpredel.storeapi.auth.dto.AuthResponse;
 import dev.danielpredel.storeapi.user.dto.auth.RegisterRequest;
 import dev.danielpredel.storeapi.user.dto.UserResponse;
 import dev.danielpredel.storeapi.auth.service.AuthService;
+import dev.danielpredel.storeapi.user.dto.auth.RegisterResponse;
 import dev.danielpredel.storeapi.user.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -28,16 +29,16 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserResponse> create(@Valid @RequestBody RegisterRequest request) {
-        UserResponse savedUser = userService.save(request);
+    public ResponseEntity<RegisterResponse> create(@Valid @RequestBody RegisterRequest request) {
+        RegisterResponse user = userService.save(request);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath()
                 .path("/users/{id}")
-                .buildAndExpand(savedUser.id())
+                .buildAndExpand(user.id())
                 .toUri();
 
-        return ResponseEntity.created(location).body(savedUser);
+        return ResponseEntity.created(location).body(user);
     }
 
     @PostMapping("/login")

@@ -3,6 +3,7 @@ package dev.danielpredel.storeapi.user.mapper;
 import dev.danielpredel.storeapi.user.dto.admin.AdminUserResponse;
 import dev.danielpredel.storeapi.user.dto.auth.RegisterRequest;
 import dev.danielpredel.storeapi.user.dto.UserResponse;
+import dev.danielpredel.storeapi.user.dto.auth.RegisterResponse;
 import dev.danielpredel.storeapi.user.entity.User;
 import dev.danielpredel.storeapi.common.enums.Role;
 import org.springframework.stereotype.Component;
@@ -11,6 +12,10 @@ import org.springframework.stereotype.Component;
 public class UserMapper {
     public UserResponse toResponse(User user) {
         return new UserResponse(user.getId(), user.getName(), user.getEmail(), user.getAddress());
+    }
+
+    public RegisterResponse toRegisterResponse(User user) {
+        return new RegisterResponse(user.getId());
     }
 
     public User toEntity(RegisterRequest dto) {

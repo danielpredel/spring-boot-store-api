@@ -2,6 +2,7 @@ package dev.danielpredel.storeapi.user.service;
 
 import dev.danielpredel.storeapi.user.dto.UserUpdateRequest;
 import dev.danielpredel.storeapi.common.exception.EmailAlreadyExistsException;
+import dev.danielpredel.storeapi.user.dto.auth.RegisterResponse;
 import dev.danielpredel.storeapi.user.mapper.UserMapper;
 import dev.danielpredel.storeapi.user.dto.auth.RegisterRequest;
 import dev.danielpredel.storeapi.user.dto.UserResponse;
@@ -25,7 +26,7 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public UserResponse save(RegisterRequest dto) {
+    public RegisterResponse save(RegisterRequest dto) {
         if(userRepository.existsByEmail(dto.email())) {
             throw new EmailAlreadyExistsException("Email Already Exists");
         }
@@ -33,7 +34,7 @@ public class UserService {
         User newUser = userMapper.toEntity(dto);
         newUser.setPassword(passwordEncoder.encode(dto.password()));
         User savedUser = userRepository.save(newUser);
-        return userMapper.toResponse(savedUser);
+        return userMapper.toRegisterResponse(savedUser);
     }
 
     @PreAuthorize("#id == authentication.principal.id")
