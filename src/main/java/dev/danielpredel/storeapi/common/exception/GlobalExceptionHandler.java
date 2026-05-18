@@ -19,7 +19,7 @@ import java.util.stream.StreamSupport;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleNotFoundException(ResourceNotFoundException ex) {
+    public ResponseEntity<ErrorResponse> handleResourceNotFoundException(ResourceNotFoundException ex) {
         String message = ex.getMessage();
         int status = HttpStatus.NOT_FOUND.value();
         String timestamp = Instant.now().toString();
@@ -32,7 +32,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse> handleValidationException(MethodArgumentNotValidException ex) {
+    public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
         String message = "Invalid Requested Data";
         int status = HttpStatus.BAD_REQUEST.value();
         String timestamp = Instant.now().toString();
@@ -64,7 +64,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<ErrorResponse> handleValidationException(ConstraintViolationException ex) {
+    public ResponseEntity<ErrorResponse> handleConstraintViolationException(ConstraintViolationException ex) {
         String message = "Invalid Requested Data";
         int status = HttpStatus.BAD_REQUEST.value();
         String timestamp = Instant.now().toString();
