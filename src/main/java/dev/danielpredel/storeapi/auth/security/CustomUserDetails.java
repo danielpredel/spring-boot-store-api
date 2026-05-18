@@ -27,6 +27,17 @@ public class CustomUserDetails implements UserDetails {
         );
     }
 
+    public CustomUserDetails(
+            Long id,
+            String email,
+            List<GrantedAuthority> authorities
+    ) {
+        this.id = id;
+        this.email = email;
+        this.password = null;
+        this.authorities = authorities;
+    }
+
     @Override
     @NullMarked
     public String getUsername() {
