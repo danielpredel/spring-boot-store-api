@@ -2,8 +2,8 @@ package dev.danielpredel.storeapi.auth.service;
 
 import dev.danielpredel.storeapi.auth.dto.AuthRequest;
 import dev.danielpredel.storeapi.auth.dto.AuthResponse;
-import dev.danielpredel.storeapi.auth.security.JwtService;
 import dev.danielpredel.storeapi.auth.security.CustomUserDetailsService;
+import dev.danielpredel.storeapi.auth.security.jwt.JwtTokenProvider;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,13 +13,17 @@ import org.springframework.stereotype.Service;
 public class AuthService {
 
     private final AuthenticationManager authenticationManager;
-    private final JwtService jwtService;
     private final CustomUserDetailsService userDetailsService;
+    private final JwtTokenProvider jwtTokenProvider;
 
-    public AuthService(AuthenticationManager authenticationManager, JwtService jwtService, CustomUserDetailsService userDetailsService) {
+    public AuthService(
+            AuthenticationManager authenticationManager,
+            CustomUserDetailsService userDetailsService,
+            JwtTokenProvider jwtTokenProvider
+    ) {
         this.authenticationManager = authenticationManager;
-        this.jwtService = jwtService;
         this.userDetailsService = userDetailsService;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     public AuthResponse login(AuthRequest request) {
@@ -33,7 +37,7 @@ public class AuthService {
         UserDetails user = userDetailsService
                 .loadUserByUsername(request.email());
 
-        String token = jwtService.generateToken(user);
+        String token = jwtTokenProvider.generateToken(user);
 
         return new AuthResponse(token);
     }

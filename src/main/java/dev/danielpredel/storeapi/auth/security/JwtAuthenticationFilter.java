@@ -1,5 +1,7 @@
 package dev.danielpredel.storeapi.auth.security;
 
+import dev.danielpredel.storeapi.auth.security.jwt.JwtClaimsExtractor;
+import dev.danielpredel.storeapi.auth.security.jwt.JwtValidator;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -17,10 +19,12 @@ import java.util.List;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    private final JwtService jwtService;
+    private final JwtClaimsExtractor jwtClaimsExtractor;
+    private final JwtValidator jwtValidator;
 
-    public JwtAuthenticationFilter(JwtService jwtService) {
-        this.jwtService = jwtService;
+    public JwtAuthenticationFilter(JwtClaimsExtractor jwtClaimsExtractor, JwtValidator jwtValidator) {
+        this.jwtClaimsExtractor =  jwtClaimsExtractor;
+        this.jwtValidator = jwtValidator;
     }
 
     @Override
@@ -37,12 +41,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             try {
                 // Validate token signature & expiration
-                if (jwtService.isTokenValid(token)) {
+                if (jwtValidator.isTokenValid(token)) {
 
                     // Extract info from JWT
-                    String email = jwtService.extractUsername(token);
-                    List<GrantedAuthority> authorities = jwtService.extractAuthorities(token);
-                    Long id = jwtService.extractUserId(token);
+                    String email = jwtClaimsExtractor.extractUsername(token);
+                    List<GrantedAuthority> authorities = jwtClaimsExtractor.extractAuthorities(token);
+                    Long id = jwtClaimsExtractor.extractUserId(token);
 
                     CustomUserDetails userDetails =
                             new CustomUserDetails(id, email, authorities);
