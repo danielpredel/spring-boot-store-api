@@ -42,10 +42,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     // Extract info from JWT
                     String email = jwtService.extractUsername(token);
                     List<GrantedAuthority> authorities = jwtService.extractAuthorities(token);
+                    Long id = jwtService.extractUserId(token);
 
-                    // Build authentication directly from JWT claims
+                    CustomUserDetails userDetails =
+                            new CustomUserDetails(id, email, authorities);
+
                     UsernamePasswordAuthenticationToken authToken =
-                            new UsernamePasswordAuthenticationToken(email, null, authorities);
+                            new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
 
                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authToken);

@@ -80,4 +80,10 @@ public class JwtService {
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toUnmodifiableList());
     }
+
+    public Long extractUserId(String token) {
+        Claims claims = extractAllClaims(token);
+        Number id = claims.get("userId", Number.class);
+        return id.longValue();
+    }
 }
