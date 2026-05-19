@@ -5,6 +5,7 @@ import dev.danielpredel.storeapi.order.dto.*;
 import dev.danielpredel.storeapi.order.entity.Order;
 import dev.danielpredel.storeapi.order.entity.OrderItem;
 import dev.danielpredel.storeapi.product.entity.Product;
+import dev.danielpredel.storeapi.product.service.AdminProductService;
 import dev.danielpredel.storeapi.user.entity.User;
 import dev.danielpredel.storeapi.common.enums.OrderStatus;
 import dev.danielpredel.storeapi.common.exception.InsufficientStockException;
@@ -15,6 +16,8 @@ import dev.danielpredel.storeapi.order.repository.OrderRepository;
 import dev.danielpredel.storeapi.product.repository.ProductRepository;
 import dev.danielpredel.storeapi.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -32,6 +35,8 @@ public class OrderService {
     private final UserRepository userRepository;
     private final OrderMapper orderMapper;
     private final AuthenticationFacade authenticationFacade;
+    private static final Logger log =
+            LoggerFactory.getLogger(OrderService.class);
 
     public OrderService(
             OrderRepository orderRepository,
@@ -49,9 +54,13 @@ public class OrderService {
 
     @Transactional
     public OrderResponse save(OrderRequest dto) {
-        Long id = authenticationFacade.getCurrentUserId();
-        User user = userRepository.findByIdAndActiveTrue(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        Long userId = authenticationFacade.getCurrentUserId();
+        User user = userRepository.findByIdAndActiveTrue(userId)
+                .orElseThrow(() -> {
+                    log.warn("Inactive or non existent user {} tried to create and order", userId);
+
+                    return new ResourceNotFoundException("User not found");
+                });
 
         Order order = new Order(LocalDateTime.now(), OrderStatus.CREATED);
         List<OrderItem> items = new ArrayList<>();
@@ -62,6 +71,14 @@ public class OrderService {
                     .orElseThrow(() -> new ResourceNotFoundException("Product with id " + item.productId() + " not found"));
 
             if (product.getStock() < item.quantity()) {
+                log.warn(
+                        "User {} requested {} units of product {} but only {} available",
+                        userId,
+                        item.quantity(),
+                        item.productId(),
+                        product.getStock()
+                );
+
                 throw new InsufficientStockException("Requested quantity exceeds stock for product " + item.productId());
             }
 
@@ -105,10 +122,18 @@ public class OrderService {
     @PreAuthorize("@orderSecurity.isOwner(#id, authentication.principal.id)")
     @Transactional
     public OrderResponse cancel(Long id) {
+        Long userId = authenticationFacade.getCurrentUserId();
+
         Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
+                .orElseThrow(() -> {
+                    log.warn("User {} tried to cancel a non existent order {}", userId, id);
+
+                    return new ResourceNotFoundException("Order not found");
+                });
 
         if(!order.getStatus().equals(OrderStatus.CREATED)) {
+            log.warn("User {} tried to cancel the order {} with status {}", userId, id, order.getStatus());
+
             throw new InvalidOrderStateException("Invalid order status transition");
         }
 
@@ -117,6 +142,8 @@ public class OrderService {
         }
 
         order.setStatus(OrderStatus.CANCELLED);
+
+        log.info("User {} canceled the order {}", userId, id);
 
         return  orderMapper.toOrderResponse(order);
     }
