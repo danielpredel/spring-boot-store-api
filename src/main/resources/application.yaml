@@ -19,3 +19,7 @@ app:
   admin:
     email: ${ADMIN_EMAIL}
     password: ${ADMIN_PASSWORD}
+
+logging:
+  file:
+    name: logs/store-api.log
