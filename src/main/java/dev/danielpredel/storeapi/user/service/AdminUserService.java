@@ -25,9 +25,9 @@ public class AdminUserService {
     }
 
     public AdminUserResponse findById(Long id) {
-        User searchedUser = userRepository.findById(id)
+        User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
 
-        return userMapper.toAdminResponse(searchedUser);
+        return userMapper.toAdminResponse(user);
     }
 }
