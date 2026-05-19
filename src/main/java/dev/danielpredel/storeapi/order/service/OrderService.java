@@ -1,5 +1,6 @@
 package dev.danielpredel.storeapi.order.service;
 
+import dev.danielpredel.storeapi.auth.security.AuthenticationFacade;
 import dev.danielpredel.storeapi.order.dto.*;
 import dev.danielpredel.storeapi.order.entity.Order;
 import dev.danielpredel.storeapi.order.entity.OrderItem;
@@ -30,21 +31,25 @@ public class OrderService {
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
     private final OrderMapper orderMapper;
+    private final AuthenticationFacade authenticationFacade;
 
     public OrderService(
             OrderRepository orderRepository,
             ProductRepository productRepository,
             UserRepository userRepository,
-            OrderMapper orderMapper
+            OrderMapper orderMapper,
+            AuthenticationFacade authenticationFacade
     ) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
         this.userRepository = userRepository;
         this.orderMapper = orderMapper;
+        this.authenticationFacade = authenticationFacade;
     }
 
     @Transactional
-    public OrderResponse save(Long id, OrderRequest dto) {
+    public OrderResponse save(OrderRequest dto) {
+        Long id = authenticationFacade.getCurrentUserId();
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
@@ -81,8 +86,10 @@ public class OrderService {
     }
 
     @org.springframework.transaction.annotation.Transactional(readOnly = true)
-    public Page<OrderResponse> findAll(Long userId, Pageable pageable) {
-        return orderRepository.findByUserId(userId, pageable)
+    public Page<OrderResponse> findAll(Pageable pageable) {
+        Long id = authenticationFacade.getCurrentUserId();
+
+        return orderRepository.findByUserId(id, pageable)
                     .map(orderMapper::toOrderResponse);
     }
 

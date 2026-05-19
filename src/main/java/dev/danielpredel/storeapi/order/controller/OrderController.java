@@ -34,8 +34,8 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<OrderResponse>> create(@AuthenticationPrincipal CustomUserDetails user, @Valid @RequestBody OrderRequest dto) {
-        OrderResponse orderResponse = orderService.save(user.getId(), dto);
+    public ResponseEntity<ApiResponse<OrderResponse>> create(@Valid @RequestBody OrderRequest dto) {
+        OrderResponse orderResponse = orderService.save(dto);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -55,7 +55,6 @@ public class OrderController {
 
     @GetMapping
     public ResponseEntity<ApiResponse<Page<OrderResponse>>> findAll(
-            @AuthenticationPrincipal CustomUserDetails user,
             @RequestParam(defaultValue = "0") @Min(0) int page,
             @RequestParam(defaultValue = "10") @Min(1) @Max(50) int size,
             @RequestParam(defaultValue = "id") String sortBy,
@@ -78,7 +77,7 @@ public class OrderController {
                         "Orders retrieved successfully",
                         HttpStatus.OK.value(),
                         Instant.now().toString(),
-                        orderService.findAll(user.getId(), pageable)
+                        orderService.findAll(pageable)
                 )
         );
     }
