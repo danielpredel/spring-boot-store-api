@@ -57,14 +57,14 @@ public class AdminOrderService {
                 });
 
         if(!order.getStatus().equals(OrderStatus.CREATED)) {
-            log.warn("Admin {} tried to deliver an order {} with status {}", authenticationFacade.getCurrentUserId(), id, order.getStatus());
+            log.warn("Admin {} tried to deliver the order {} with status {}", authenticationFacade.getCurrentUserId(), id, order.getStatus());
 
             throw new InvalidOrderStateException("Invalid order status transition");
         }
 
         order.setStatus(OrderStatus.DELIVERED);
 
-        log.info("Admin {} delivered order {}", authenticationFacade.getCurrentUserId(), order.getId());
+        log.info("Admin {} delivered the order {}", authenticationFacade.getCurrentUserId(), order.getId());
 
         return orderMapper.toAdminOrderResponse(order);
     }
