@@ -50,7 +50,7 @@ public class OrderService {
     @Transactional
     public OrderResponse save(OrderRequest dto) {
         Long id = authenticationFacade.getCurrentUserId();
-        User user = userRepository.findById(id)
+        User user = userRepository.findByIdAndActiveTrue(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         Order order = new Order(LocalDateTime.now(), OrderStatus.CREATED);
