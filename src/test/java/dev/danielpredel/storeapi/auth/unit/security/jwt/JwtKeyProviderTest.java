@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
 import java.security.Key;
+import java.util.Base64;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -18,7 +19,11 @@ public class JwtKeyProviderTest {
 
         Field field = JwtKeyProvider.class.getDeclaredField("secretKey");
         field.setAccessible(true);
-        field.set(jwtKeyProvider, "test-secret-not-for-production");
+
+        String secret = Base64.getEncoder()
+                .encodeToString("this-is-a-very-long-secret-key-not-for-production".getBytes());
+
+        field.set(jwtKeyProvider, secret);
     }
 
     @Test
