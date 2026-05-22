@@ -6,7 +6,6 @@ import dev.danielpredel.storeapi.order.dto.OrderPreviewResponse;
 import dev.danielpredel.storeapi.order.dto.OrderRequest;
 import dev.danielpredel.storeapi.order.dto.OrderResponse;
 import dev.danielpredel.storeapi.order.service.OrderService;
-import dev.danielpredel.storeapi.auth.security.CustomUserDetails;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -16,7 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
