@@ -4,7 +4,6 @@ import dev.danielpredel.storeapi.auth.dto.AuthRequest;
 import dev.danielpredel.storeapi.auth.dto.AuthResponse;
 import dev.danielpredel.storeapi.auth.security.CustomUserDetailsService;
 import dev.danielpredel.storeapi.auth.security.jwt.JwtTokenProvider;
-import dev.danielpredel.storeapi.order.service.OrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
