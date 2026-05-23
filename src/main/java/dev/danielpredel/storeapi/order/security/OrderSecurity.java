@@ -1,5 +1,6 @@
 package dev.danielpredel.storeapi.order.security;
 
+import dev.danielpredel.storeapi.common.exception.ResourceNotFoundException;
 import dev.danielpredel.storeapi.order.repository.OrderRepository;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +15,6 @@ public class OrderSecurity {
     public boolean isOwner(Long orderId, Long userId) {
         return orderRepository.findById(orderId)
                 .map(order -> order.getUser().getId().equals(userId))
-                .orElse(false);
+                .orElseThrow(() -> new ResourceNotFoundException("Order Not Found"));
     }
 }
