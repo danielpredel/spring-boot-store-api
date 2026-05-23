@@ -4,6 +4,7 @@ import dev.danielpredel.storeapi.common.dto.ApiResponse;
 import dev.danielpredel.storeapi.user.dto.UserResponse;
 import dev.danielpredel.storeapi.user.dto.UserUpdateRequest;
 import dev.danielpredel.storeapi.user.service.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import java.time.Instant;
 @Validated
 @RestController
 @RequestMapping("/users")
+@Tag(name = "Users")
 public class UserController {
     private final UserService userService;
 

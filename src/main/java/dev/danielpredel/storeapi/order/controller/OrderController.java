@@ -6,6 +6,7 @@ import dev.danielpredel.storeapi.order.dto.OrderPreviewResponse;
 import dev.danielpredel.storeapi.order.dto.OrderRequest;
 import dev.danielpredel.storeapi.order.dto.OrderResponse;
 import dev.danielpredel.storeapi.order.service.OrderService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -24,6 +25,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/orders")
+@Tag(name = "Orders")
 public class OrderController {
     private final OrderService orderService;
 

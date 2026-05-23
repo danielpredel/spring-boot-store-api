@@ -7,6 +7,7 @@ import dev.danielpredel.storeapi.user.dto.auth.RegisterRequest;
 import dev.danielpredel.storeapi.auth.service.AuthService;
 import dev.danielpredel.storeapi.user.dto.auth.RegisterResponse;
 import dev.danielpredel.storeapi.user.service.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ import java.time.Instant;
 
 @RestController
 @RequestMapping("/auth")
+@Tag(name = "Auth")
 public class AuthController {
     private final AuthService authService;
     private final UserService userService;

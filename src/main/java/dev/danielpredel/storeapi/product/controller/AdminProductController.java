@@ -4,6 +4,7 @@ import dev.danielpredel.storeapi.common.dto.ApiResponse;
 import dev.danielpredel.storeapi.product.dto.admin.AdminProductResponse;
 import dev.danielpredel.storeapi.product.dto.ProductRequest;
 import dev.danielpredel.storeapi.product.service.AdminProductService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -24,6 +25,7 @@ import java.util.List;
 @Validated
 @RestController
 @RequestMapping("/admin/products")
+@Tag(name = "Admin Products")
 public class AdminProductController {
     private final AdminProductService adminProductService;
 

@@ -3,6 +3,7 @@ package dev.danielpredel.storeapi.order.controller;
 import dev.danielpredel.storeapi.common.dto.ApiResponse;
 import dev.danielpredel.storeapi.order.dto.admin.AdminOrderResponse;
 import dev.danielpredel.storeapi.order.service.AdminOrderService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import org.springframework.data.domain.Page;
@@ -18,6 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/admin/orders")
+@Tag(name = "Admin Orders")
 public class AdminOrderController {
     private final AdminOrderService adminOrderService;
 

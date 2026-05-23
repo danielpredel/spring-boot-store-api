@@ -3,6 +3,7 @@ package dev.danielpredel.storeapi.product.controller;
 import dev.danielpredel.storeapi.common.dto.ApiResponse;
 import dev.danielpredel.storeapi.product.dto.ProductResponse;
 import dev.danielpredel.storeapi.product.service.ProductService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import org.springframework.data.domain.Page;
@@ -20,6 +21,7 @@ import java.util.List;
 @Validated
 @RestController
 @RequestMapping("/products")
+@Tag(name = "Products")
 public class ProductController {
     private final ProductService productService;
 

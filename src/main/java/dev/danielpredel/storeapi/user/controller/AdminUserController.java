@@ -3,6 +3,7 @@ package dev.danielpredel.storeapi.user.controller;
 import dev.danielpredel.storeapi.common.dto.ApiResponse;
 import dev.danielpredel.storeapi.user.dto.admin.AdminUserResponse;
 import dev.danielpredel.storeapi.user.service.AdminUserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import org.springframework.data.domain.Page;
@@ -20,6 +21,7 @@ import java.util.List;
 @Validated
 @RestController
 @RequestMapping("/admin/users")
+@Tag(name = "Admin Users")
 public class AdminUserController {
     private final AdminUserService adminUserService;
 
