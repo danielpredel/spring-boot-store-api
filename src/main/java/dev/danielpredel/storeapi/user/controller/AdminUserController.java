@@ -3,6 +3,8 @@ package dev.danielpredel.storeapi.user.controller;
 import dev.danielpredel.storeapi.common.dto.ApiResponse;
 import dev.danielpredel.storeapi.user.dto.admin.AdminUserResponse;
 import dev.danielpredel.storeapi.user.service.AdminUserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -30,6 +32,8 @@ public class AdminUserController {
     }
 
     @GetMapping
+    @Operation(summary = "Get all users")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<ApiResponse<Page<AdminUserResponse>>> findAll(
             @RequestParam(defaultValue = "0") @Min(0) int page,
             @RequestParam(defaultValue = "10") @Min(1) @Max(50) int size,
@@ -58,6 +62,8 @@ public class AdminUserController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Get user by id")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<ApiResponse<AdminUserResponse>> findById(@PathVariable Long id) {
         return ResponseEntity.ok(
                 new ApiResponse<>(

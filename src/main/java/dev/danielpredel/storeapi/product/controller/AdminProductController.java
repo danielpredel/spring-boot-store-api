@@ -4,6 +4,8 @@ import dev.danielpredel.storeapi.common.dto.ApiResponse;
 import dev.danielpredel.storeapi.product.dto.admin.AdminProductResponse;
 import dev.danielpredel.storeapi.product.dto.ProductRequest;
 import dev.danielpredel.storeapi.product.service.AdminProductService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
@@ -34,6 +36,8 @@ public class AdminProductController {
     }
 
     @PostMapping
+    @Operation(summary = "Create product")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<ApiResponse<AdminProductResponse>> create(@Valid @RequestBody ProductRequest dto) {
         AdminProductResponse product = adminProductService.save(dto);
 
@@ -54,6 +58,8 @@ public class AdminProductController {
     }
 
     @GetMapping
+    @Operation(summary = "Get all products")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<ApiResponse<Page<AdminProductResponse>>> findAll(
             @RequestParam(defaultValue = "0") @Min(0) int page,
             @RequestParam(defaultValue = "10") @Min(1) @Max(50) int size,
@@ -82,6 +88,8 @@ public class AdminProductController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Get product by id")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<ApiResponse<AdminProductResponse>> findById(@PathVariable Long id) {
         return ResponseEntity.ok(
                 new ApiResponse<>(
@@ -94,6 +102,8 @@ public class AdminProductController {
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Update product")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<ApiResponse<AdminProductResponse>> update(@PathVariable Long id, @Valid @RequestBody ProductRequest dto) {
         return  ResponseEntity.ok(
                 new ApiResponse<>(

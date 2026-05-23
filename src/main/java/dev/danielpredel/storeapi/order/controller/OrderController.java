@@ -6,6 +6,8 @@ import dev.danielpredel.storeapi.order.dto.OrderPreviewResponse;
 import dev.danielpredel.storeapi.order.dto.OrderRequest;
 import dev.danielpredel.storeapi.order.dto.OrderResponse;
 import dev.danielpredel.storeapi.order.service.OrderService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
@@ -34,6 +36,8 @@ public class OrderController {
     }
 
     @PostMapping
+    @Operation(summary = "Create order for current user (USER only)")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<ApiResponse<OrderResponse>> create(@Valid @RequestBody OrderRequest dto) {
         OrderResponse orderResponse = orderService.save(dto);
 
@@ -54,6 +58,8 @@ public class OrderController {
     }
 
     @GetMapping
+    @Operation(summary = "Get current user's orders (USER only)")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<ApiResponse<Page<OrderResponse>>> findAll(
             @RequestParam(defaultValue = "0") @Min(0) int page,
             @RequestParam(defaultValue = "10") @Min(1) @Max(50) int size,
@@ -83,6 +89,8 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Get current user's order by id (USER only)")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<ApiResponse<OrderResponse>> findById(@PathVariable Long id) {
         return ResponseEntity.ok(
                 new ApiResponse<>(
@@ -95,6 +103,8 @@ public class OrderController {
     }
 
     @PatchMapping("/{id}/cancel")
+    @Operation(summary = "Cancel current user's order (USER only)")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<ApiResponse<OrderResponse>> cancel(@PathVariable Long id) {
         return ResponseEntity.ok(
                 new ApiResponse<>(
@@ -107,6 +117,8 @@ public class OrderController {
     }
 
     @PostMapping("/preview")
+    @Operation(summary = "Preview order (USER only)")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<ApiResponse<OrderPreviewResponse>> preview(@Valid @RequestBody OrderPreviewRequest dto) {
         return ResponseEntity.ok(
                 new ApiResponse<>(

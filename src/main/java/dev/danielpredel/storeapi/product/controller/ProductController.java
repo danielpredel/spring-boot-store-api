@@ -3,6 +3,7 @@ package dev.danielpredel.storeapi.product.controller;
 import dev.danielpredel.storeapi.common.dto.ApiResponse;
 import dev.danielpredel.storeapi.product.dto.ProductResponse;
 import dev.danielpredel.storeapi.product.service.ProductService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -30,6 +31,7 @@ public class ProductController {
     }
 
     @GetMapping
+    @Operation(summary = "Get active products")
     public ResponseEntity<ApiResponse<Page<ProductResponse>>> findAll(
             @RequestParam(defaultValue = "0") @Min(0) int page,
             @RequestParam(defaultValue = "10") @Min(1) @Max(50) int size,
@@ -58,6 +60,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Get active product by id")
     public ResponseEntity<ApiResponse<ProductResponse>> findById(@PathVariable Long id) {
         return ResponseEntity.ok(
                 new ApiResponse<>(

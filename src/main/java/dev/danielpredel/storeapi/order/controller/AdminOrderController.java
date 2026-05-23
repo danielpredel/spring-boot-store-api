@@ -3,6 +3,8 @@ package dev.danielpredel.storeapi.order.controller;
 import dev.danielpredel.storeapi.common.dto.ApiResponse;
 import dev.danielpredel.storeapi.order.dto.admin.AdminOrderResponse;
 import dev.danielpredel.storeapi.order.service.AdminOrderService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -28,6 +30,8 @@ public class AdminOrderController {
     }
 
     @GetMapping
+    @Operation(summary = "Get all orders")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<ApiResponse<Page<AdminOrderResponse>>> findAll(
             @RequestParam(defaultValue = "0") @Min(0) int page,
             @RequestParam(defaultValue = "10") @Min(1) @Max(50) int size,
@@ -57,6 +61,8 @@ public class AdminOrderController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Get order by id")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<ApiResponse<AdminOrderResponse>> findById(@PathVariable Long id) {
         return ResponseEntity.ok(
                 new ApiResponse<>(
@@ -69,6 +75,8 @@ public class AdminOrderController {
     }
 
     @PatchMapping("/{id}/deliver")
+    @Operation(summary = "Mark order as delivered")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<ApiResponse<AdminOrderResponse>> deliver(@PathVariable Long id) {
         return ResponseEntity.ok(
                 new ApiResponse<>(
