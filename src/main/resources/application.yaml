@@ -23,3 +23,8 @@ app:
 logging:
   file:
     name: logs/store-api.log
+
+springdoc:
+  swagger-ui:
+    tagsSorter: alpha
+    operationsSorter: alpha
