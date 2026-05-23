@@ -63,6 +63,9 @@ public class SecurityConfig {
                                 "/swagger-ui.html"
                         ).permitAll()
 
+                        // Actuator
+                        .requestMatchers("/actuator/**").permitAll()
+
                         // Auth
                         .requestMatchers("/auth/**").permitAll()
 
