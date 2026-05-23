@@ -1,5 +1,6 @@
 package dev.danielpredel.storeapi.order.unit;
 
+import dev.danielpredel.storeapi.common.exception.ResourceNotFoundException;
 import dev.danielpredel.storeapi.order.entity.Order;
 import dev.danielpredel.storeapi.order.repository.OrderRepository;
 import dev.danielpredel.storeapi.order.security.OrderSecurity;
@@ -12,8 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -57,12 +57,11 @@ public class OrderSecurityTest {
     }
 
     @Test
-    void shouldReturnFalseWhenOrderDoesNotExist() {
+    void shouldThrowResourceNotFoundExceptionWhenOrderDoesNotExist() {
         when(orderRepository.findById(100L))
                 .thenReturn(Optional.empty());
 
-        boolean result = orderSecurity.isOwner(100L, 1L);
-
-        assertFalse(result);
+        assertThrows(ResourceNotFoundException.class,
+                () -> orderSecurity.isOwner(100L, 1L));
     }
 }
