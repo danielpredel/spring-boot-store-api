@@ -1,20 +1,27 @@
 package dev.danielpredel.storeapi.order.controller;
 
+import dev.danielpredel.storeapi.common.dto.ApiResponse;
 import dev.danielpredel.storeapi.order.dto.admin.AdminOrderResponse;
 import dev.danielpredel.storeapi.order.service.AdminOrderService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
 import java.util.List;
 
 @RestController
 @RequestMapping("/admin/orders")
+@Tag(name = "Admin Orders")
 public class AdminOrderController {
     private final AdminOrderService adminOrderService;
 
@@ -23,7 +30,9 @@ public class AdminOrderController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<AdminOrderResponse>> findAll(
+    @Operation(summary = "Get all orders")
+    @SecurityRequirement(name = "bearerAuth")
+    public ResponseEntity<ApiResponse<Page<AdminOrderResponse>>> findAll(
             @RequestParam(defaultValue = "0") @Min(0) int page,
             @RequestParam(defaultValue = "10") @Min(1) @Max(50) int size,
             @RequestParam(defaultValue = "id") String sortBy,
@@ -41,16 +50,41 @@ public class AdminOrderController {
 
         Pageable pageable = PageRequest.of(page, size, sort);
 
-        return ResponseEntity.ok(adminOrderService.findAll(pageable));
+        return ResponseEntity.ok(
+                new ApiResponse<>(
+                        "Orders retrieved successfully",
+                        HttpStatus.OK.value(),
+                        Instant.now().toString(),
+                        adminOrderService.findAll(pageable)
+                )
+        );
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AdminOrderResponse> findById(@PathVariable Long id) {
-        return ResponseEntity.ok(adminOrderService.findById(id));
+    @Operation(summary = "Get order by id")
+    @SecurityRequirement(name = "bearerAuth")
+    public ResponseEntity<ApiResponse<AdminOrderResponse>> findById(@PathVariable Long id) {
+        return ResponseEntity.ok(
+                new ApiResponse<>(
+                        "Order retrieved successfully",
+                        HttpStatus.OK.value(),
+                        Instant.now().toString(),
+                        adminOrderService.findById(id)
+                )
+        );
     }
 
     @PatchMapping("/{id}/deliver")
-    public ResponseEntity<AdminOrderResponse> deliver(@PathVariable Long id) {
-        return ResponseEntity.ok(adminOrderService.deliver(id));
+    @Operation(summary = "Mark order as delivered")
+    @SecurityRequirement(name = "bearerAuth")
+    public ResponseEntity<ApiResponse<AdminOrderResponse>> deliver(@PathVariable Long id) {
+        return ResponseEntity.ok(
+                new ApiResponse<>(
+                        "Order delivered successfully",
+                        HttpStatus.OK.value(),
+                        Instant.now().toString(),
+                        adminOrderService.deliver(id)
+                )
+        );
     }
 }

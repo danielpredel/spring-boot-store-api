@@ -8,6 +8,8 @@ spring:
     show-sql: true
 
 logging:
+  file:
+    name: logs/store-api.log
   level:
     org.hibernate.SQL: DEBUG
     org.springframework.security: DEBUG
