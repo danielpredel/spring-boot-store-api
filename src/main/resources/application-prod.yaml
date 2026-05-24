@@ -1,12 +1,17 @@
 spring:
   datasource:
-    url: ${PROD_DB_URL}
+    url: jdbc:postgresql://db:5432/${DB_NAME}
 
   jpa:
     hibernate:
       ddl-auto: validate
     show-sql: false
 
+  flyway:
+    enabled: true
+
 logging:
+  file:
+    name: /logs/store-api.log
   level:
     root: WARN
